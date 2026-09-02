@@ -3,3 +3,12 @@
 mail.obi.de
 obi.de
 www.obi.de
+
+## PASSIVE RECON 2026-09-02 (read-only, non-intrusive)
+
+> Recon observations only. These are NOT confirmed vulnerabilities; ownership/in-scope of each host must be confirmed against the program scope before any active testing. Hosts resolve + serve HTTP — investigation requires scoped authorization.
+
+**Probed:** 3 hosts | **Live HTTP:** 0
+
+| Host | Status | Server/Tech |
+|---|---|---|
