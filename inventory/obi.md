@@ -22,3 +22,13 @@ www.obi.de
 ## 2026-09-03 08:20:36 UTC
 
 ## 2026-09-03 12:54:33 UTC
+
+## 2026-09-03 17:18:16 UTC
+- NEW api.obi.com — MuleSoft API Portal, publicly accessible, 14+ marketplace APIs exposed
+- NEW api.live.app.obi.de — Mobile app API, Envoy proxy, /v1/ versioned
+- NEW imgix.obi.de — Image CDN, CORS: *, S3-backed
+- NEW assets.obi.de — Static asset CDN, S3 origin
+- NEW obi-de.app.baqend.com — Baqend BaaS speed kit integration
+- NEW 6+ backend API paths on www.obi.de (cart, PDP, CMS, recommendations, JWT validate)
+- NEW Seller onboarding JS bundle exposed on frontend
+- CHANGED www.obi.de — Now confirmed live with browser UA; Discover CMS + Vtex platform; origin returns 404 to raw HEAD but serves full SPA to browser UA

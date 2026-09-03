@@ -1,0 +1,468 @@
+===== ANALYST nemotron3 2026-09-03 17:18:16 UTC =====
+[0m
+> build · nemotron-3-ultra-free
+[0m
+[0m$ [0mcurl -s -o /dev/null -w "%{http_code} %{url_effective}\n" -I --max-time 10 https://obi.de https://www.obi.de https://mail.obi.de 2>&1
+301 https://obi.de/
+HTTP/2 404 
+server: CloudFront
+date: Thu, 03 Sep 2026 16:59:00 GMT
+content-length: 0
+x-cache: Error from cloudfront
+via: 1.1 aa58ad8a62d695ff2f477004a59f4baa.cloudfront.net (CloudFront)
+x-amz-cf-pop: IAD61-P9
+alt-svc: h3=":443"; ma=86400
+x-amz-cf-id: Ro9dWJAA_AGZlXbOax-MsDkzWIzycWT2htGpsmTjoCqMvVCv9P0Tig==
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+
+404 https://www.obi.de/
+000 https://mail.obi.de/
+[0m
+[0m$ [0mcurl -s -o /dev/null -w "%{http_code} %{url_effective}\n" -I --max-time 10 https://obi.de/ 2>&1 | head -20
+301 https://obi.de/
+[0m
+[0m$ [0mcurl -s -o /dev/null -w "%{http_code} %{url_effective}\n" -L --max-time 10 https://obi.de/ 2>&1
+404 https://www.obi.de/
+[0m
+[0m$ [0mfor path in /api /api/v1 /api/v2 /graphql /swagger /openapi.json /health /actuator /robots.txt /sitemap.xml; do echo "=== $path ==="; curl -s -o /dev/null -w "%{http_code}\n" -I --max-time 10 "https://www.obi.de$path" 2>&1; done
+=== /api ===
+404
+=== /api/v1 ===
+404
+=== /api/v2 ===
+404
+=== /graphql ===
+404
+=== /swagger ===
+404
+=== /openapi.json ===
+404
+=== /health ===
+404
+=== /actuator ===
+404
+=== /robots.txt ===
+200
+=== /sitemap.xml ===
+404
+[0m
+[0m$ [0mcurl -s https://www.obi.de/robots.txt && echo "---" && curl -s -o /dev/null -w "%{http_code}\n" -L --max-time 10 https://www.obi.de/
+User-agent: *
+#
+### Misc
+Disallow: /public/services
+Disallow: /magazin/styleguide/
+Disallow: /store/popup/
+Disallow: /store/change
+Disallow: /*?*themeChoiceId
+Disallow: /customer-reviews/
+Disallow: /api/customerreviews/
+Disallow: /shopping-list/add
+Disallow: /add-cart-layer
+Disallow: /search-flyout
+Disallow: /cmssearchresult-filter
+Disallow: /searchresult-filter
+Disallow: /prudsys/recommit/
+Disallow: /author/
+Disallow: /customer-account/
+Disallow: /regi/header/
+Disallow: /cmssearch/
+Disallow: /buy/
+Disallow: /heyobi/
+Disallow: /heyobi-api/
+Disallow: /pflanzenlexikon/
+Disallow: /shopping-list/
+Disallow: /recommendations/
+Disallow: *index.html*
+Disallow: /ratgeber/
+Disallow: /campaign/
+Disallow: /images/
+Disallow: /login*
+Disallow: /cart
+Disallow: /kontakt/
+#
+# Find
+Disallow: /find/*/counting/
+#
+# Reco
+Disallow: /*?*template=
+Disallow: /*?*box=
+#
+# Sprachauszeichnung
+Disallow: /*?*isoCode=
+#
+# Marktzuweisungen
+Disallow: /*?*market=
+#
+# Tracking intern
+Disallow: /*?*isi=
+Disallow: /*?*log=
+#
+# Prudsys Tracking
+Disallow: /pdp/prudsys/*/productview
+# Availability request
+Disallow: /api/pdp/*/availability
+# Autosuggest
+Disallow: /find/suchen/autosuggest
+#
+# Safety
+Allow: *.css
+Allow: *.js
+Allow: */assets/*
+Allow: */api/*
+Allow: /sitemaps/*OBI*
+#
+# Sitemaps
+Sitemap: https://www.obi.de/sitemaps/obi_de_de/sitemap_index.xml
+Sitemap: https://www.obi.de/assets/discover/cms-sitemaps/de/index.xml
+---
+404
+[0m
+[0m$ [0mcurl -s https://www.obi.de/sitemaps/obi_de_de/sitemap_index.xml | head -50
+(no output)
+[0m
+[0m$ [0mcurl -s https://www.obi.de/assets/discover/cms-sitemaps/de/index.xml | head -100
+(no output)
+[0m
+[0m$ [0mcurl -s -L --max-time 15 https://www.obi.de/ | head -200
+(no output)
+[0m
+[0m$ [0mcurl -v -L --max-time 15 https://www.obi.de/ 2>&1 | head -100
+% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* Host www.obi.de:443 was resolved.
+* IPv6: (none)
+* IPv4: 3.170.19.14, 3.170.19.51, 3.170.19.129, 3.170.19.50
+*   Trying 3.170.19.14:443...
+* Connected to www.obi.de (3.170.19.14) port 443
+* ALPN: curl offers h2,http/1.1
+} [5 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+*  CAfile: /etc/ssl/certs/ca-certificates.crt
+*  CApath: /etc/ssl/certs
+{ [5 bytes data]
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+{ [19 bytes data]
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+{ [3793 bytes data]
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+{ [264 bytes data]
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+} [1 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256 / X25519 / RSASSA-PSS
+* ALPN: server accepted h2
+* Server certificate:
+*  subject: CN=www.obi.de
+*  start date: Feb 18 00:00:00 2026 GMT
+*  expire date: Mar 18 23:59:59 2027 GMT
+*  subjectAltName: host "www.obi.de" matched cert's "www.obi.de"
+*  issuer: C=US; O=Amazon; CN=Amazon RSA 2048 M04
+*  SSL certificate verify ok.
+*   Certificate level 0: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 1: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 2: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+} [5 bytes data]
+* using HTTP/2
+* [HTTP/2] [1] OPENED stream for https://www.obi.de/
+* [HTTP/2] [1] [:method: GET]
+* [HTTP/2] [1] [:scheme: https]
+* [HTTP/2] [1] [:authority: www.obi.de]
+* [HTTP/2] [1] [:path: /]
+* [HTTP/2] [1] [user-agent: curl/8.5.0]
+* [HTTP/2] [1] [accept: */*]
+} [5 bytes data]
+> GET / HTTP/2
+> Host: www.obi.de
+> User-Agent: curl/8.5.0
+> Accept: */*
+> 
+{ [5 bytes data]
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+{ [157 bytes data]
+< HTTP/2 404 
+< server: CloudFront
+< date: Thu, 03 Sep 2026 17:10:33 GMT
+< content-length: 0
+< x-cache: Error from cloudfront
+< via: 1.1 aa58ad8a62d695ff2f477004a59f4baa.cloudfront.net (CloudFront)
+< x-amz-cf-pop: IAD61-P9
+< alt-svc: h3=":443"; ma=86400
+< x-amz-cf-id: rEpPoCm6koUnkYquKGt8u5OJo94AXByyN8KhjJV6Rw2CGiFCcZ0nvg==
+< x-frame-options: SAMEORIGIN
+< x-content-type-options: nosniff
+< strict-transport-security: max-age=31536000; includeSubDomains; preload
+< 
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+* Connection #0 to host www.obi.de left intact
+[0m
+[0m$ [0mfor path in "/heyobi-api/" "/api/customerreviews/" "/api/pdp/test/availability" "/find/suchen/autosuggest?q=test" "/customer-account/" "/shopping-list/" "/login" "/store/change"; do echo "=== $path ==="; curl -s -o /dev/null -w "%{http_code}\n" -I --max-time 10 "https://www.obi.de$path" 2>&1; done
+=== /heyobi-api/ ===
+404
+=== /api/customerreviews/ ===
+404
+=== /api/pdp/test/availability ===
+404
+=== /find/suchen/autosuggest?q=test ===
+404
+=== /customer-account/ ===
+404
+=== /shopping-list/ ===
+404
+=== /login ===
+404
+=== /store/change ===
+404
+[0m
+[0m$ [0mfor path in "/de" "/de/" "/en" "/en/" "/de/heyobi-api/" "/de/api/customerreviews/" "/de/customer-account/" "/de/login"; do echo "=== $path ==="; curl -s -o /dev/null -w "%{http_code}\n" -I --max-time 10 "https://www.obi.de$path" 2>&1; done
+=== /de ===
+404
+=== /de/ ===
+404
+=== /en ===
+404
+=== /en/ ===
+404
+=== /de/heyobi-api/ ===
+404
+=== /de/api/customerreviews/ ===
+404
+=== /de/customer-account/ ===
+404
+=== /de/login ===
+404
+[0m
+[0m$ [0mcurl -v -L --max-time 15 https://obi.de/ 2>&1 | head -80
+% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* Host obi.de:443 was resolved.
+* IPv6: (none)
+* IPv4: 18.245.60.88, 18.245.60.30, 18.245.60.44, 18.245.60.73
+*   Trying 18.245.60.88:443...
+* Connected to obi.de (18.245.60.88) port 443
+* ALPN: curl offers h2,http/1.1
+} [5 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+} [512 bytes data]
+*  CAfile: /etc/ssl/certs/ca-certificates.crt
+*  CApath: /etc/ssl/certs
+{ [5 bytes data]
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+{ [19 bytes data]
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+{ [3778 bytes data]
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+{ [264 bytes data]
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+} [1 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256 / X25519 / RSASSA-PSS
+* ALPN: server accepted h2
+* Server certificate:
+*  subject: CN=obi.de
+*  start date: May  5 00:00:00 2026 GMT
+*  expire date: Nov 18 23:59:59 2026 GMT
+*  subjectAltName: host "obi.de" matched cert's "obi.de"
+*  issuer: C=US; O=Amazon; CN=Amazon RSA 2048 M04
+*  SSL certificate verify ok.
+*   Certificate level 0: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 1: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 2: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+} [5 bytes data]
+* using HTTP/2
+* [HTTP/2] [1] OPENED stream for https://obi.de/
+* [HTTP/2] [1] [:method: GET]
+* [HTTP/2] [1] [:scheme: https]
+* [HTTP/2] [1] [:authority: obi.de]
+* [HTTP/2] [1] [:path: /]
+* [HTTP/2] [1] [user-agent: curl/8.5.0]
+* [HTTP/2] [1] [accept: */*]
+} [5 bytes data]
+> GET / HTTP/2
+> Host: obi.de
+> User-Agent: curl/8.5.0
+> Accept: */*
+> 
+{ [5 bytes data]
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+{ [157 bytes data]
+< HTTP/2 301 
+< server: CloudFront
+< date: Thu, 03 Sep 2026 17:13:49 GMT
+< content-length: 0
+< location: https://www.obi.de/
+< cache-control: max-age=3600
+< x-cache: LambdaGeneratedResponse from cloudfront
+< via: 1.1 e505058447bf5e74cc264f4e72f27bee.cloudfront.net (CloudFront)
+< x-amz-cf-pop: FRA60-P5
+< x-amz-cf-id: Bpv4iyIJ6RpSJHbmB-DgKTTis-OnKhiLws-MAmizu1hbPq0DDtVbBg==
+< strict-transport-security: max-age=31536000; preload
+< 
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+* Connection #0 to host obi.de left intact
+* Issue another request to this URL: 'https://www.obi.de/'
+* Host www.obi.de:443 was resolved.
+* IPv6: (none)
+* IPv4: 3.170.19.51, 3.170.19.50, 3.170.19.14, 3.170.19.129
+
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 3.170.19.51:443...
+* Connected to www.obi.de (3.170.19.51) port 443
+* ALPN: curl offers h2,http/1.1
+} [5 bytes data]
+[0m
+[0m$ [0mcurl -s -L --max-time 15 -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" https://www.obi.de/ | head -200
+...output truncated...
+
+Full output saved to: /home/runner/.local/share/opencode/tool-output/tool_06843e6b6001Pzf6VwKXxxbuy3
+
+<!-- BEGIN disc_consentbanner -->
+  <!-- SSI Consentbanner for de_de is disaabled -->
+<!-- END disc_consentbanner -->
+
+<!-- BEGIN disc_legal_notice -->
+  <script type="module" crossorigin src="https://assets.obi.de/discover/disc-legal-notice/public/modulepreload-polyfill-B5Qt9EMX.js"></script>
+<script type="module" crossorigin src="https://assets.obi.de/discover/disc-legal-notice/public/app-Cq-3GNza.js"></script>
+<!-- END disc_legal_notice -->
+</body></html>
+[0m
+[0m$ [0mcurl -s -L --max-time 15 -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" https://www.obi.de/ | grep -oE '(href|src|action)=["'"'"'][^"'"'"']+' | sed 's/.*=//' | sort -u | head -100
+"#
+"#main
+"/
+"//assets.obi.de/heyobi/includes/customer-center/assets/custom-element-3f5ae9bf.js
+"//assets.obi.de/heyobi/includes/customer-center/assets/customer-center-sidebar-4bda0287.js
+"//assets.obi.de/heyobi/includes/customer-center/assets/getUserType-f0d87e63.js
+"//assets.obi.de/heyobi/includes/loader/assets/initialize-7fb74ac9.js
+"//assets.obi.de/heyobi/includes/loader/assets/loader-66fbbdfa.js
+"//assets.obi.de/heyobi/includes/notification-center/assets/notification-center-button-ef3357b3.js
+"//l96jc26jvj.kameleoon.eu/engine.js
+"/account/api/public/jwt/validate
+"/angebote
+"/angebote#monatsangebote
+"/assets/discover/frontend-vue/assets/24BLBuoW2.js
+"/assets/discover/frontend-vue/assets/2FP_ldNs2.js
+"/assets/discover/frontend-vue/assets/2FxkIGOO2.js
+"/assets/discover/frontend-vue/assets/34zFeXPZ2.js
+"/assets/discover/frontend-vue/assets/3ZMizX7b.js
+"/assets/discover/frontend-vue/assets/8ideclvq2.js
+"/assets/discover/frontend-vue/assets/9lxNTYlA.js
+"/assets/discover/frontend-vue/assets/A8p1cJaX.js
+"/assets/discover/frontend-vue/assets/ALcZviSZ2.js
+"/assets/discover/frontend-vue/assets/AnchorNavigationInner.WR2GoUyR.css
+"/assets/discover/frontend-vue/assets/B-jCB3nE.js
+"/assets/discover/frontend-vue/assets/B0UoLqVH.js
+"/assets/discover/frontend-vue/assets/B1mBNndr.js
+"/assets/discover/frontend-vue/assets/B1pqQPPF.js
+"/assets/discover/frontend-vue/assets/B3DZ3s43.js
+"/assets/discover/frontend-vue/assets/B3oe4dps2.js
+"/assets/discover/frontend-vue/assets/B5eG-RNN.js
+"/assets/discover/frontend-vue/assets/B6Ojg-Zz.js
+"/assets/discover/frontend-vue/assets/B6sxH2o52.js
+"/assets/discover/frontend-vue/assets/B85l5HYO2.js
+"/assets/discover/frontend-vue/assets/B86g0ZN72.js
+"/assets/discover/frontend-vue/assets/BCfXsUfj2.js
+"/assets/discover/frontend-vue/assets/BDNMzG2s2.js
+"/assets/discover/frontend-vue/assets/BFipNtfT.js
+"/assets/discover/frontend-vue/assets/BHf8GOQh2.js
+"/assets/discover/frontend-vue/assets/BIzhh4h12.js
+"/assets/discover/frontend-vue/assets/BKX0H8uJ.js
+"/assets/discover/frontend-vue/assets/BMvUW2v5.js
+"/assets/discover/frontend-vue/assets/BN5ZmJpL.js
+"/assets/discover/frontend-vue/assets/BOsAUM3U2.js
+"/assets/discover/frontend-vue/assets/BTwOMtRH.js
+"/assets/discover/frontend-vue/assets/BU_Aas3Y.js
+"/assets/discover/frontend-vue/assets/Badge.BRhm799y.css
+"/assets/discover/frontend-vue/assets/Badges.C-ToVivy.css
+"/assets/discover/frontend-vue/assets/BazBlRfd2.js
+"/assets/discover/frontend-vue/assets/BbO0dm_T2.js
+"/assets/discover/frontend-vue/assets/BbT_f8Ra.js
+"/assets/discover/frontend-vue/assets/BcQwKFoW2.js
+"/assets/discover/frontend-vue/assets/BfE8oSLg.js
+"/assets/discover/frontend-vue/assets/BfrX3-RY.js
+"/assets/discover/frontend-vue/assets/BhGgNRbl2.js
+"/assets/discover/frontend-vue/assets/BhfOz5b4.js
+"/assets/discover/frontend-vue/assets/BiBa4-C3.js
+"/assets/discover/frontend-vue/assets/Bib2ID9Y.js
+"/assets/discover/frontend-vue/assets/Bj6uDD0N2.js
+"/assets/discover/frontend-vue/assets/BlflX9ZU2.js
+"/assets/discover/frontend-vue/assets/BmcIIsoa.js
+"/assets/discover/frontend-vue/assets/BmuAw38n.js
+"/assets/discover/frontend-vue/assets/Breadcrumb.BmppMBSD.css
+"/assets/discover/frontend-vue/assets/BreadcrumbSubmenu.CF6CZ9EX.css
+"/assets/discover/frontend-vue/assets/BtCuKOtU.js
+"/assets/discover/frontend-vue/assets/BtD7SkrF.js
+"/assets/discover/frontend-vue/assets/Button.ChB05dy4.css
+"/assets/discover/frontend-vue/assets/Bv1KqvRm.js
+"/assets/discover/frontend-vue/assets/BvvRAzVq.js
+"/assets/discover/frontend-vue/assets/BwBAx-w_.js
+"/assets/discover/frontend-vue/assets/BxkdLFlq2.js
+"/assets/discover/frontend-vue/assets/C-2mk_9l.js
+"/assets/discover/frontend-vue/assets/C1PoHteQ.js
+"/assets/discover/frontend-vue/assets/C3uE-Ugw2.js
+"/assets/discover/frontend-vue/assets/C4K_a8Kn2.js
+"/assets/discover/frontend-vue/assets/C5oYQY0f.js
+"/assets/discover/frontend-vue/assets/C6HWsyJI.js
+"/assets/discover/frontend-vue/assets/C7Fv_-jZ.js
+"/assets/discover/frontend-vue/assets/C9H0-KGz.js
+"/assets/discover/frontend-vue/assets/CCAejD84.js
+"/assets/discover/frontend-vue/assets/CCRX6QYW.js
+"/assets/discover/frontend-vue/assets/CDghixWq2.js
+"/assets/discover/frontend-vue/assets/CDzvtEfr.js
+"/assets/discover/frontend-vue/assets/CECbyB-r2.js
+"/assets/discover/frontend-vue/assets/CGf9ZUDJ.js
+"/assets/discover/frontend-vue/assets/CH7E20UG.js
+"/assets/discover/frontend-vue/assets/CIAwlR2T.js
+"/assets/discover/frontend-vue/assets/CIfnycKr2.js
+"/assets/discover/frontend-vue/assets/CJVukqQ4.js
+"/assets/discover/frontend-vue/assets/CLqRx3lA2.js
+"/assets/discover/frontend-vue/assets/CN5KjDxl.js
+"/assets/discover/frontend-vue/assets/CNs_Ozdc2.js
+"/assets/discover/frontend-vue/assets/CTpS6M3B.js
+"/assets/discover/frontend-vue/assets/CUfUQtl_.js
+"/assets/discover/frontend-vue/assets/CXEEP6k1.js
+"/assets/discover/frontend-vue/assets/CY0Ckkf2.js
+"/assets/discover/frontend-vue/assets/CZMHcclc2.js
+"/assets/discover/frontend-vue/assets/CZgELjI-.js
+"/assets/discover/frontend-vue/assets/CZnq_pB3.js
+"/assets/discover/frontend-vue/assets/Cf7eXgM-.js
+"/assets/discover/frontend-vue/assets/CfgnwasD2.js
+[0m
+[0m$ [0mcurl -s -L --max-time 15 -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" https://www.obi.de/ | grep -oE '["'"'"']/api/[^"'"'"']+' | sort -u
+"/api/disc/cms/public/page/ifo/
+"/api/disc/product-tiles/
+"/api/disc/t3/teasers
+"/api/pdp/v1/
+[0m
+[0m$ [0mfor path in "/api/disc/cms/public/page/ifo/" "/api/disc/product-tiles/" "/api/disc/t3/teasers" "/api/pdp/v1/" "/account/api/public/jwt/validate"; do echo "=== $path ==="; curl -s -o /dev/null -w "%{http_code}\n" -I --max-time 10 -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" "https://www.obi.de$path" 2>&1; done
+=== /api/disc/cms/public/page/ifo/ ===
+404
+=== /api/disc/product-tiles/ ===
+404
+=== /api/disc/t3/teasers ===
+400
+=== /api/pdp/v1/ ===
+404
+=== /account/api/public/jwt/validate ===
+200
+[0m
+[0m$ [0mcurl -s --max-time 10 -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" "https://www.obi.de/account/api/public/jwt/validate" && echo "---" && curl -s --max-time 10 -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" "https://www.obi.de/account/api/public/jwt/validate" -X POST -H "Content-Type: application/json" -d '{}'
+---
+[0m
