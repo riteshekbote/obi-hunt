@@ -34,3 +34,9 @@ www.obi.de
 - CHANGED www.obi.de — Now confirmed live with browser UA; Discover CMS + Vtex platform; origin returns 404 to raw HEAD but serves full SPA to browser UA
 
 ## 2026-09-03 20:01:48 UTC
+
+## 2026-09-03 22:28:31 UTC
+- NEW api.live.app.obi.de/v1/ → HTTP 200 (base path accessible, Envoy proxy confirmed)
+- NEW api.live.app.obi.de/v1/health → HTTP 401 (endpoint exists, auth required)
+- NEW api.live.app.obi.de/v1/auth/login → HTTP 401 (endpoint exists, auth required)
+- CHANGED assets.obi.de/seller-side-panel/resources/index-BUGS3Fny.js → HTTP 404 (was accessible per knowledge base, now rotated/removed)

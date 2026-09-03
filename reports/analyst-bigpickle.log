@@ -1184,3 +1184,28 @@ testability: PASSIVE
 
 ## STEP 7 — RISK
 [RISK] obi: 35/100 — Passive-only recon; no customer data accessed; no auth bypass attempted; all probes are GET/HEAD at ≤1 rps. MuleSoft portal is publicly accessible by design (it's a developer portal). JWT test would require creating test account per program rules. Low risk of impact to production systems.
+===== ANALYST bigpickle 2026-09-03 22:28:31 UTC =====
+[0m
+> build · big-pickle
+[0m
+[0m→ [0mRead .
+[0m✱ [0mGlob "inventory/obi*"[90m 1 match[0m
+[0m✱ [0mGlob "art/*bigpickle*"[90m 0 matches[0m
+[0m→ [0mRead inventory/obi.md
+[0m✱ [0mGlob "leads/*bigpickle*"[90m 1 match[0m
+[0m→ [0mRead leads/lead-bigpickle.md
+[0m✱ [0mGlob "leads/*"[90m 7 matches[0m
+[0m
+[0m$ [0mcurl -s -o /tmp/obi_api_doc.txt -w "HTTP %{http_code} | size %{size_download} | time %{time_total}\n" --max-time 30 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" -H "Accept: text/html,application/xhtml+xml" "https://api.obi.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/order-service-management-api/"
+HTTP 404 | size 548 | time 0.603598
+[0m
+Let me execute the pending NEXT probe against api.obi.com and do the delta analysis. Let me run the read-only probes.
+[0m$ [0msleep 1; curl -s -o /tmp/obi_login.txt -w "HTTP %{http_code} | size %{size_download} | type %{content_type}\n" --max-time 30 -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36" "https://api.obi.com/login"
+HTTP 301 | size 169 | type text/html
+[0m
+[93m[1m! [0mpermission requested: external_directory (/tmp/*); auto-rejecting
+[0m✗ [0mcat /tmp/obi_api_doc.txt failed
+[91m[1mError: [0mThe user rejected permission to use this specific tool call.
+[93m[1m! [0mpermission requested: external_directory (/tmp/*); auto-rejecting
+[0m✗ [0mcat /tmp/obi_login.txt; echo "---FOLLOW---"; sleep 1; curl -s -o /tmp/obi_login2.txt -w "HTTP %{http_code} | size %{size_download} | redirect %{redirect_url}\n" --max-time 30 -L -A "Mozilla/5.0" "https://api.obi.com/login"; echo "---BODY---"; head -c 1500 /tmp/obi_login2.txt failed
+[91m[1mError: [0mThe user rejected permission to use this specific tool call.
