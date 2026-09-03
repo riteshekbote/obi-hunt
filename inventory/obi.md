@@ -32,3 +32,5 @@ www.obi.de
 - NEW 6+ backend API paths on www.obi.de (cart, PDP, CMS, recommendations, JWT validate)
 - NEW Seller onboarding JS bundle exposed on frontend
 - CHANGED www.obi.de — Now confirmed live with browser UA; Discover CMS + Vtex platform; origin returns 404 to raw HEAD but serves full SPA to browser UA
+
+## 2026-09-03 20:01:48 UTC
