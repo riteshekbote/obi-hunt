@@ -160,3 +160,33 @@ impact: Recon map of whole internal returns/supply-chain platform; unauthenticat
 testability: PASSIVE
 [NEXT] PROBE: POST https://www.obi.de/account/api/public/jwt/validate with User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0.0.0, Content-Type: application/json, empty body — observe 200/400/401 to confirm the JWT endpoint is reachable from edge and accepts unauthenticated validation (passive boundary, no token data).
 [RISK] obi: 42/100 — All probes passive GET/HEAD + 3 empty-POST boundary tests to OBI-owned dev webhook hosts; no customer data accessed; no auth bypass; ≤0.5 rps. Exchange portal + DNS names are OBI-published. Documented creds are dead. Slight elevation due to breadth of live endpoint mapping revealed (order/payment/inventory surface) which strengthens future AUTH_HELPED testing, and the public exposure of internal infra naming. No program-rule violations.
+## 2026-09-04 19:54:35 UTC [target] (model bigpickle)
+[HYP] Cross-Seller IDOR via Unscoped Object Endpoints on Marketplace APIs
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order|invoice}-api/v1/
+confidence: 55
+reasoning: 401 (not 404) confirms 3 live API services gated by HTTP Basic `mule-realm`. OAS specs (prior session) define unscoped GETs — /v1/transactions/{transactionId}, /v1/orders/{orderId}, /v1/invoices/{id} — with no sellers/{sellerId} context. If MuleSoft Client-ID Enforcement validates API access but not object ownership, a valid seller credential may enumerate other sellers' transactions/orders/invoices (order no. example `1100004695-01`).
+evidence_needed: A valid seller clientId/clientSecret (via OBI seller onboarding account); then cross-tenant object-ID fetch compare.
+verify_steps: With valid creds, GET https://api.obi.com/trx-api/fulfillmentsellersteering/transaction-api/v1/transactions/{transactionId} for a known-other seller id → expect 403 (authorized) vs 200/leak (vuln). Passive variant: continue mapping the 401 realm details and collecting spec files via portal for exact schemas.
+impact: Cross-tenant extraction of order/invoice/transaction/payment data across sellers. Severity: HIGH.
+testability: AUTH_HELPED
+[HYP] JWT Validation Endpoint — Algorithm Confusion / Path Reachable with POST
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 65
+reasoning: Production frontend JS references this POST path for session JWT checks; confirmed 404 to curl/HEAD (edge routing requires browser UA+cookies). JWT alg:none or RS256→HS256 confusion could yield auth bypass across 10M+ heyOBI users.
+evidence_needed: Browser-authenticated POST returns non-404; capture a real JWT; test alg:none acceptance.
+verify_steps: In authenticated browser session, POST https://www.obi.de/account/api/public/jwt/validate with Content-Type: application/json, empty body → observe 200/400/401 → craft alg:none token → observe acceptance.
+impact: Account takeover, purchase/payment history exposure. Severity: CRITICAL.
+testability: AUTH_HELPED
+[HYP] Marketplace MuleSoft Basic Auth Weakness (shared/weak credentials discoverable via portal assets)
+class: AUTH
+asset: api.obi.com/trx-api/**
+confidence: 40
+reasoning: All marketplace APIs enforce HTTP Basic `mule-realm`. MuleSoft Basic typically = clientId:clientSecret; if any onboarding bundle or spec embeds default/sandbox creds (seller-side-panel bundle was previously public), reuse could grant API access.
+evidence_needed: Re-discover rotated seller onboarding bundle on assets.obi.de; grep for clientId/secret patterns.
+verify_steps: GET https://assets.obi.de/seller-side-panel/resources/ → enumerate new bundle hash-name → grep for `clientId|clientSecret|Basic|Authorization` patterns.
+impact: Unauthorized marketplace API access → order/invoice/payment data. Severity: HIGH.
+testability: PASSIVE
+[NEXT] PROBE: GET https://assets.obi.de/seller-side-panel/ and https://assets.obi.de/ with browser UA to re-discover the rotated seller onboarding bundle filename (index-BUGS3Fny.js → 404; new hash unknown) — passive only, then grep for clientId/clientSecret/Basic creds to feed the marketplace Basic-auth hypothesis.
+[RISK] obi: 44/100 — All probes passive GET to public portal + auth-gated (401) API paths; ≤1 rps; no credentialed tests, no customer data touched, no mutation. Confirmed 401 boundaries only (matching documented Client-ID Enforcement design). Slight elevation: confirmed live financial-order surface (transaction/order/invoice APIs) strengthens future AUTH_HELPED work and reveals internal Envoy op naming; stale signed URLs not re-generated. No program-rule violations.

@@ -68,3 +68,9 @@ https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
 https://api.live.app.obi.de/v1/ -> 200 len=?
 https://api.live.app.obi.de/v1/auth/login -> HTTP 401
 https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+
+## 2026-09-04 20:13:07 UTC
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+https://assets.obi.de/seller-side-panel/resources/ -> HTTP 404
+https://assets.obi.de/seller-side-panel/ -> HTTP 404
+https://assets.obi.de/ -> 200 len=39

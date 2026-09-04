@@ -324,3 +324,4 @@ testability: AUTH_HELPED
 [LEARN] ACCEPTED AUTH @ www.obi.de: JWT validation endpoint path confirmed in production JavaScript — viable test target for alg confusion with authenticated session.
 [LEARN] REJECTED ENDPOINT-MAP @ www.obi.de: All /api/* paths return 404 at CloudFront edge — origin routing requires browser-level session/cookies.
 [RISK] obi: 35/100 — All probes passive GET/HEAD/OPTIONS at ≤1 rps; no customer data accessed; no auth bypass attempted; next probe targets public MuleSoft developer portal (intentionally public Exchange portal); S3 signed URLs are temporary (86400s expiry) and scoped to MuleSoft shared infrastructure; program rules prohibit data exposure during testing — risk remains low
+## 2026-09-04 20:12:50 UTC [target] (model nemotron3)

@@ -80,3 +80,7 @@
 - LEARN: CHANGED MISCONFIG @ assets.obi.de: Seller onboarding JS bundle (index-BUGS3Fny.js) now returns 404 — previously accessible, likely rotated/removed; need to disc
 - LEARN: ACCEPTED AUTH @ www.obi.de: JWT validation endpoint path confirmed in production JavaScript — viable test target for alg confusion with authenticated session.
 - LEARN: REJECTED ENDPOINT-MAP @ www.obi.de: All /api/* paths return 404 at CloudFront edge — origin routing requires browser-level session/cookies.
+
+## RANKED HYPOTHESES 2026-09-04 20:13:00 UTC
+- [55] api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order|invoice}-api/v1/: Cross-Seller IDOR via Unscoped Object Endpoints on Marketplace APIs (from art/lead_bigpickle.txt)
+- NEXT(hypotheses-bigpickle.txt): PROBE: GET https://assets.obi.de/seller-side-panel/ and https://assets.obi.de/ with browser UA to re-discover the rotated seller onboarding bundle filename (ind

@@ -71,3 +71,5 @@ www.obi.de
 - CHANGED api.obi.com: S3 signed URLs point to exchange2-asset-manager-kprod-eu.s3.eu-central-1.amazonaws.com with 86400s expiry AWS temp credentials in query strings
 
 ## 2026-09-04 17:50:25 UTC
+
+## 2026-09-04 20:13:00 UTC
