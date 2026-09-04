@@ -34,3 +34,12 @@ https://api.live.app.obi.de/v1/cart -> HTTP 401
 https://api.live.app.obi.de/v1/profile -> HTTP 401
 https://api.live.app.obi.de/v1/auth/login -> HTTP 401
 https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+
+## 2026-09-04 00:37:46 UTC
+https://api.live.app.obi.de/v1/ -> 200 len=?
+https://api.live.app.obi.de/v1/admin -> HTTP 401
+https://api.live.app.obi.de/v1/debug -> HTTP 401
+https://api.live.app.obi.de/v1/v2/ -> HTTP 401
+https://api.live.app.obi.de/v1/internal/ -> HTTP 401
+https://api.live.app.obi.de/v1/auth/login -> HTTP 401
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404

@@ -40,3 +40,5 @@ www.obi.de
 - NEW api.live.app.obi.de/v1/health → HTTP 401 (endpoint exists, auth required)
 - NEW api.live.app.obi.de/v1/auth/login → HTTP 401 (endpoint exists, auth required)
 - CHANGED assets.obi.de/seller-side-panel/resources/index-BUGS3Fny.js → HTTP 404 (was accessible per knowledge base, now rotated/removed)
+
+## 2026-09-04 00:37:33 UTC
