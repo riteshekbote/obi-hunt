@@ -69,3 +69,5 @@ www.obi.de
 - CHANGED api.live.app.obi.de fully enumerated: /v1/ base 200, all 10 tested sub-paths return 401 — no unauthenticated leakage found
 - CHANGED api.obi.com: Full JSON catalog of 4 marketplace APIs (Product v1.1.6, Price v1.1.5, Inventory v1.1.6, Order Invoice v1.0.26) extractable from SPA HTML body without JS execution; S3 signed download URL
 - CHANGED api.obi.com: S3 signed URLs point to exchange2-asset-manager-kprod-eu.s3.eu-central-1.amazonaws.com with 86400s expiry AWS temp credentials in query strings
+
+## 2026-09-04 17:50:25 UTC

@@ -68,3 +68,15 @@
 - LEARN: CHANGED MISCONFIG @ assets.obi.de: Seller onboarding JS bundle (index-BUGS3Fny.js) now returns 404 — previously accessible, likely rotated/removed; need to disc
 - LEARN: ACCEPTED AUTH @ www.obi.de: JWT validation endpoint path confirmed in production JavaScript — viable test target for alg confusion with authenticated session.
 - LEARN: REJECTED ENDPOINT-MAP @ www.obi.de: All /api/* paths return 404 at CloudFront edge — origin routing requires browser-level session/cookies.
+
+## RANKED HYPOTHESES 2026-09-04 17:50:25 UTC
+- [92] api.obi.com: MuleSoft Exchange Portal — Unauthenticated Full API Catalog & S3 Spec File Access via CORS: * (from art/lead_nemotron3.txt)
+- [52] api.obi.com/trx-api/fulfillmentsellersteering/{transaction|invoice|order-service}-api: Cross-Seller IDOR via Unscoped Object Endpoints on Marketplace APIs (from art/lead_bigpickle.txt)
+- NEXT(hypotheses-bigpickle.txt): PROBE: POST https://www.obi.de/account/api/public/jwt/validate with User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0.0.0, Content-Type: applic
+- NEXT(hypotheses-nemotron3.txt): PROBE: GET https://api.obi.com/ with Accept: text/html,application/xhtml+xml and User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 — extr
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: Full JSON API catalog of 4 marketplace APIs (Product, Price, Inventory, Order Invoice Management) extractable from portal HTML
+- LEARN: ACCEPTED AUTH @ api.live.app.obi.de: /v1/ base path returns 200, all 17 tested sub-paths (/users, /orders, /cart, /profile, /health, /auth/login, /admin, /debug
+- LEARN: REJECTED ENDPOINT-MAP @ www.obi.de: CONFIRMED — /account/api/public/jwt/validate and /explore/recommendations/api/internal/v6/ both return 404 to HEAD/curl; ori
+- LEARN: CHANGED MISCONFIG @ assets.obi.de: Seller onboarding JS bundle (index-BUGS3Fny.js) now returns 404 — previously accessible, likely rotated/removed; need to disc
+- LEARN: ACCEPTED AUTH @ www.obi.de: JWT validation endpoint path confirmed in production JavaScript — viable test target for alg confusion with authenticated session.
+- LEARN: REJECTED ENDPOINT-MAP @ www.obi.de: All /api/* paths return 404 at CloudFront edge — origin routing requires browser-level session/cookies.

@@ -130,3 +130,33 @@ testability: PASSIVE
 [LEARN] REJECTED ENDPOINT-MAP @ www.obi.de: All /api/* paths return 404 at CloudFront edge — origin routing requires browser-level session/cookies.
 [RISK] obi: 40/100 — MuleSoft portal is a public developer portal by design (it's an Exchange portal for API consumers). Extracting catalog data and downloading publicly-hosted API specs is intended functionality. CORS: * is standard for MuleSoft Exchange. The S3 signed URLs are temporary (86400s expiry) and scoped to MuleSoft's shared infrastructure. No customer data accessed, no auth bypass attempted. Risk is slightly elevated due to the breadth of API information exposed (order, payment, inventory) which aids reconnaissance against other targets.
 ## 2026-09-04 14:04:58 UTC [target] (model bigpickle)
+## 2026-09-04 17:46:37 UTC [target] (model bigpickle)
+[HYP] Cross-Seller IDOR via Unscoped Object Endpoints on Marketplace APIs
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|invoice|order-service}-api
+confidence: 52
+reasoning: OAS specs define unscoped GETs — /v1/transactions/{transactionId}, /v1/orders/{orderId} (example 1100004695-01), /v1/subscriptions/{id}, /v1/prices — that carry no sellers/{sellerId} context. Client-ID Enforcement validates API access only, not object ownership. If the branch-protected unscoped variants proxy to a data layer without seller scoping, any valid seller credential enumerates other sellers+orders+prices+inventory.
+evidence_needed: A valid seller clientId/clientSecret; then GET /v1/transactions/{transactionId} for an orderId belonging to a different seller and compare authorization.
+verify_steps: GET https://api.obi.com/trx-api/fulfillmentsellersteering/transaction-api/v1/transactions/{transactionId} with basic auth (valid seller creds) → try other-seller transactionId → expect 403 (authorized) vs 200/leak (vuln).
+impact: Cross-tenant extraction of order/invoice/price/transaction/inventory PII + financial data. Severity: HIGH (unproven).
+testability: AUTH_HELPED
+[HYP] JWT Algorithm Confusion on Session Validation Endpoint
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 65
+reasoning: Frontend production JS calls this POST path with JWT to check session state (confirmed in prior recon). Encoding arbitrary header algorithm selection in a public-signing context permits HS256/RS256 confusion → account takeover if key handling is weak.
+evidence_needed: Confirm POST accepts a JWT body; capture real token; test alg:none and RS256→HS256 with public key.
+verify_steps: POST https://www.obi.de/account/api/public/jwt/validate with Content-Type: application/json, empty body → observe 200/400/401; then craft alg:none JWT → observe acceptance.
+impact: Account takeover of 10M+ heyOBI users. Severity: CRITICAL.
+testability: AUTH_HELPED
+[HYP] Internal EKS Microservice Fleet Exposure via Public Docs
+class: MISCONFIG
+asset: *.dev-eks.stage-eks.prod-eks.dbs.obi.solutions
+confidence: 45
+reasoning: Public Exchange docs enumerate 15+ internal service DNS names on dev/stage/prod EKS clusters, all resolving to CloudFront. Production variant at 65.8.180.128 also resolves. Correct path+edge behavior (browser UA / cookies / specific path prefix) may expose unauthenticated internal APIs.
+evidence_needed: Find the edge-triggering path/UA; confirm any origin returns non-404.
+verify_steps: Replay documented POST /v1/shippingInfo/status with browser UA + Origin + full headers on prod-eks; if 400/401 → origin live.
+impact: Recon map of whole internal returns/supply-chain platform; unauthenticated internal API access if edge routes. Severity: MEDIUM.
+testability: PASSIVE
+[NEXT] PROBE: POST https://www.obi.de/account/api/public/jwt/validate with User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0.0.0, Content-Type: application/json, empty body — observe 200/400/401 to confirm the JWT endpoint is reachable from edge and accepts unauthenticated validation (passive boundary, no token data).
+[RISK] obi: 42/100 — All probes passive GET/HEAD + 3 empty-POST boundary tests to OBI-owned dev webhook hosts; no customer data accessed; no auth bypass; ≤0.5 rps. Exchange portal + DNS names are OBI-published. Documented creds are dead. Slight elevation due to breadth of live endpoint mapping revealed (order/payment/inventory surface) which strengthens future AUTH_HELPED testing, and the public exposure of internal infra naming. No program-rule violations.
