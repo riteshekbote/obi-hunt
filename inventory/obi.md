@@ -44,3 +44,15 @@ www.obi.de
 ## 2026-09-04 00:37:33 UTC
 
 ## 2026-09-04 05:18:47 UTC
+
+## 2026-09-04 09:49:39 UTC
+- NEW api.live.app.obi.de/v1/admin → HTTP 401 (admin endpoint exists, auth-gated)
+- NEW api.live.app.obi.de/v1/debug → HTTP 401 (debug endpoint exists, auth-gated)
+- NEW api.live.app.obi.de/v1/v2/ → HTTP 401 (v2 versioned path exists, auth-gated)
+- NEW api.live.app.obi.de/v1/internal/ → HTTP 401 (internal path exists, auth-gated)
+- CHANGED assets.obi.de/seller-side-panel/resources/index-BUGS3Fny.js → HTTP 404 confirmed (was accessible, now rotated/removed — bundle filename changed)
+- CHANGED api.live.app.obi.de fully enumerated: /v1/ base 200, all 10 tested sub-paths return 401 — no unauthenticated leakage found
+- CHANGED api.obi.com: Portal returns full JSON catalog of 4+ marketplace APIs with S3 signed download URLs, org IDs, contact emails, version info — previously only confirmed as HTTP 200, now confirmed as full 
+- CHANGED api.obi.com: Full JSON API catalog extracted from SPA HTML body — 4 marketplace APIs with complete metadata (names, descriptions, versions, S3 signed download URLs, org IDs, contact emails). Portal se
+- CHANGED api.obi.com: MuleSoft Anypoint org `trx-fulfillmentsellersteering` (ID `e9d97593-77e2-4c1d-983c-b4593b3393ed`), parent org `f970166b-9dae-4e62-976d-cfccd05e93ff`, domain `obi-smart-technologies-gmbh`
+- CHANGED api.obi.com: S3 signed download URLs for API spec files (OAS/RAML/ZIP) point to `exchange2-asset-manager-kprod-eu.s3.eu-central-1.amazonaws.com` with temp AWS credentials embedded in query strings
