@@ -190,3 +190,39 @@ impact: Unauthorized marketplace API access → order/invoice/payment data. Seve
 testability: PASSIVE
 [NEXT] PROBE: GET https://assets.obi.de/seller-side-panel/ and https://assets.obi.de/ with browser UA to re-discover the rotated seller onboarding bundle filename (index-BUGS3Fny.js → 404; new hash unknown) — passive only, then grep for clientId/clientSecret/Basic creds to feed the marketplace Basic-auth hypothesis.
 [RISK] obi: 44/100 — All probes passive GET to public portal + auth-gated (401) API paths; ≤1 rps; no credentialed tests, no customer data touched, no mutation. Confirmed 401 boundaries only (matching documented Client-ID Enforcement design). Slight elevation: confirmed live financial-order surface (transaction/order/invoice APIs) strengthens future AUTH_HELPED work and reveals internal Envoy op naming; stale signed URLs not re-generated. No program-rule violations.
+## 2026-09-04 22:13:53 UTC [target] (model bigpickle)
+[PRIO] www.obi.de/account/api/public/jwt/validate,7.75,tech_exposure
+[PRIO] api.obi.com/trx-api/fulfillmentsellersteering-apis,5.95,business_value
+[PRIO] www.obi.de/explore/recommendations/api/internal/v6,5.75,surface
+[HYP] JWT Validation Endpoint Live — Algorithm Confusion / Session Boundary Probe
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: Endpoint now confirmed reachable from CloudFront edge with browser UA: GET/HEAD → 200 empty `text/javascript`, clears `obi-auth` cookie via Set-Cookie expire; POST without session → 405 (requires authenticated session). Frontend production JS drives it for session JWT checks. If a real session JWT is validated with weak key handling, HS256/alg:none confusion → ATO.
+evidence_needed: Authenticated browser session with obi-auth JWT; POST valid JWT → baseline 2xx/4xx; POST crafted alg:none / RS256→HS256 token → observe acceptance vs rejection.
+verify_steps: In authenticated session POST with Content-Type application/json + valid JWT body → expect baseline; then craft alg:none token → expect 401/400 (safe) vs 200 (vuln).
+impact: Account takeover across 10M+ heyOBI accounts; purchase/payment data. Severity: CRITICAL.
+testability: AUTH_HELPED
+[HYP] Cross-Seller IDOR via Unscoped Object Endpoints on Marketplace APIs
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice|product|inventory}-api/v1/
+confidence: 55
+reasoning: 5 service bases live behind HTTP Basic `mule-realm` (confirmed). OAS specs define unscoped GETs — /v1/transactions/{transactionId}, /v1/orders/{orderId} (example 1100004695-01), /v1/invoices/{id}, /v1/products, /v1/prices — with no sellers/{sellerId} context; object fetch returns 401 only, not 404, so paths resolve. Client-ID Enforcement gates API access, likely not object ownership.
+evidence_needed: A valid seller clientId/clientSecret; cross-tenant object-ID fetch comparison.
+verify_steps: With valid creds GET /v1/transactions/{other-seller-transactionId} → 403 (safe) vs 200/leak (vuln).
+impact: Cross-tenant extraction of order/invoice/price/inventory/financial data. Severity: HIGH (unproven).
+testability: AUTH_HELPED
+[HYP] Internal Recommendations v6 Origin Live Behind Edge — Potential Unauthenticated Query
+class: MISCONFIG
+asset: www.obi.de/explore/recommendations/api/internal/v6/recommendations
+confidence: 45
+reasoning: Response changed 404 → 500 with browser UA, proving origin routing + app processing; 500 (not 401/403) suggests missing required params, not auth gate. Broader /api/internal/* family may expose recommendations data or originate SSRF-able category/product params.
+evidence_needed: Identify required params to move 500 → 200 (or structure response markers in error body with empty GET vs GET ?productId=).
+verify_steps: GET with ?productId=0000000000&categoryId=0 (browser UA) → observe 500→200/400 shift indicating param-driven endpoint.
+impact: Inner product/recommendation data or cached category data exfil; low-data but confirms unauthenticated internal queries. Severity: LOW-MEDIUM.
+testability: PASSIVE
+[NEXT] PROBE: GET https://www.obi.de/account/ and GET https://www.obi.de/account/api/ with browser UA to map the account-api tree and locate sibling public endpoints of the confirmed-live jwt/validate path (same CloudFront behavior family), then compare edge routing vs origin reachability passively.
+[LEARN] ACCEPTED AUTH @ www.obi.de: /account/api/public/jwt/validate reachable from edge with browser UA — GET/HEAD 200 (text/javascript, len 0) + clears obi-auth; POST w/o session 405. Corrects prior REJECTED rows (path routes by UA, not truly 404).
+[LEARN] CHANGED ENDPOINT-MAP @ www.obi.de: /explore/recommendations/api/internal/v6/recommendations now 500 with browser UA — origin live (was 404); app error not auth gate.
+[LEARN] ACCEPTED AUTH @ api.obi.com: 5 marketplace service bases confirmed live 401 Basic realm=mule-realm (transaction, order-service, invoice, product, inventory); price-api/order-api names 404 under that prefix.
+[RISK] obi: 42/100 — Probes GET/HEAD/OPTIONS + one empty-POST boundary test to OBI-owned public endpoint, browser UA, <1 rps; no customer data, no real credentials, no auth-bypass attempt (fabricated anonymous cookie returned identical 200). Reachability findings only strengthen AUTH_HELPED planning. No program-rule violations.

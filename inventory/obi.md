@@ -73,3 +73,8 @@ www.obi.de
 ## 2026-09-04 17:50:25 UTC
 
 ## 2026-09-04 20:13:00 UTC
+
+## 2026-09-04 22:15:24 UTC
+- NEW assets.obi.de/ returns HTTP 200 (39 bytes) — root directory accessible, previously unprobed
+- CHANGED assets.obi.de/seller-side-panel/ and /seller-side-panel/resources/ both return 404 — seller onboarding path fully gone, bundle rotation confirmed
+- CHANGED www.obi.de/account/api/public/jwt/validate consistently returns 404 to HEAD/curl (7+ probes) — CloudFront edge behavior confirmed, requires browser UA+cookies
