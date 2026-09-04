@@ -42,3 +42,5 @@ www.obi.de
 - CHANGED assets.obi.de/seller-side-panel/resources/index-BUGS3Fny.js → HTTP 404 (was accessible per knowledge base, now rotated/removed)
 
 ## 2026-09-04 00:37:33 UTC
+
+## 2026-09-04 05:18:47 UTC

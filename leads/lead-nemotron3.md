@@ -173,3 +173,4 @@ testability: AUTH_HELPED
 [LEARN] REJECTED ENDPOINT-MAP @ www.obi.de: CONFIRMED — /account/api/public/jwt/validate and /explore/recommendations/api/internal/v6/ both return 404 to HEAD/curl; origin routing requires browser UA + cookies per CloudFront edge behavior
 [LEARN] CHANGED MISCONFIG @ assets.obi.de: Seller onboarding JS bundle (index-BUGS3Fny.js) now returns 404 — previously accessible, likely rotated/removed; need to discover new bundle filename
 [RISK] obi: 30/100 — All probes passive GET/HEAD/OPTIONS at ≤1 rps; no customer data accessed; no auth bypass attempted; next probe targets public MuleSoft developer portal (intentionally public); program rules prohibit data exposure during testing — risk remains low
+## 2026-09-04 05:18:38 UTC [target] (model nemotron3)

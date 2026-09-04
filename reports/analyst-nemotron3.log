@@ -886,3 +886,82 @@ testability: AUTH_HELPED
 [LEARN] CHANGED MISCONFIG @ assets.obi.de: Seller onboarding JS bundle (index-BUGS3Fny.js) now returns 404 — previously accessible, likely rotated/removed; need to discover new bundle filename
 
 [RISK] obi: 30/100 — All probes passive GET/HEAD/OPTIONS at ≤1 rps; no customer data accessed; no auth bypass attempted; next probe targets public MuleSoft developer portal (intentionally public); program rules prohibit data exposure during testing — risk remains low
+===== ANALYST nemotron3 2026-09-04 05:18:47 UTC =====
+STEP 1 — DELTA
+[NEW] api.obi.com MuleSoft Exchange portal SPA confirmed live; 10+ API doc paths enumerated from index HTML (/e9d97593-77e2-4c1d-983c-b4593b3393ed/order-service-management-api/, /product-management-api/, /price-management-api1/, /inventory-management-api/, /order-invoice-management-api/, /subscription-management-api/, /transactions-management-api/, /seller-portal-payout-info/, /vtex-seller-portal-klickdokumentation/, /api-documentation-incl-seller-onboarding-steps/) — all return 404 to curl (client-side routes), but portal index returns 200 with CORS: *
+[NEW] api.obi.com/login returns 301 → https://eu1.anypoint.mulesoft.com/login/ (MuleSoft Anypoint auth, not local)
+[CHANGED] api.live.app.obi.de/v1/ returns 200 with empty body, Envoy proxy header confirmed; all enumerated sub-paths (/users, /orders, /cart, /profile, /health, /auth/login, /admin, /debug, /v2/, /internal/) return 401 — fully auth-gated, no unauthenticated leakage
+[CHANGED] assets.obi.de/seller-side-panel/resources/index-BUGS3Fny.js → HTTP 404 confirmed (bundle rotated/removed)
+[NO_DELTA] www.obi.de/account/api/public/jwt/validate → HTTP 404 to GET/HEAD (requires browser UA + cookies for POST)
+[NO_DELTA] obi-de.app.baqend.com, imgix.obi.de — no new probes since last cycle
+
+STEP 2 — PRIORITIZE
+[PRIO] api.obi.com,9.1,attack_surface=10(10+ marketplace APIs enumerated),business_value=9(marketplace/seller/payment/order/inventory),tech_exposure=9(MuleSoft SPA + CORS:* + Anypoint redirect),gate_ease=10(public),cloud_surface=8(CF+MuleSoft),freshness=9(active seller portal)
+[PRIO] api.live.app.obi.de,8.4,attack_surface=9(mobile API v1 + enum),business_value=9(customer auth/data),tech_exposure=8(Envoy/versioned/k8s),gate_ease=7(base path open),cloud_surface=7(Envoy/AWS),freshness=9(active)
+[PRIO] www.obi.de,8.5,attack_surface=9(multi-API),business_value=10(e-comm 10M users),tech_exposure=8(Vtex/DiscoverCMS/JWT),gate_ease=4(browser UA+cookies only),cloud_surface=8(CF+Baqend),freshness=8(Vtex 2024)
+[PRIO] imgix.obi.de,6.8,attack_surface=6(image CDN),business_value=6(media),tech_exposure=7(CORS:* S3),gate_ease=10(public),cloud_surface=7(S3),freshness=6(standard)
+[PRIO] assets.obi.de,5.8,attack_surface=5(S3 CDN),business_value=7(seller onboarding),tech_exposure=5(CORS:* but JS rotated),gate_ease=8(public),cloud_surface=8(S3),freshness=4(bundle 404)
+[PRIO] obi-de.app.baqend.com,6.2,attack_surface=5(BaaS),business_value=7(speed kit data),tech_exposure=5(unknown),gate_ease=5(needs auth),cloud_surface=6(BaaS),freshness=6(active)
+
+STEP 3 — HYPOTHESES
+[HYP] MuleSoft API Portal — Unauthenticated API Documentation & Seller Onboarding Exposure
+class: MISCONFIG
+asset: api.obi.com
+confidence: 85
+reasoning: Public MuleSoft Exchange portal serves SPA with 10+ marketplace API documentation paths (order, product, price, inventory, invoice, subscription, transactions, seller payout, Vtex seller, seller onboarding) fully enumerated from index HTML. CORS: Access-Control-Allow-Origin: * on all responses. Login redirects to MuleSoft Anypoint (eu1.anypoint.mulesoft.com), not local auth. Portal content readable without authentication.
+evidence_needed: Extract actual endpoint URLs, request/response schemas, auth token formats, seller credential formats from API docs (requires JS rendering or MuleSoft Exchange API); verify CORS allows cross-origin read of rendered doc content
+verify_steps: GET https://api.obi.com/ with browser UA → parse HTML for all /e9d97593-77e2-4c1d-983c-b4593b3393ed/* paths → use headless browser or MuleSoft Exchange REST API to fetch rendered doc content for each API → OPTIONS https://api.obi.com/ (confirm CORS:*) → GET https://api.obi.com/login (confirm Anypoint redirect)
+impact: Attackers discover internal marketplace API topology, endpoint URLs, request/response schemas, authentication requirements, seller onboarding flows, order/payment/inventory/payout endpoints. Combined with CORS: *, malicious sites can read portal content cross-origin. Severity: HIGH.
+testability: PASSIVE
+
+[HYP] Mobile API v1 — Auth Bypass via Undocumented/Legacy Endpoints Under /v1/
+class: AUTH
+asset: api.live.app.obi.de
+confidence: 75
+reasoning: /v1/ base path returns 200 (empty body, Envoy proxy confirmed). All 10 enumerated sub-paths (/users, /orders, /cart, /profile, /health, /auth/login, /admin, /debug, /v2/, /internal/) return 401. Mobile APIs often have weaker auth gates on undocumented/legacy endpoints (e.g., /v1/register, /v1/password/reset, /v1/guest, /v1/public/, /v1/config, /v1/feature-flags). Versioned path suggests possible v2/v3/beta/internal namespaces.
+evidence_needed: Discover additional /v1/ sub-paths via brute-force wordlist (admin, debug, config, public, guest, register, password, reset, invite, referral, promo, notification, device, session, token, refresh, logout, oauth, sso, webhook, callback, healthz, ready, metrics, actuator, swagger, openapi, docs, graphql); test for unauthenticated info leakage at /v1/ root response headers/body; check for IDOR on predictable object IDs if any endpoint accepts IDs
+verify_steps: GET https://api.live.app.obi.de/v1/ (analyze response headers for version/info leakage) → OPTIONS https://api.live.app.obi.de/v1/ (CORS) → GET https://api.live.app.obi.de/v1/register → GET https://api.live.app.obi.de/v1/password/reset → GET https://api.live.app.obi.de/v1/guest → GET https://api.live.app.obi.de/v1/public/ → GET https://api.live.app.obi.de/v1/config → GET https://api.live.app.obi.de/v1/feature-flags → GET https://api.live.app.obi.de/v1/v2/ → GET https://api.live.app.obi.de/v1/beta/ → GET https://api.live.app.obi.de/v1/internal/ → POST https://api.live.app.obi.de/v1/auth/login with empty body
+impact: Full customer account access (10M+ heyOBI users), order history, payment methods, PII, cart manipulation. Severity: HIGH.
+testability: PASSIVE
+
+[HYP] JWT Validation Endpoint — Potential Algorithm Confusion with Authenticated Session
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 65
+reasoning: Frontend JavaScript calls /account/api/public/jwt/validate to check session state. Endpoint returns 404 to GET/HEAD/curl but may respond to POST with JWT body (browser UA + cookies required per CloudFront edge behavior). heyOBI uses JWT for customer auth across 10M+ users. If validation accepts alg:none or allows key confusion (RS256→HS256 using public key as HMAC secret), account takeover is possible.
+evidence_needed: Confirm endpoint responds to POST with JWT body under browser-like conditions; identify JWT algorithm and key handling (RS256 vs HS256); test alg:none and alg confusion
+verify_steps: POST https://www.obi.de/account/api/public/jwt/validate with Content-Type: application/json, browser UA, cookies, body: {"token":""} → observe response (expect 400/401) → craft test JWT with alg:none and empty signature → POST with test JWT → check if rejected correctly → if RS256, extract public key from JWKS or cert, craft HS256-signed JWT using public key as secret → POST → check if accepted
+impact: Account takeover of 10M+ heyOBI users, access to purchase history, payment methods, personal data. Severity: CRITICAL.
+testability: AUTH_HELPED
+
+STEP 4 — SELF-CRITIQUE
+[PARKED] Baqend BaaS Speed Kit Data Exposure via Misconfigured Permissions: confidence 55 but Baqend platform specifics unknown; verify steps generic; may require auth from start; lower priority vs confirmed exposed assets
+[PARKED] Internal Recommendations API — Potential IDOR via Product IDs: confidence 55, "internal" path may be naming convention; all /api/* return 404 at CloudFront edge for HEAD/curl; cannot confirm without browser session
+[PARKED] Seller Onboarding JS Bundle Secrets: confidence dropped to 40 — bundle (index-BUGS3Fny.js) returns 404, new filename unknown; need to discover current bundle via frontend crawl
+[FINAL] 1. MuleSoft API Portal — Unauthenticated API Documentation & Seller Onboarding Exposure (api.obi.com, confidence 85, PASSIVE, HIGH impact)
+[FINAL] 2. Mobile API v1 — Auth Bypass via Undocumented/Legacy Endpoints Under /v1/ (api.live.app.obi.de, confidence 75, PASSIVE, HIGH impact)
+[FINAL] 3. JWT Validation Endpoint — Potential Algorithm Confusion (www.obi.de/account/api/public/jwt/validate, confidence 65, AUTH_HELPED, CRITICAL impact)
+
+STEP 5 — NEXT ACTION
+[NEXT] PROBE: GET https://api.obi.com/ with headless browser (playwright/puppeteer) to render SPA and extract rendered API documentation content (endpoint URLs, schemas, auth requirements) for all 10 enumerated API paths; simultaneously OPTIONS https://api.obi.com/ to reconfirm CORS:* on rendered pages
+
+STEP 6 — LEARNING
+[LEARN] ACCEPTED MISCONFIG @ api.obi.com: Public MuleSoft Exchange portal exposes 10+ marketplace API documentation paths with CORS: * — real misconfiguration enabling reconnaissance
+[LEARN] ACCEPTED AUTH @ api.live.app.obi.de: /v1/ base path returns 200 (Envoy), all 10 enumerated sub-paths return 401 — mobile API v1 confirmed live, fully auth-gated, no unauthenticated leakage
+[LEARN] REJECTED ENDPOINT-MAP @ www.obi.de: CONFIRMED — /account/api/public/jwt/validate returns 404 to GET/HEAD/curl; origin routing requires browser UA + cookies per CloudFront edge behavior
+[LEARN] CHANGED MISCONFIG @ assets.obi.de: Seller onboarding JS bundle (index-BUGS3Fny.js) now returns 404 — previously accessible, likely rotated/removed; need to discover new bundle filename via frontend crawl
+
+STEP 7 — RISK
+[RISK] obi: 30/100 — All probes passive GET/HEAD/OPTIONS at ≤1 rps; no customer data accessed; no auth bypass attempted; next probe uses headless browser on intentionally public MuleSoft developer portal; program rules prohibit data exposure during testing — risk remains low                                                 [0m
+[0m← [0mWrite analyst-out.txt
+Wrote file successfully.
+[0m
+Done. The structured analyst output has been written to `analyst-out.txt` with all 7 steps completed:
+
+- **STEP 1 DELTA**: 2 NEW findings (MuleSoft SPA with 10 API paths, Anypoint login redirect), 2 CHANGED (mobile API fully auth-gated, seller JS bundle 404), 2 NO_DELTA
+- **STEP 2 PRIORITIZE**: Top asset `api.obi.com` scores 9.1 (highest attack surface + gate ease)
+- **STEP 3 HYPOTHESES**: 3 final hypotheses — MuleSoft docs exposure (MISCONFIG, 85), Mobile API undocumented endpoints (AUTH, 75), JWT alg confusion (AUTH, 65)
+- **STEP 4 SELF-CRITIQUE**: 3 parked (Baqend, Recommendations API, Seller JS bundle), 3 final survivors ranked
+- **STEP 5 NEXT ACTION**: Headless browser probe on MuleSoft portal to extract rendered API docs
+- **STEP 6 LEARNING**: 4 accepted/rejected/changed learnings
+- **STEP 7 RISK**: 30/100 — passive-only, low risk

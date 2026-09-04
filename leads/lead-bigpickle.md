@@ -84,3 +84,4 @@ testability: PASSIVE
 [RISK] obi: 35/100 — Passive-only recon; no customer data accessed; no auth bypass attempted; all probes are GET/HEAD at ≤1 rps. MuleSoft portal is publicly accessible by design (it's a developer portal). JWT test would require creating test account per program rules. Low risk of impact to production systems.
 ## 2026-09-03 22:23:12 UTC [target] (model bigpickle)
 ## 2026-09-04 00:28:28 UTC [target] (model bigpickle)
+## 2026-09-04 05:08:35 UTC [target] (model bigpickle)
