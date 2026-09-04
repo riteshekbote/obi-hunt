@@ -129,3 +129,4 @@ testability: PASSIVE
 [LEARN] ACCEPTED AUTH @ www.obi.de: JWT validation endpoint path confirmed in production JavaScript — viable test target for alg confusion with authenticated session.
 [LEARN] REJECTED ENDPOINT-MAP @ www.obi.de: All /api/* paths return 404 at CloudFront edge — origin routing requires browser-level session/cookies.
 [RISK] obi: 40/100 — MuleSoft portal is a public developer portal by design (it's an Exchange portal for API consumers). Extracting catalog data and downloading publicly-hosted API specs is intended functionality. CORS: * is standard for MuleSoft Exchange. The S3 signed URLs are temporary (86400s expiry) and scoped to MuleSoft's shared infrastructure. No customer data accessed, no auth bypass attempted. Risk is slightly elevated due to the breadth of API information exposed (order, payment, inventory) which aids reconnaissance against other targets.
+## 2026-09-04 14:04:58 UTC [target] (model bigpickle)

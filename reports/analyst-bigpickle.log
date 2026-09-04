@@ -1598,3 +1598,142 @@ testability: PASSIVE
 ## STEP 7 — RISK
 
 [RISK] obi: 40/100 — MuleSoft portal is a public developer portal by design (it's an Exchange portal for API consumers). Extracting catalog data and downloading publicly-hosted API specs is intended functionality. CORS: * is standard for MuleSoft Exchange. The S3 signed URLs are temporary (86400s expiry) and scoped to MuleSoft's shared infrastructure. No customer data accessed, no auth bypass attempted. Risk is slightly elevated due to the breadth of API information exposed (order, payment, inventory) which aids reconnaissance against other targets.
+===== ANALYST bigpickle 2026-09-04 14:16:57 UTC =====
+[0m
+> build · big-pickle
+[0m
+[0m✱ [0mGlob "art/**"[90m 0 matches[0m
+[0m✱ [0mGlob "**/obi*"[90m 1 match[0m
+[0m
+[0m$ [0mcurl -s -o /dev/null -w "%{http_code}" "https://api.obi.com/" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" 2>&1
+200
+[0m
+[0m$ [0mcurl -s "https://api.obi.com/" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" 2>&1 | head -c 5000
+<!DOCTYPE html><html data-theme="anypoint-components-lume-theme" lang="en" class="expand"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta name="referrer" content="origin-when-cross-origin"><title>Anypoint Exchange</title><base href="https://api.obi.com/" data-rdm><meta name="description" content="" data-rdm><link rel="icon" type="image/x-icon" href="https://api.obi.com/resources/obi-602bf378-4c37-488d-a83d-0d35991e37ec.ico"><link rel="search" type="application/opensearchdescription+xml" title="Exchange" href="https://eu1.anypoint.mulesoft.com/exchange/opensearch.xml"><link rel="prefetch" href="https://cdn-prod-eu.anypoint.mulesoft.com/artifacts/anypoint-navbar/anypoint-navbar.js?9/4/2026"><link rel="prefetch" href="https://cdn-prod-eu.anypoint.mulesoft.com/artifacts/exchange-ui/static/definitions/1.2.1700/assets_definitions.js"><link data-parent-chunk="main" rel="prefetch" as="style" href="https://cdn-prod-eu.anypoint.mulesoft.com/artifacts/exchange-ui/static/ang-search.b67ad021ab165ead014a.css"><link data-parent-chunk="main" rel="prefetch" as="style" href="https://cdn-prod-eu.anypoint.mulesoft.com/artifacts/exchange-ui/static/9.b67ad021ab165ead014a.css"><link data-chunk="main" rel="preload" as="style" href="https://cdn-prod-eu.anypoint.mulesoft.com/artifacts/exchange-ui/static/main.b67ad021ab165ead014a.css"><link data-chunk="main" rel="preload" as="script" href="https://cdn-prod-eu.anypoint.mulesoft.com/artifacts/exchange-ui/static/main.b67ad021ab165ead014a.js"><link data-parent-chunk="main" rel="prefetch" as="script" href="https://cdn-prod-eu.anypoint.mulesoft.com/artifacts/exchange-ui/static/9.b67ad021ab165ead014a.js"><link data-parent-chunk="main" rel="prefetch" as="script" href="https://cdn-prod-eu.anypoint.mulesoft.com/artifacts/exchange-ui/static/ang-search.b67ad021ab165ead014a.js"><link rel="stylesheet" href="https://eu1.anypoint.mulesoft.com/exchange/portals/obi-smart-technologies-gmbh/styles/styles.css"><link data-chunk="main" rel="stylesheet" href="https://cdn-prod-eu.anypoint.mulesoft.com/artifacts/exchange-ui/static/main.b67ad021ab165ead014a.css"><style data-aphrodite>._m1t762{color:#424242 !important;background-color:transparent !important;}._m1t762:hover{color:#ff7412 !important;}._g8m8cp{background-color:#ffffff !important;}._1g2wz4f{fill:#424242 !important;color:#424242 !important;}._1g2wz4f:hover{color:#ff7412 !important;fill:#ff7412 !important;}._130eww5{background-color:#ffffff !important;color:#ff7412 !important;border-color:#ff7412 !important;}._onl78r{background-color:#ffffff !important;color:#424242 !important;}._onl78r:hover{color:#ff7412 !important;border-color:#ff7412 !important;}</style><script type="text/plain" class="optanon-category-4">!function(){var i="analytics",analytics=window[i]=window[i]||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","screen","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware","register"];analytics.factory=function(e){return function(){if(window[i].initialized)return window[i][e].apply(window[i],arguments);var n=Array.prototype.slice.call(arguments);if(["track","screen","alias","group","page","identify"].indexOf(e)>-1){var c=document.querySelector("link[rel='canonical']");n.push({__t:"bpc",c:c&&c.getAttribute("href")||void 0,p:location.pathname,u:location.href,s:location.search,t:document.title,r:document.referrer})}n.unshift(e);analytics.push(n);return analytics}};for(var n=0;n<analytics.methods.length;n++){var key=analytics.methods[n];analytics[key]=analytics.factory(key)}analytics.load=function(key,n){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.setAttribute("data-global-segment-analytics-key",i);t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r);analytics._loadOptions=n};analytics._writeKey="7qphkedoiv";;analytics.SNIPPET_VERSION="5.2.0";
+analytics.load("7qphkedoiv");
+
+}}();</script></head><body class="anypoint-styles no-navbar 😎"><nav id="skip-links" tabindex="-1" aria-label="Accessibility"></nav><div class="react-containers"><div id="react-component-view"><div class="public-portal-2GXNP" data-test-id="customize-layout-wrapper"><nav class="container-2xlsN" data-test-id="portal-navbar"><div class="bumper-1Esx_" style="height:60px"></div><div class="bar-30QZu _g8m8cp"><div class="left-3e7g9"><button data-test-id="toogle-nav-button" type="button" class="button-4m_eX"><span role="img" data-test-id="toogle-nav-sidebar" class="anypoint-icon toggle-zEjgt _1g2wz4f"><svg style="height:25px;width:25px;max-h
+[0m
+[0m$ [0mcurl -s "https://api.obi.com/" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" 2>&1 | grep -oP '"assetId":"[^"]*"' | head -20
+(no output)
+[0m
+[0m$ [0mcurl -s "https://api.obi.com/" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" 2>&1 | grep -oP '"downloadUrl":"[^"]*"' | head -10
+(no output)
+[0m
+[0m$ [0mcurl -s "https://api.obi.com/" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" 2>&1 | grep -oP '"organizationId":"[^"]*"' | head -5
+(no output)
+[0m
+[0m$ [0mcurl -s "https://api.obi.com/" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" 2>&1 | grep -oP 'data-test-id="[^"]*"' | head -20
+data-test-id="customize-layout-wrapper"
+data-test-id="portal-navbar"
+data-test-id="toogle-nav-button"
+data-test-id="toogle-nav-sidebar"
+data-test-id="navbar-login"
+data-test-id="layout-components"
+data-test-id="layout-middle-content"
+data-test-id="welcome-section-container"
+data-test-id="welcome-section"
+data-test-id="welcome-title"
+data-test-id="welcome-text"
+data-test-id="home-view"
+data-test-id="container-title"
+data-test-id="domain-title"
+data-test-id="home-toolbar"
+data-test-id="home"
+data-test-id="home-filter-label-group"
+data-test-id="home-filter-label-selected"
+data-test-id="home-filter-checkbox"
+data-test-id="home-filter-dropdown"
+[0m
+[0m$ [0mcurl -s "https://api.obi.com/" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" 2>&1 | grep -oP 'href="[^"]*api[^"]*"' | head -10
+href="https://api.obi.com/"
+href="https://api.obi.com/resources/obi-602bf378-4c37-488d-a83d-0d35991e37ec.ico"
+href="/e9d97593-77e2-4c1d-983c-b4593b3393ed/order-service-management-api/"
+href="/e9d97593-77e2-4c1d-983c-b4593b3393ed/product-management-api/"
+href="/e9d97593-77e2-4c1d-983c-b4593b3393ed/price-management-api1/"
+href="/e9d97593-77e2-4c1d-983c-b4593b3393ed/inventory-management-api/"
+href="/e9d97593-77e2-4c1d-983c-b4593b3393ed/order-invoice-management-api/"
+href="/e9d97593-77e2-4c1d-983c-b4593b3393ed/subscription-management-api/"
+href="/e9d97593-77e2-4c1d-983c-b4593b3393ed/transactions-management-api/"
+href="/e9d97593-77e2-4c1d-983c-b4593b3393ed/api-documentation-incl-seller-onboarding-steps/"
+[0m
+[0m$ [0mcurl -s "https://api.obi.com/" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" 2>&1 | grep -oP 'api\.obi\.com/[^"<> ]+' | sort -u | head -20
+api.obi.com/resources/ed2aa240-empty.-3a7ffa49-6bb7-40cf-82f2-1fb4d3e36b5e.png)
+api.obi.com/resources/obi-602bf378-4c37-488d-a83d-0d35991e37ec.ico
+api.obi.com/resources/obi-logo-orange-76b0771d-4ad1-4dcf-a55e-cc6ce9b71058.svg
+[0m
+[0m$ [0mcurl -s "https://api.obi.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/product-management-api/" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" 2>&1 | grep -oP '"(downloadUrl|version|name|description|contactEmail|organizationId|groupId|assetId)":"[^"]*"' | head -30
+(no output)
+[0m
+[0m$ [0mcurl -s "https://api.obi.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/order-service-management-api/" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" 2>&1 | grep -oP '"(downloadUrl|version|name|description|contactEmail|organizationId|groupId|assetId)":"[^"]*"' | head -30
+(no output)
+[0m
+[0m$ [0mcurl -s "https://api.obi.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/order-invoice-management-api/" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" 2>&1 | grep -oP '"(downloadUrl|version|name|description|contactEmail|organizationId|groupId|assetId)":"[^"]*"' | head -30
+(no output)
+[0m
+[0m$ [0mcurl -s "https://api.obi.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/product-management-api/" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" 2>&1 | grep -oP '"[^"]*s3[^"]*"' | head -10
+(no output)
+[0m
+[0m$ [0mcurl -s "https://api.obi.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/product-management-api/" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" 2>&1 | grep -oP 'exchange2-asset-manager[^"< ]*' | head -10
+(no output)
+[0m
+[0m$ [0mcurl -s "https://api.obi.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/product-management-api/" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" 2>&1 | grep -oP 'https?://[^"<> ]+' | grep -i 's3\|download\|asset\|spec\|oas\|swagger\|raml' | head -10
+(no output)
+[0m
+[0m$ [0mcurl -s "https://eu1.anypoint.mulesoft.com/exchange/api/v1/organizations/e9d97593-77e2-4c1d-983c-b4593b3393ed/assets" -H "User-Agent: Mozilla/5.0" 2>&1 | head -c 3000
+{"name":"NotFoundError","status":404,"message":"Could not find organization with {\"domain\":\"e9d97593-77e2-4c1d-983c-b4593b3393ed\"}."}
+[0m
+[0m$ [0mcurl -s "https://eu1.anypoint.mulesoft.com/exchange/api/v1/organizations/e9d97593-77e2-4c1d-983c-b4593b3393ed" -H "User-Agent: Mozilla/5.0" 2>&1 | head -c 2000
+{"name":"Method Not Allowed","status":405,"message":"GET method not allowed"}
+[0m
+[0m$ [0mcurl -s "https://eu1.anypoint.mulesoft.com/exchange/api/v1/organizations/e9d97593-77e2-4c1d-983c-b4593b3393ed/assets?versionsSort=desc" -H "User-Agent: Mozilla/5.0" -H "Accept: application/json" 2>&1 | head -c 3000
+{"name":"NotFoundError","status":404,"message":"Could not find organization with {\"domain\":\"e9d97593-77e2-4c1d-983c-b4593b3393ed\"}."}
+[0m
+[0m$ [0mcurl -s "https://eu1.anypoint.mulesoft.com/exchange/api/v1/organizations/obi-smart-technologies-gmbh/assets" -H "User-Agent: Mozilla/5.0" -H "Accept: application/json" 2>&1 | head -c 5000
+[{"groupId":"e9d97593-77e2-4c1d-983c-b4593b3393ed","assetId":"order-service-management-api","version":"1.0.27","description":"API used to manage order updates for cancellations and to retrieve order details for sellers/middlewares","versionGroup":"v1","productAPIVersion":"v1","isPublic":true,"name":"Order Service Management API","type":"rest-api","isSnapshot":false,"status":"published","assetLink":"","createdAt":"2026-08-17T06:51:08.781Z","updatedAt":"2026-08-17T06:51:06.781Z","runtimeVersion":"","labels":[],"categories":[],"customFields":[],"tags":[{"value":"v1","key":"api-version"},{"value":"mulesoft","key":"platform"},{"value":"raml","key":null},{"value":"oas","key":null},{"value":"rest","key":null},{"value":"api","key":null},{"value":"oas","key":"original-format"},{"value":"3.0","key":"original-format-version"},{"value":"v1","key":"product-api-version"}],"files":[{"classifier":"fat-oas","packaging":"zip","externalLink":"https://exchange2-asset-manager-kprod-eu.s3.eu-central-1.amazonaws.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/36ff87e28cf71bf2b5fdb2e698e912a016e804c689fc067e0d170917f3c06ece.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIA54WIF6MGEHC6AHPL%2F20260904%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260904T140442Z&X-Amz-Expires=86400&X-Amz-Security-Token=IQoJb3JpZ2luX2VjECUaCXVzLWVhc3QtMSJHMEUCIEYveL3vX4MS9s%2FUnasvW%2BqzcilbGqBFIiNfXQUgAnl%2BAiEA0wM7iP%2BOgAV%2FIxcmKfuOS2YXSVDC2ybcvo5X7GzVsH0qtgII7f%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARABGgw5NTQ5NzYzMDE4MzYiDL4UaDZTF3VLQQCFayqKAnEdqUzFcYBNaMbVwhVnVqVE7fvS0xuLzSylvVce3wlj4VNN%2Bt92qv87i82RIMSnxf%2FXQB%2FFjdqyk7LXZVjBToOoj%2FISv4p2hjtWEyTbGestMZrthmLO8z66oCJ%2B4WcfmQLRdAOUk5hnEwMv3wjn8GkjEsLepbMkF%2BjmwgQtYkOlp8ROVXU2D7HZvFaDcKgAsAk0tAbmGHmuBtOShkT%2Ff6EodAmUZywLn2%2BElU41pnGQfBECrE2sW1NYZ9yB4vUKqeEwibGTXppgFAqrLVm0Xx7rXUl3CI8MjbrAT6u8J3Zglu0WbMZba8k05Itcy%2BFB1y4CeZ8ouANS02GoR4JdigqBvHz2OquSHlPcMPiO6dQGOp0B7G0dH2MBZjK6Xw6y8cS1nf7KWxNDIEsR52tFW4DXqXleVzuH6iug%2BTcdNPPmKNQFA5jy3VKdwyvfpvH9c10hd%2FjazzmKPQRSL%2BSnezfpLJcDEVs3qmt7tCfnnyDW6Lkmjz4uzjjk5FNqt3q5K9ViaIyGHxkSybtqsKgrPYL3AOWTQuPkzLSNdKyf%2Fjw99o%2BKDcQx%2FL4VpS6fL9gwqA%3D%3D&X-Amz-Signature=f4c51d0d84095a75a24bb2174361310741c7028ddd3a3536e3383c7cdbe32b27&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dorder-service-management-api-1.0.27-fat-oas.zip","md5":"de6b76894584280f5b0bbd91742b00f9","sha1":"bbc431a20a5c9373bae81b52e55cf7de71f82f33","sha256":null,"createdDate":"2026-08-17T06:51:06.781Z","mainFile":"openapi_anypoint.yaml","isGenerated":false},{"classifier":"fat-raml","packaging":"zip","externalLink":"https://exchange2-asset-manager-kprod-eu.s3.eu-central-1.amazonaws.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/5902bfc2acd88fdecb95c3c0103cc44d563fac0616e60d3450a9456127052c33.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIA54WIF6MGEHC6AHPL%2F20260904%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260904T140442Z&X-Amz-Expires=86400&X-Amz-Security-Token=IQoJb3JpZ2luX2VjECUaCXVzLWVhc3QtMSJHMEUCIEYveL3vX4MS9s%2FUnasvW%2BqzcilbGqBFIiNfXQUgAnl%2BAiEA0wM7iP%2BOgAV%2FIxcmKfuOS2YXSVDC2ybcvo5X7GzVsH0qtgII7f%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARABGgw5NTQ5NzYzMDE4MzYiDL4UaDZTF3VLQQCFayqKAnEdqUzFcYBNaMbVwhVnVqVE7fvS0xuLzSylvVce3wlj4VNN%2Bt92qv87i82RIMSnxf%2FXQB%2FFjdqyk7LXZVjBToOoj%2FISv4p2hjtWEyTbGestMZrthmLO8z66oCJ%2B4WcfmQLRdAOUk5hnEwMv3wjn8GkjEsLepbMkF%2BjmwgQtYkOlp8ROVXU2D7HZvFaDcKgAsAk0tAbmGHmuBtOShkT%2Ff6EodAmUZywLn2%2BElU41pnGQfBECrE2sW1NYZ9yB4vUKqeEwibGTXppgFAqrLVm0Xx7rXUl3CI8MjbrAT6u8J3Zglu0WbMZba8k05Itcy%2BFB1y4CeZ8ouANS02GoR4JdigqBvHz2OquSHlPcMPiO6dQGOp0B7G0dH2MBZjK6Xw6y8cS1nf7KWxNDIEsR52tFW4DXqXleVzuH6iug%2BTcdNPPmKNQFA5jy3VKdwyvfpvH9c10hd%2FjazzmKPQRSL%2BSnezfpLJcDEVs3qmt7tCfnnyDW6Lkmjz4uzjjk5FNqt3q5K9ViaIyGHxkSybtqsKgrPYL3AOWTQuPkzLSNdKyf%2Fjw99o%2BKDcQx%2FL4VpS6fL9gwqA%3D%3D&X-Amz-Signature=eec82a6b76cd3e65e2cd6de1276faa657226741bdc5a28451e20b2213107edb9&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dorder-service-management-api-1.0.27-raml.zip","md5":"25151c1c2e5734c775d05b37460265e2","sha1":"f53fca10ad704fd33f4350b90b34c8a6405a5ca0","sha256":null,"createdDate":"2026-08-17T06:51:06.781Z","mainFile":null,"isGenerated":true},{"classifier":"fat-rest-api-metadata","packaging":"zip","externalLink":"https://exchange2-asset-manager-kprod-eu.s3.eu-central-1.amazonaws.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/65b785f5a3402a6b6410812285c28e4feeccf4b380ffe5ef4c2ca977e67bd1de.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIA54WIF6MGEHC6AHPL%2F20260904%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260904T140442Z&X-Amz-Expires=86400&X-Amz-Security-Token=IQoJb3JpZ2luX2VjECUaCXVzLWVhc3QtMSJHMEUCIEYveL3vX4MS9s%2FUnasvW%2BqzcilbGqBFIiNfXQUgAnl%2BAiEA0wM7iP%2BOgAV%2FIxcmKfuOS2YXSVDC2ybcvo5X7GzVsH0qtgII7f%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARABGgw5NTQ5NzYzMDE4MzYiDL4UaDZTF3VLQQCFayqKAnEdqUzFcYBNaMbVwhVnVqVE7fvS0xuLzSylvVce3wlj4VNN%2Bt92qv87i82RIMSnxf%2FXQB%2FFjdqyk7LXZVjBToOoj%2FISv4p2hjtWEyTbGestMZrthmLO8z66oCJ%2B4WcfmQLRd
+[0m
+[0m$ [0mcurl -s "https://eu1.anypoint.mulesoft.com/exchange/api/v2/organizations/obi-smart-technologies-gmbh/assets" -H "User-Agent: Mozilla/5.0" -H "Accept: application/json" 2>&1 | head -c 5000
+[{"groupId":"e9d97593-77e2-4c1d-983c-b4593b3393ed","assetId":"order-service-management-api","version":"1.0.27","minorVersion":"1.0","versionGroup":"v1","description":"API used to manage order updates for cancellations and to retrieve order details for sellers/middlewares","isPublic":true,"name":"Order Service Management API","contactName":"Leena Shahdadpuri","contactEmail":"seller-support@obi.de","manager":null,"type":"rest-api","isSnapshot":false,"status":"published","externalFile":{"url":null},"createdDate":"2026-08-17T06:51:08.781Z","updatedDate":"2026-08-17T06:51:06.781Z","minMuleVersion":null,"labels":[],"categories":[],"files":[{"classifier":"fat-oas","packaging":"zip","externalLink":"https://exchange2-asset-manager-kprod-eu.s3.eu-central-1.amazonaws.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/36ff87e28cf71bf2b5fdb2e698e912a016e804c689fc067e0d170917f3c06ece.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIA54WIF6MGEHC6AHPL%2F20260904%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260904T140443Z&X-Amz-Expires=86400&X-Amz-Security-Token=IQoJb3JpZ2luX2VjECUaCXVzLWVhc3QtMSJHMEUCIEYveL3vX4MS9s%2FUnasvW%2BqzcilbGqBFIiNfXQUgAnl%2BAiEA0wM7iP%2BOgAV%2FIxcmKfuOS2YXSVDC2ybcvo5X7GzVsH0qtgII7f%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARABGgw5NTQ5NzYzMDE4MzYiDL4UaDZTF3VLQQCFayqKAnEdqUzFcYBNaMbVwhVnVqVE7fvS0xuLzSylvVce3wlj4VNN%2Bt92qv87i82RIMSnxf%2FXQB%2FFjdqyk7LXZVjBToOoj%2FISv4p2hjtWEyTbGestMZrthmLO8z66oCJ%2B4WcfmQLRdAOUk5hnEwMv3wjn8GkjEsLepbMkF%2BjmwgQtYkOlp8ROVXU2D7HZvFaDcKgAsAk0tAbmGHmuBtOShkT%2Ff6EodAmUZywLn2%2BElU41pnGQfBECrE2sW1NYZ9yB4vUKqeEwibGTXppgFAqrLVm0Xx7rXUl3CI8MjbrAT6u8J3Zglu0WbMZba8k05Itcy%2BFB1y4CeZ8ouANS02GoR4JdigqBvHz2OquSHlPcMPiO6dQGOp0B7G0dH2MBZjK6Xw6y8cS1nf7KWxNDIEsR52tFW4DXqXleVzuH6iug%2BTcdNPPmKNQFA5jy3VKdwyvfpvH9c10hd%2FjazzmKPQRSL%2BSnezfpLJcDEVs3qmt7tCfnnyDW6Lkmjz4uzjjk5FNqt3q5K9ViaIyGHxkSybtqsKgrPYL3AOWTQuPkzLSNdKyf%2Fjw99o%2BKDcQx%2FL4VpS6fL9gwqA%3D%3D&X-Amz-Signature=9a11d04c97455aa74e6766afc5d5d8a8034010c4bac5b93ba30bfa328f5bd600&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dorder-service-management-api-1.0.27-fat-oas.zip","downloadURL":"https://eu1.anypoint.mulesoft.com/exchange/files/api/v1/organizations/e9d97593-77e2-4c1d-983c-b4593b3393ed/assets/e9d97593-77e2-4c1d-983c-b4593b3393ed/order-service-management-api/1.0.27/fat-oas/zip?source=Exchange%20API%20%26%20Graph%20Service","createdDate":"2026-08-17T06:51:06.781Z","md5":"de6b76894584280f5b0bbd91742b00f9","sha1":"bbc431a20a5c9373bae81b52e55cf7de71f82f33","sha256":null,"mainFile":"openapi_anypoint.yaml","isGenerated":false},{"classifier":"fat-raml","packaging":"zip","externalLink":"https://exchange2-asset-manager-kprod-eu.s3.eu-central-1.amazonaws.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/5902bfc2acd88fdecb95c3c0103cc44d563fac0616e60d3450a9456127052c33.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIA54WIF6MGEHC6AHPL%2F20260904%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260904T140443Z&X-Amz-Expires=86400&X-Amz-Security-Token=IQoJb3JpZ2luX2VjECUaCXVzLWVhc3QtMSJHMEUCIEYveL3vX4MS9s%2FUnasvW%2BqzcilbGqBFIiNfXQUgAnl%2BAiEA0wM7iP%2BOgAV%2FIxcmKfuOS2YXSVDC2ybcvo5X7GzVsH0qtgII7f%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FARABGgw5NTQ5NzYzMDE4MzYiDL4UaDZTF3VLQQCFayqKAnEdqUzFcYBNaMbVwhVnVqVE7fvS0xuLzSylvVce3wlj4VNN%2Bt92qv87i82RIMSnxf%2FXQB%2FFjdqyk7LXZVjBToOoj%2FISv4p2hjtWEyTbGestMZrthmLO8z66oCJ%2B4WcfmQLRdAOUk5hnEwMv3wjn8GkjEsLepbMkF%2BjmwgQtYkOlp8ROVXU2D7HZvFaDcKgAsAk0tAbmGHmuBtOShkT%2Ff6EodAmUZywLn2%2BElU41pnGQfBECrE2sW1NYZ9yB4vUKqeEwibGTXppgFAqrLVm0Xx7rXUl3CI8MjbrAT6u8J3Zglu0WbMZba8k05Itcy%2BFB1y4CeZ8ouANS02GoR4JdigqBvHz2OquSHlPcMPiO6dQGOp0B7G0dH2MBZjK6Xw6y8cS1nf7KWxNDIEsR52tFW4DXqXleVzuH6iug%2BTcdNPPmKNQFA5jy3VKdwyvfpvH9c10hd%2FjazzmKPQRSL%2BSnezfpLJcDEVs3qmt7tCfnnyDW6Lkmjz4uzjjk5FNqt3q5K9ViaIyGHxkSybtqsKgrPYL3AOWTQuPkzLSNdKyf%2Fjw99o%2BKDcQx%2FL4VpS6fL9gwqA%3D%3D&X-Amz-Signature=fb3887bae6f140765ef0259c46bbd9bd971bde4273e0f1c53fe4ce597cc09710&X-Amz-SignedHeaders=host&response-content-disposition=attachment%3B%20filename%3Dorder-service-management-api-1.0.27-raml.zip","downloadURL":"https://eu1.anypoint.mulesoft.com/exchange/files/api/v1/organizations/e9d97593-77e2-4c1d-983c-b4593b3393ed/assets/e9d97593-77e2-4c1d-983c-b4593b3393ed/order-service-management-api/1.0.27/fat-raml/zip?source=Exchange%20API%20%26%20Graph%20Service","createdDate":"2026-08-17T06:51:06.781Z","md5":"25151c1c2e5734c775d05b37460265e2","sha1":"f53fca10ad704fd33f4350b90b34c8a6405a5ca0","sha256":null,"mainFile":null,"isGenerated":true},{"classifier":"fat-rest-api-metadata","packaging":"zip","externalLink":"https://exchange2-asset-manager-kprod-eu.s3.eu-central-1.amazonaws.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/65b785f5a3402a6b6410812285c28e4feeccf4b380ffe5ef4c2ca977e67bd1de.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=ASIA54WIF6MGEHC6AHPL%2F20260904%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20260904T140443Z&X-Amz-Expires=86400&X-Amz-Security-Token=IQoJb3JpZ2luX2VjECUaCXVzLWVhc3QtMSJHMEUCIEYveL3vX4MS9s%2FUnasvW%2BqzcilbGqBFIiNf
+[0m
+[0m$ [0mcurl -s "https://eu1.anypoint.mulesoft.com/exchange/api/v2/organizations/obi-smart-technologies-gmbh/assets" -H "User-Agent: Mozilla/5.0" -H "Accept: application/json" 2>&1 | python3 -c "
+import json,sys
+data=json.load(sys.stdin)
+for a in data:
+    print(f\"API: {a['name']} | assetId: {a['assetId']} | version: {a['version']} | contact: {a.get('contactEmail','N/A')} | type: {a.get('type','N/A')}\")" 2>&1
+API: Order Service Management API | assetId: order-service-management-api | version: 1.0.27 | contact: seller-support@obi.de | type: rest-api
+API: OMM - Order Shipment Status Webhook | assetId: shipping-status-webhook | version: 0.0.2 | contact: smarttech_omni_trx_ordermanagement@obi.de | type: rest-api
+API: Product Management API | assetId: product-management-api | version: 1.1.6 | contact: None | type: rest-api
+API: Price Management API | assetId: price-management-api1 | version: 1.1.5 | contact: seller-support@obi.de | type: rest-api
+API: Inventory Management API | assetId: inventory-management-api | version: 1.1.6 | contact: seller-support@obi.de | type: rest-api
+API: Order Invoice Management API | assetId: order-invoice-management-api | version: 1.0.26 | contact: seller-support@obi.de | type: rest-api
+API: Subscription Management API | assetId: subscription-management-api | version: 1.0.20 | contact: seller-support@obi.de | type: rest-api
+API: Transactions Management API | assetId: transactions-management-api | version: 1.1.4 | contact: None | type: rest-api
+API: Seller Portal: Payout info | assetId: seller-portal-payout-info | version: 1.0.0 | contact: None | type: http-api
+API: Seller Portal: Schritt-für-Schritt Anleitung zum verkaufsfähigen Produkt | assetId: schritt-fr-schritt-anleitung-zum-verkaufsfhigen-produkt | version: 1.0.0 | contact: None | type: http-api
+API: Seller Portal: OBI Partner Guide_Bestellabwicklung | assetId: vtex-seller-portal-klickdokumentation | version: 1.0.0 | contact: None | type: http-api
+API: FAQs regarding API integrations & seller authentification steps | assetId: api-documentation-incl-seller-onboarding-steps | version: 1.0.0 | contact: None | type: http-api
+API: Portal Customization | assetId: 76ed192a-bcca-4585-b650-ce4b4eb71533 | version: 1.7.0 | contact: None | type: portal-customization
+[0m
+Now I have the full unauthenticated API catalog from the MuleSoft Exchange. Let me get the complete list of all APIs and download an OAS spec to extract actual endpoint details.
+[0m$ [0mcurl -s "https://eu1.anypoint.mulesoft.com/exchange/api/v1/organizations/obi-smart-technologies-gmbh/assets" -H "User-Agent: Mozilla/5.0" -H "Accept: application/json" 2>&1 | python3 -c "
+import json,sys
+data=json.load(sys.stdin)
+for a in data:
+    print(f\"API: {a['name']} | assetId: {a['assetId']} | version: {a['version']} | desc: {a.get('description','N/A')[:120]}\")" 2>&1
+API: Order Service Management API | assetId: order-service-management-api | version: 1.0.27 | desc: API used to manage order updates for cancellations and to retrieve order details for sellers/middlewares
+API: OMM - Order Shipment Status Webhook | assetId: shipping-status-webhook | version: 0.0.2 | desc: 
+API: Product Management API | assetId: product-management-api | version: 1.1.6 | desc: 
+API: Price Management API | assetId: price-management-api1 | version: 1.1.5 | desc: API used to manage price information for sellers/middlewares
+API: Inventory Management API | assetId: inventory-management-api | version: 1.1.6 | desc: API used to manage inventory information for sellers/middlewares
+API: Order Invoice Management API | assetId: order-invoice-management-api | version: 1.0.26 | desc: API used for updating orders to the status "Invoiced“ (full / partial) or to create "Returns" (full / partial)
+API: Subscription Management API | assetId: subscription-management-api | version: 1.0.20 | desc: API's for sellers/middlewares to enable them to subscribe to events in the OBI DE platforming team, eg order creation, o
+API: Transactions Management API | assetId: transactions-management-api | version: 1.1.4 | desc: 
+API: Seller Portal: Payout info | assetId: seller-portal-payout-info | version: 1.0.0 | desc: 
+API: Seller Portal: Schritt-für-Schritt Anleitung zum verkaufsfähigen Produkt | assetId: schritt-fr-schritt-anleitung-zum-verkaufsfhigen-produkt | version: 1.0.0 | desc:
+[0m
+[93m[1m! [0mpermission requested: external_directory (/tmp/*); auto-rejecting
+[0m✗ [0mmkdir -p /tmp/obi-hunt && cd /tmp/obi-hunt && curl -s -L -o order-service-oas.zip "https://eu1.anypoint.mulesoft.com/exchange/files/api/v1/organizations/e9d97593-77e2-4c1d-983c-b4593b3393ed/assets/e9d97593-77e2-4c1d-983c-b4593b3393ed/order-service-management-api/1.0.27/fat-oas/zip?source=Exchange%20API%20%26%20Graph%20Service" -H "User-Agent: Mozilla/5.0" -w "%{http_code}" 2>&1 failed
+[91m[1mError: [0mThe user rejected permission to use this specific tool call.
+[93m[1m! [0mpermission requested: external_directory (/tmp/*); auto-rejecting
+[0m✗ [0mcd /tmp/obi-hunt && curl -s -L -o product-management-oas.zip "https://eu1.anypoint.mulesoft.com/exchange/files/api/v1/organizations/e9d97593-77e2-4c1d-983c-b4593b3393ed/assets/e9d97593-77e2-4c1d-983c-b4593b3393ed/product-management-api/1.1.6/fat-oas/zip?source=Exchange%20API%20%26%20Graph%20Service" -H "User-Agent: Mozilla/5.0" -w "%{http_code}" 2>&1 failed
+[91m[1mError: [0mThe user rejected permission to use this specific tool call.

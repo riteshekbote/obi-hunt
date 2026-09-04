@@ -56,3 +56,16 @@ www.obi.de
 - CHANGED api.obi.com: Full JSON API catalog extracted from SPA HTML body — 4 marketplace APIs with complete metadata (names, descriptions, versions, S3 signed download URLs, org IDs, contact emails). Portal se
 - CHANGED api.obi.com: MuleSoft Anypoint org `trx-fulfillmentsellersteering` (ID `e9d97593-77e2-4c1d-983c-b4593b3393ed`), parent org `f970166b-9dae-4e62-976d-cfccd05e93ff`, domain `obi-smart-technologies-gmbh`
 - CHANGED api.obi.com: S3 signed download URLs for API spec files (OAS/RAML/ZIP) point to `exchange2-asset-manager-kprod-eu.s3.eu-central-1.amazonaws.com` with temp AWS credentials embedded in query strings
+
+## 2026-09-04 14:16:57 UTC
+- NEW api.live.app.obi.de/v1/beta → HTTP 401 (Spring Boot actuator-style endpoint exists, auth-gated)
+- NEW api.live.app.obi.de/v1/test → HTTP 401 (test endpoint exists, auth-gated)
+- NEW api.live.app.obi.de/v1/swagger → HTTP 401 (OpenAPI UI endpoint exists, auth-gated)
+- NEW api.live.app.obi.de/v1/openapi.json → HTTP 401 (OpenAPI spec endpoint exists, auth-gated)
+- NEW api.live.app.obi.de/v1/graphql → HTTP 401 (GraphQL endpoint exists, auth-gated)
+- NEW api.live.app.obi.de/v1/metrics → HTTP 401 (Prometheus metrics endpoint exists, auth-gated)
+- NEW api.live.app.obi.de/v1/actuator/health → HTTP 401 (Spring actuator health exists, auth-gated)
+- CHANGED assets.obi.de/seller-side-panel/resources/index-BUGS3Fny.js → HTTP 404 confirmed (bundle filename rotated/removed, new name unknown)
+- CHANGED api.live.app.obi.de fully enumerated: /v1/ base 200, all 10 tested sub-paths return 401 — no unauthenticated leakage found
+- CHANGED api.obi.com: Full JSON catalog of 4 marketplace APIs (Product v1.1.6, Price v1.1.5, Inventory v1.1.6, Order Invoice v1.0.26) extractable from SPA HTML body without JS execution; S3 signed download URL
+- CHANGED api.obi.com: S3 signed URLs point to exchange2-asset-manager-kprod-eu.s3.eu-central-1.amazonaws.com with 86400s expiry AWS temp credentials in query strings

@@ -58,3 +58,8 @@ https://api.live.app.obi.de/v1/metrics -> HTTP 401
 https://api.live.app.obi.de/v1/actuator/health -> HTTP 401
 https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
 https://www.obi.de/explore/recommendations/api/internal/v6/ -> HTTP 404
+
+## 2026-09-04 14:17:01 UTC
+https://api.live.app.obi.de/v1/ -> 200 len=?
+https://api.live.app.obi.de/v1/auth/login -> HTTP 401
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
