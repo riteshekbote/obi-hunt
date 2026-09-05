@@ -83,3 +83,8 @@ www.obi.de
 - CHANGED Knowledge base holds 3 superseded REJECTED rows claiming /account/api/public/jwt/validate is 404; the 09-04 ACCEPTED fact (reachable with browser UA, GET/HEAD 200 + clears obi-auth, POST no-session 40
 - CHANGED /explore/recommendations/api/internal/v6/recommendations now 500 (not 401/403) with browser UA — origin app live, error type implies missing-params, not auth gate.
 - NEW None — no additional surface probed since last update; assets.obi.de seller-side-panel fully rotated (404 root + resources), api.live.app.obi.de remains fully 401-gated across all 17 sub-paths.
+
+## 2026-09-05 04:40:47 UTC
+- CHANGED www.obi.de/account/api/public/jwt/validate: Previously REJECTED as 404 (curl/HEAD), now ACCEPTED as live with browser UA (GET/HEAD 200, text/javascript len 0, Set-Cookie expires obi-auth; POST w/o ses
+- CHANGED www.obi.de/explore/recommendations/api/internal/v6/recommendations: Now returns 500 with browser UA (was 404) — origin app live, 500 indicates missing params not auth gate, candidate for passive param
+- NEW No additional surface probed since last update; assets.obi.de seller-side-panel fully rotated (404 root + resources), api.live.app.obi.de remains fully 401-gated across all 17 sub-paths.

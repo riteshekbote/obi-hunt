@@ -105,3 +105,9 @@
 - NEXT(hypotheses-bigpickle.txt): PROBE: GET https://www.obi.de/account/ and GET https://www.obi.de/account/api/ with User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KH
 - LEARN: ACCEPTED AUTH @ www.obi.de: /account/api/public/jwt/validate reachable from edge with browser UA — GET/HEAD 200 (text/javascript, len 0) + Set-Cookie expires ob
 - LEARN: ACCEPTED ENDPOINT-MAP @ www.obi.de: /explore/recommendations/api/internal/v6/recommendations returns 500 with browser UA — origin app live; 500 (not 401/403) in
+
+## RANKED HYPOTHESES 2026-09-05 04:40:47 UTC
+- [92] api.obi.com: MuleSoft Exchange Portal — Unauthenticated Full API Spec Download & Endpoint Enumeration via S3 Signed URLs (from art/lead_nemotron3.txt)
+- NEXT(hypotheses-nemotron3.txt): PROBE: GET https://www.obi.de/account/ and GET https://www.obi.de/account/api/ with User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KH
+- LEARN: ACCEPTED AUTH @ www.obi.de: /account/api/public/jwt/validate reachable from edge with browser UA — GET/HEAD 200 (text/javascript, len 0) + Set-Cookie expires ob
+- LEARN: ACCEPTED ENDPOINT-MAP @ www.obi.de: /explore/recommendations/api/internal/v6/recommendations returns 500 with browser UA — origin app live; 500 (not 401/403) in

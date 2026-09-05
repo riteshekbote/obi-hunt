@@ -1584,3 +1584,65 @@ Full output saved to: /home/runner/.local/share/opencode/tool-output/tool_06ee82
 [93m[1m! [0mpermission requested: external_directory (/tmp/*); auto-rejecting
 [0m✗ [0mRead /tmp/api_obi.html failed
 [91m[1mError: [0mThe user rejected permission to use this specific tool call.
+===== ANALYST nemotron3 2026-09-05 04:40:47 UTC =====
+[0m
+> build · nemotron-3-ultra-free
+[0m
+# STEP 1 — DELTA
+[CHANGED] www.obi.de/account/api/public/jwt/validate: Previously REJECTED as 404 (curl/HEAD), now ACCEPTED as live with browser UA (GET/HEAD 200, text/javascript len 0, Set-Cookie expires obi-auth; POST w/o session 405). CloudFront edge routes by UA+cookies.
+[CHANGED] www.obi.de/explore/recommendations/api/internal/v6/recommendations: Now returns 500 with browser UA (was 404) — origin app live, 500 indicates missing params not auth gate, candidate for passive parameter fuzzing.
+[NEW] No additional surface probed since last update; assets.obi.de seller-side-panel fully rotated (404 root + resources), api.live.app.obi.de remains fully 401-gated across all 17 sub-paths.
+
+# STEP 2 — PRIORITIZE
+[PRIO] api.obi.com,9.55,attack_surface=10(4 cataloged marketplace APIs + S3 spec access),business_value=9(marketplace/order/payment/inventory),tech_exposure=10(MuleSoft Exchange + CORS:* + embedded S3 signed URLs with temp AWS creds),gate_ease=10(public no auth),cloud_surface=9(CF+MuleSoft+S3 shared infra),freshness=9(active seller portal, live signed URLs)
+[PRIO] api.live.app.obi.de,8.35,attack_surface=9(mobile API v1 + 17 enumerated versioned/debug/admin/actuator paths),business_value=9(customer auth/data 10M+ users),tech_exposure=8(Envoy/K8s + Spring Boot actuator/swagger/graphql/metrics exposed but auth-gated),gate_ease=7(base path open),cloud_surface=7(Envoy on K8s),freshness=9(active, fully mapped)
+[PRIO] www.obi.de,8.15,attack_surface=9(Vtex/Discover CMS + JWT validate endpoint in prod JS),business_value=10(e-comm 10M users + payments),tech_exposure=8(JWT alg confusion viable per prod JS),gate_ease=4(browser UA+cookies required at CloudFront edge),cloud_surface=8(CF+Baqend),freshness=8(Vtex 2024)
+
+# STEP 3 — HYPOTHESES
+[HYP] MuleSoft Exchange Portal — Unauthenticated Full API Spec Download & Endpoint Enumeration via S3 Signed URLs
+class: MISCONFIG
+asset: api.obi.com
+confidence: 92
+reasoning: Portal root returns full JSON catalog of 4 marketplace APIs (Product v1.1.6, Price v1.1.5, Inventory v1.1.6, Order Invoice v1.0.26) with S3 signed download URLs for OAS/RAML/ZIP specs. CORS: * allows cross-origin read. S3 URLs point to exchange2-asset-manager-kprod-eu.s3.eu-central-1.amazonaws.com with 86400s expiry AWS temp credentials in query strings. Org: trx-fulfillmentsellersteering (e9d97593-77e2-4c1d-983c-b4593b339ed).
+evidence_needed: Confirm S3 signed URLs serve actual API spec files; verify spec files contain actual endpoint URLs, request/response schemas, auth requirements, and any internal hostnames
+verify_steps: GET https://api.obi.com/ with Accept: text/html,application/xhtml+xml and User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 — extract embedded JSON catalog from HTML body, parse S3 signed download URLs, then GET the Product Management API OAS spec ZIP via signed URL to extract actual endpoint URLs, request/response schemas, and auth requirements
+impact: Attacker maps entire OBI marketplace backend: order flows, price management, inventory systems, invoice handling. S3 signed URLs reveal AWS infrastructure. Combined with CORS:*, automated cross-origin scraping of full API catalog possible. Severity: HIGH
+testability: PASSIVE
+
+[HYP] Mobile API v1 — Spring Boot Actuator/Swagger/GraphQL Endpoints Auth-Gated But Enumerated
+class: AUTH
+asset: api.live.app.obi.de
+confidence: 75
+reasoning: /v1/ base returns 200 (Envoy proxy), all 17 enumerated sub-paths (/users, /orders, /cart, /profile, /health, /auth/login, /admin, /debug, /v2/, /internal/, /beta, /test, /swagger, /openapi.json, /graphql, /metrics, /actuator/health) return 401. Spring Boot actuator endpoints (health, metrics, openapi.json, swagger) and GraphQL exist but are auth-gated. Versioned paths suggest legacy/undocumented endpoints may exist. No unauthenticated info leakage found at /v1/ root response.
+evidence_needed: Confirm no unauthenticated data in /v1/ root response body; check for IDOR on predictable object IDs if any endpoint accepts IDs; verify JWT token format and algorithm used
+verify_steps: GET https://api.live.app.obi.de/v1/ (analyze response body for endpoint hints/version info) → OPTIONS https://api.live.app.obi.de/v1/ (CORS) → POST https://api.live.app.obi.de/v1/auth/login with empty body (observe error format) → if auth obtained, test GET /v1/users/{id} with incrementing IDs for IDOR
+impact: Full customer account access, order history, payment methods, PII for mobile app users. Severity: HIGH
+testability: PASSIVE
+
+[HYP] JWT Validation Endpoint — Potential Algorithm Confusion with Authenticated Session
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 65
+reasoning: Frontend JavaScript calls /account/api/public/jwt/validate to check session state. Endpoint returns GET/HEAD 200 (text/javascript, len 0) + Set-Cookie expires obi-auth with browser UA; POST w/o session 405. heyOBI uses JWT for customer auth across 10M+ users. If validation accepts alg:none or allows key confusion (RS256→HS256), account takeover is possible.
+evidence_needed: Confirm endpoint responds to POST with JWT body under browser-like conditions with valid session; identify JWT algorithm and key handling; test alg:none and alg confusion
+verify_steps: GET https://www.obi.de/account/ and GET https://www.obi.de/account/api/ with browser UA to map account-api tree and locate sibling public endpoints → obtain authenticated session → POST https://www.obi.de/account/api/public/jwt/validate with Content-Type: application/json, browser UA, cookies, body: {"token":""} → observe response → craft test JWT with alg:none → POST with test JWT → check if rejected correctly → if RS256, test HS256 key confusion using public key as HMAC secret
+impact: Account takeover of 10M+ heyOBI users, access to purchase history, payment methods, personal data. Severity: CRITICAL
+testability: AUTH_HELPED
+
+# STEP 4 — SELF-CRITIQUE
+[PARKED] Cross-Seller IDOR via Unscoped Object Endpoints on Marketplace APIs: confidence 52 but requires authenticated seller context + valid object IDs from spec files; no verify steps without first downloading spec files from api.obi.com — dependent on HYP1 completion
+[PARKED] Baqend BaaS Speed Kit Data Exposure via Misconfigured Permissions: confidence 55 but Baqend platform specifics unknown; verify steps generic; may require auth from start; lower priority vs confirmed exposed assets
+[PARKED] Seller Onboarding JS Bundle Secrets: confidence dropped to 35 — bundle filename rotated (index-BUGS3Fny.js → 404), new filename unknown; no current accessible artifact to analyze; assets.obi.de/ root returns only 39 bytes
+[FINAL] 1. MuleSoft Exchange Portal — Unauthenticated Full API Spec Download & Endpoint Enumeration via S3 Signed URLs (api.obi.com, confidence 92, PASSIVE, HIGH impact)
+[FINAL] 2. Mobile API v1 — Spring Boot Actuator/Swagger/GraphQL Endpoints Auth-Gated But Enumerated (api.live.app.obi.de, confidence 75, PASSIVE, HIGH impact)
+[FINAL] 3. JWT Validation Endpoint — Potential Algorithm Confusion with Authenticated Session (www.obi.de/account/api/public/jwt/validate, confidence 65, AUTH_HELPED, CRITICAL impact)
+
+# STEP 5 — NEXT ACTION
+[NEXT] PROBE: GET https://www.obi.de/account/ and GET https://www.obi.de/account/api/ with User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 to map the account-api tree and locate sibling public endpoints
+
+# STEP 6 — LEARNING
+[LEARN] ACCEPTED AUTH @ www.obi.de: /account/api/public/jwt/validate reachable from edge with browser UA — GET/HEAD 200 (text/javascript, len 0) + Set-Cookie expires obi-auth; POST w/o session 405. Supersedes three earlier REJECTED rows; curl/HEAD 404 = UA-based edge routing, endpoint is live. (Confirms prior tail.)
+[LEARN] ACCEPTED ENDPOINT-MAP @ www.obi.de: /explore/recommendations/api/internal/v6/recommendations returns 500 with browser UA — origin app live; 500 (not 401/403) indicates missing params, candidate for passive parameter fuzzing. (Confirms prior tail.)
+
+# STEP 7 — RISK
+[RISK] obi: 35/100 — All probes passive GET/HEAD/OPTIONS at ≤1 rps; no customer data accessed; no auth bypass attempted; next probe targets account API tree mapping on www.obi.de with browser UA (read-only); S3 signed URLs are temporary (86400s expiry) and scoped to MuleSoft shared infrastructure; program rules prohibit data exposure during testing — risk remains low

@@ -3566,3 +3566,179 @@ testability: PASSIVE
 
 ## STEP 7 — RISK
 [RISK] obi: 43/100 — All actions read-only GET/HEAD/OPTIONS at ≤1 rps with browser UA against OBI-owned endpoints; no credentials, no real customer data, no auth-bypass or mutating tests (JWT/IDOR verifications deferred until an authorized session exists). Reachability/param-behavior observations only; portal CORS:*/S3 findings already banked, no new exposure. Risk reflects confirmed financial-order API surface (transaction/order/invoice) strengthening future AUTH_HELPED work. No program-rule violations.
+===== ANALYST bigpickle 2026-09-05 04:40:47 UTC =====
+[0m
+> build · big-pickle
+[0m
+[0m$ [0mBROWSER="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+for p in "/account/" "/account/api/" "/account/api/public/" "/account/api/public/jwt/" "/account/api/public/jwt/validate"; do
+  echo "== $p"
+  curl -sS -o /tmp/obi_body -D /tmp/obi_hdr -w "STATUS:%{http_code} TYPE:%{content_type} SIZE:%{size_download}\n" -H "User-Agent: $BROWSER" -H "Accept: text/html,application/xhtml+xml" "https://www.obi.de$p" 2>&1
+  grep -iE "^(content-type|set-cookie|access-control|www-authenticate|location|server|via|x-|cf-ray|cf-cache)" /tmp/obi_hdr | head -20
+  echo "-- body head: [$(head -c 120 /tmp/obi_body | tr '\n' ' ')]"
+  sleep 1
+done
+== /account/
+STATUS:404 TYPE:text/html; charset=utf-8 SIZE:135315
+content-type: text/html; charset=utf-8
+x-cache: Error from cloudfront
+via: 1.1 874d2226efce88074e49219a95089ade.cloudfront.net (CloudFront)
+x-amz-cf-pop: IAD61-P9
+x-amz-cf-id: vi8eUnYY0dl2xLAbw9goCqBDYtzfCHdnZQgJq6AHS2yWqhglmzdJbg==
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+-- body head: [<!DOCTYPE html> <html lang="de-DE"> <head>     <!-- BEGIN ssi_metrics_fragment_default -->     <script id="metricsApi.ss]
+== /account/api/
+STATUS:404 TYPE:text/html; charset=utf-8 SIZE:135315
+content-type: text/html; charset=utf-8
+x-cache: Error from cloudfront
+via: 1.1 9d4b926b2502a3881ced93ebb5a88e28.cloudfront.net (CloudFront)
+x-amz-cf-pop: IAD61-P9
+x-amz-cf-id: IYOhz4fQ_sBgSuJyVz2JC4aotrfZm_EyclXP-X4HH3ENtxvef6pVEw==
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+-- body head: [<!DOCTYPE html> <html lang="de-DE"> <head>     <!-- BEGIN ssi_metrics_fragment_default -->     <script id="metricsApi.ss]
+== /account/api/public/
+STATUS:404 TYPE:text/html; charset=utf-8 SIZE:135315
+content-type: text/html; charset=utf-8
+x-cache: Error from cloudfront
+via: 1.1 42d5fcec36fd38fa462bcec0f5f654fe.cloudfront.net (CloudFront)
+x-amz-cf-pop: IAD61-P9
+x-amz-cf-id: 9OykS0GqJN3ZAAucBT7mVhCkUdbMSI59acu73PjS6CkJzah9c9Z-5Q==
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+-- body head: [<!DOCTYPE html> <html lang="de-DE"> <head>     <!-- BEGIN ssi_metrics_fragment_default -->     <script id="metricsApi.ss]
+== /account/api/public/jwt/
+STATUS:404 TYPE:text/html; charset=utf-8 SIZE:135315
+content-type: text/html; charset=utf-8
+x-cache: Error from cloudfront
+via: 1.1 d94998d26d2db59fa413e8225b5c045e.cloudfront.net (CloudFront)
+x-amz-cf-pop: IAD61-P9
+x-amz-cf-id: Ug66Il3jclSpVcIZVR2cK_P3vfN-TMbIgNQS1FHy2t4ZZ_gMnDHKkg==
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+-- body head: [<!DOCTYPE html> <html lang="de-DE"> <head>     <!-- BEGIN ssi_metrics_fragment_default -->     <script id="metricsApi.ss]
+== /account/api/public/jwt/validate
+STATUS:406 TYPE:text/html;charset=UTF-8 SIZE:280
+content-type: text/html;charset=UTF-8
+x-content-type-options: nosniff
+x-frame-options: DENY
+x-xss-protection: 0
+x-cache: Error from cloudfront
+via: 1.1 8c35d9f8e012281d9fc1c918b8394b84.cloudfront.net (CloudFront)
+x-amz-cf-pop: IAD61-P9
+x-amz-cf-id: t4TKLHNhaex8KYR71iwgD8CsC9k3NJMJ09BOcBy77RTuJOvomGJEyg==
+-- body head: [<html><body><h1>Whitelabel Error Page</h1><p>This application has no explicit mapping for /error, so you are seeing this]
+[0m
+[0m$ [0mBROWSER="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+E="/account/api/public/jwt/validate"
+echo "== GET Accept: */*"
+curl -sS -o /tmp/b1 -D /tmp/h1 -w "STATUS:%{http_code} TYPE:%{content_type} SIZE:%{size_download}\n" -H "User-Agent: $BROWSER" -H "Accept: */*" "https://www.obi.de$E"
+grep -iE "^(content-type|set-cookie|access-control|www-authenticate|location|server)" /tmp/h1
+echo "[body] [$(head -c 200 /tmp/b1 | tr '\n' ' ')]"
+sleep 1
+echo "== GET Accept: application/json"
+curl -sS -o /tmp/b2 -D /tmp/h2 -w "STATUS:%{http_code} TYPE:%{content_type} SIZE:%{size_download}\n" -H "User-Agent: $BROWSER" -H "Accept: application/json" "https://www.obi.de$E"
+grep -iE "^(content-type|set-cookie|access-control|www-authenticate|location|server)" /tmp/h2
+echo "[body] [$(head -c 200 /tmp/b2 | tr '\n' ' ')]"
+sleep 1
+echo "== OPTIONS w/ Origin (preflight)"
+curl -sS -o /tmp/b3 -D /tmp/h3 -w "STATUS:%{http_code} TYPE:%{content_type} SIZE:%{size_download}\n" -X OPTIONS -H "User-Agent: $BROWSER" -H "Origin: https://www.obi.de" -H "Access-Control-Request-Method: POST" -H "Access-Control-Request-Headers: content-type" "https://www.obi.de$E"
+grep -iE "^(content-type|set-cookie|access-control|allow|vary|server)" /tmp/h3
+echo "[body] [$(head -c 200 /tmp/b3 | tr '\n' ' ')]"
+sleep 1
+echo "== HEAD Accept: application/javascript"
+curl -sS -o /dev/null -I -w "STATUS:%{http_code} TYPE:%{content_type} SIZE:%{size_download}\n" -H "User-Agent: $BROWSER" -H "Accept: application/javascript" "https://www.obi.de$E"
+sleep 1
+echo "== GET recommendations v6 empty"
+curl -sS -o /tmp/b4 -D /tmp/h4 -w "STATUS:%{http_code} TYPE:%{content_type} SIZE:%{size_download}\n" -H "User-Agent: $BROWSER" -H "Accept: application/json" "https://www.obi.de/explore/recommendations/api/internal/v6/recommendations"
+grep -iE "^(content-type|access-control|www-authenticate|x-)" /tmp/h4
+echo "[body] [$(head -c 200 /tmp/b4 | tr '\n' ' ')]"
+== GET Accept: */*
+STATUS:200 TYPE:text/javascript SIZE:0
+server: CloudFront
+content-type: text/javascript
+server-timing: intid;desc=490d004c75970947
+set-cookie: obi-auth=; Max-Age=0; Path=/; Secure; Domain=.obi.de
+set-cookie: obi_storeid=000; Max-Age=31536000; Path=/; Secure;
+set-cookie: sdgvlhr=1; Max-Age=31536000; Path=/; Secure; HttpOnly;
+set-cookie: sdgvlhr-ro=1; Max-Age=31536000; Path=/; Secure;
+[body] []
+== GET Accept: application/json
+STATUS:406 TYPE:application/json SIZE:120
+content-type: application/json
+[body] [{"timestamp":"2026-09-05T04:39:27.528Z","status":406,"error":"Not Acceptable","path":"/account/api/public/jwt/validate"}]
+== OPTIONS w/ Origin (preflight)
+STATUS:200 TYPE: SIZE:0
+server: CloudFront
+set-cookie: obi-auth=; Max-Age=0; Path=/; Secure; Domain=.obi.de
+set-cookie: obi_storeid=000; Max-Age=31536000; Path=/; Secure;
+set-cookie: sdgvlhr=1; Max-Age=31536000; Path=/; Secure; HttpOnly;
+set-cookie: sdgvlhr-ro=1; Max-Age=31536000; Path=/; Secure;
+[body] []
+== HEAD Accept: application/javascript
+STATUS:406 TYPE: SIZE:0
+== GET recommendations v6 empty
+STATUS:500 TYPE: SIZE:0
+access-control-allow-origin: *
+x-cache: Error from cloudfront
+x-amz-cf-pop: IAD61-P9
+x-amz-cf-id: s6L3ML3Odo494p0VnUjLqDbUOszCs2kJL73VlNfeSMwmqEJ7qAZ4-w==
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+[body] []
+[0m
+[0m$ [0mBROWSER="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+R="/explore/recommendations/api/internal/v6/recommendations"
+for q in "?productId=0000000000" "?productId=abc&categoryId=0" "?limit=2" "?sku=0000000000000"; do
+  echo "== GET $q"
+  curl -sS -o /tmp/rb -D /tmp/rh -w "STATUS:%{http_code} TYPE:%{content_type} SIZE:%{size_download}\n" -H "User-Agent: $BROWSER" -H "Accept: application/json" "https://www.obi.de$R$q"
+  grep -iE "^(content-type|access-control)|x-cache" /tmp/rh
+  echo "[body] [$(head -c 300 /tmp/rb | tr '\n' ' ')]"
+  sleep 2
+done
+echo "== GET parent /v6/"
+curl -sS -o /tmp/rb2 -D /tmp/rh2 -w "STATUS:%{http_code} TYPE:%{content_type} SIZE:%{size_download}\n" -H "User-Agent: $BROWSER" -H "Accept: application/json" "https://www.obi.de/explore/recommendations/api/internal/v6/"
+sleep 2
+echo "== GET /v5/ recommend"
+curl -sS -o /tmp/rb3 -D /tmp/rh3 -w "STATUS:%{http_code} TYPE:%{content_type} SIZE:%{size_download}\n" -H "User-Agent: $BROWSER" -H "Accept: application/json" "https://www.obi.de/explore/recommendations/api/internal/v5/recommendations"
+== GET ?productId=0000000000
+STATUS:500 TYPE: SIZE:0
+access-control-allow-origin: *
+x-cache: Error from cloudfront
+[body] []
+== GET ?productId=abc&categoryId=0
+STATUS:500 TYPE: SIZE:0
+access-control-allow-origin: *
+x-cache: Error from cloudfront
+[body] []
+== GET ?limit=2
+STATUS:500 TYPE: SIZE:0
+access-control-allow-origin: *
+x-cache: Error from cloudfront
+[body] []
+== GET ?sku=0000000000000
+STATUS:500 TYPE: SIZE:0
+access-control-allow-origin: *
+x-cache: Error from cloudfront
+[body] []
+== GET parent /v6/
+STATUS:500 TYPE: SIZE:0
+== GET /v5/ recommend
+STATUS:500 TYPE: SIZE:0
+[0m
+[93m[1m! [0mpermission requested: external_directory (/tmp/*); auto-rejecting
+[0m✗ [0mBROWSER="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+E="/account/api/public/jwt/validate"
+echo "== GET ?callback=abcd1234 Accept text/javascript"
+curl -sS -o /tmp/c1 -D /tmp/ch1 -w "STATUS:%{http_code} TYPE:%{content_type} SIZE:%{size_download}\n" -H "User-Agent: $BROWSER" -H "Accept: text/javascript" "https://www.obi.de$E?callback=abcd1234"
+echo "[body] [$(cat /tmp/c1 | tr '\n' ' ')]"
+sleep 1
+echo "== GET ?callback=ALERT(1) Accept text/javascript"
+curl -sS -o /tmp/c2 -D /tmp/ch2 -w "STATUS:%{http_code} TYPE:%{content_type} SIZE:%{size_download}\n" -H "User-Agent: $BROWSER" -H "Accept: text/javascript" "https://www.obi.de$E?callback=ALERT%281%29"
+echo "[body] [$(cat /tmp/c2 | tr '\n' ' ')]"
+sleep 1
+echo "== GET ?callback=%5CXSS Accept */*"
+curl -sS -o /tmp/c3 -D /tmp/ch3 -w "STATUS:%{http_code} TYPE:%{content_type} SIZE:%{size_download}\n" -H "User-Agent: $BROWSER" -H "Accept: text/javascript" "https://www.obi.de$E?callback=probe%5CXSS%5D"
+echo "[body] [$(cat /tmp/c3 | tr '\n' ' ')]" failed
+[91m[1mError: [0mThe user rejected permission to use this specific tool call.
