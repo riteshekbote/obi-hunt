@@ -100,3 +100,11 @@ https://api.live.app.obi.de/v1/ -> 200 len=?
 https://api.live.app.obi.de/v1/health -> HTTP 401
 https://api.live.app.obi.de/v1/auth/login -> HTTP 401
 https://assets.obi.de/seller-side-panel/resources/index-BUGS3Fny.js -> HTTP 404
+
+## 2026-09-05 12:23:35 UTC
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+https://www.obi.de/explore/recommendations/api/internal/v6/ -> HTTP 404
+https://api.live.app.obi.de/v1/ -> 200 len=?
+https://api.live.app.obi.de/v1/health -> HTTP 401
+https://api.live.app.obi.de/v1/auth/login -> HTTP 401
+https://assets.obi.de/seller-side-panel/resources/index-BUGS3Fny.js -> HTTP 404

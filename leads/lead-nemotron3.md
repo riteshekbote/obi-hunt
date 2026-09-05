@@ -422,3 +422,4 @@ testability: AUTH_HELPED
 [LEARN] ACCEPTED ENDPOINT-MAP @ www.obi.de: /explore/recommendations/api/internal/v6/recommendations returns 500 with browser UA — origin app live; 500 (not 401/403) indicates missing params, candidate for passive parameter fuzzing. (Confirms prior tail.)
 [RISK] obi: 35/100 — All probes passive GET/HEAD/OPTIONS at ≤1 rps; no customer data accessed; no auth bypass attempted; next probe targets account API tree mapping on www.obi.de with browser UA (read-only); S3 signed URLs are temporary (86400s expiry) and scoped to MuleSoft shared infrastructure; program rules prohibit data exposure during testing — risk remains low
 ## 2026-09-05 08:56:00 UTC [target] (model nemotron3)
+## 2026-09-05 12:23:14 UTC [target] (model nemotron3)

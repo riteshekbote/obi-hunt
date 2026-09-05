@@ -98,3 +98,8 @@ www.obi.de
 - NEW 6+ backend API paths on www.obi.de (cart, PDP, CMS, recommendations, JWT validate)
 - NEW Seller onboarding JS bundle exposed on frontend
 - CHANGED www.obi.de — Now confirmed live with browser UA; Discover CMS + Vtex platform; origin returns 404 to raw HEAD but serves full SPA to browser UA
+
+## 2026-09-05 12:23:25 UTC
+- NEW api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/ — unauth service tree diverging from siblings (feature-toggle HTTP 200, no mule-realm 401), discovered from live se
+- CHANGED assets.obi.de seller bundle is LIVE at /seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB, application/javascript); prior 404s were wrong path (missing /seller-onboarding/ p
+- NEW www.obi.de live DOM embeds obi-de.app.baqend.com/v1/speedkit/install.js?d=production + customer-center/regi-auth bundles — Baqend confirmed in client runtime (was parked)

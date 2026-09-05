@@ -118,3 +118,10 @@
 - LEARN: ACCEPTED MISCONFIG @ api.obi.com: Public MuleSoft Exchange portal exposes marketplace API documentation (order, product, price, inventory, transactions, seller)
 - LEARN: ACCEPTED AUTH @ www.obi.de: JWT validation endpoint path confirmed in production JavaScript — viable test target for alg confusion with authenticated session.
 - LEARN: REJECTED ENDPOINT-MAP @ www.obi.de: All /api/* paths return 404 at CloudFront edge — origin routing requires browser-level session/cookies. Cannot enumerate liv
+
+## RANKED HYPOTHESES 2026-09-05 12:23:25 UTC
+- [55] www.obi.de/explore/recommendations/api/internal/v6/: Internal Recommendations API — Potential IDOR via Product IDs (from art/lead_bigpickle.txt)
+- NEXT(hypotheses-bigpickle.txt): PROBE: GET https://api.obi.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/order-service-management-api/ with Accept: text/html,application/xhtml+xml and User-Agent: M
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public/ answers unauthenticated — /public/de/feature-toggle 200 (internal SOA.* flags + project
+- LEARN: ACCEPTED ENDPOINT-MAP @ assets.obi.de: correct bundle path is /seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB); all prior 404s use
+- LEARN: ACCEPTED AUTH @ api.obi.com: seller bundle fetches seller-data-hub /public/ with mode:cors + credentials:include from assets.obi.de origin; base api.obi.com is 

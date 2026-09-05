@@ -413,3 +413,127 @@ verify_steps: Remaining passive: vary Host/X-Forwarded-Host? No — dead end rea
 impact: None observable; origin liveness only. Severity: INFO.
 testability: PASSIVE
 [RISK] obi: 40/100 — All probes read-only GET/POST-empty-boundary at ≤1 rps with browser UA on OBI-owned public endpoints; jwt/validate POST carried empty/token-less body (no credentials, no auth bypass); no customer/financial data touched; imgix/baqend/recommendations were single-shot liveness checks. Net: refined two live findings (confirms AUTH_HELPED targets) and retired three dead-end assets from active list. No program-rule violations; description-error reports avoided.
+## 2026-09-05 12:06:33 UTC [target] (model bigpickle)
+verify_steps: POST https://www.obi.de/account/api/public/jwt/validate with Content-Type: application/json and empty body → craft test JWT with alg:none → POST with test JWT
+impact: Account takeover of 10M+ heyOBI users, access to purchase history, payment methods, personal data. Severity: CRITICAL
+testability: AUTH_HELPED
+[HYP] Internal Recommendations API — Potential IDOR via Product IDs
+class: IDOR
+asset: www.obi.de/explore/recommendations/api/internal/v6/
+confidence: 55
+reasoning: Endpoint path contains "internal" suggesting not designed for public access. Prudsys recommendation engine at /explore/recommendations/api/internal/v6/ likely accepts product IDs or customer session tokens. If product IDs are sequential/predictable, cross-tenant recommendation data or customer behavior profiles could be leaked.
+evidence_needed: Confirm endpoint accepts requests; identify required parameters (product ID, customer ID, session token); test with incrementing IDs
+verify_steps: GET https://www.obi.de/explore/recommendations/api/internal/v6/ → GET with ?productId=2191162265821 → test with incrementing IDs
+impact: Leakage of customer browsing/purchase patterns, product affinity data. Severity: MEDIUM
+testability: PASSIVE
+[PARKED] Internal Recommendations API — Confidence 55, "internal" path may just be naming convention. Without confirming endpoint responds to requests (all /api/ paths return 404 at CloudFront for HEAD/curl), too speculative. Park until browser-confirmed.
+[NEXT] PROBE: GET https://api.obi.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/order-service-management-api/ with Accept: text/html,application/xhtml+xml and User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 — check if API documentation content (endpoints, schemas, auth requirements) is extractable. Also GET https://api.obi.com/login to map auth flow.
+[PRIO] api.live.app.obi.de,8.1,attack_surface=8(mobile API v1),business_value=9(customer auth/data),tech_exposure=8(Envoy/versioned),gate_ease=6(needs enum),cloud_surface=7(Envoy),freshness=8(active)
+[PRIO] assets.obi.de,7.6,attack_surface=7(S3 CDN + seller JS),business_value=8(seller onboarding),tech_exposure=8(CORS:*+exposed JS),gate_ease=9(public),cloud_surface=8(S3),freshness=7(recent bundle)
+[PRIO] imgix.obi.de,6.8,attack_surface=6(image CDN),business_value=6(media),tech_exposure=7(CORS:* S3),gate_ease=10(public),cloud_surface=7(S3),freshness=6(standard)
+[PRIO] obi-de.app.baqend.com,6.2,attack_surface=5(BaaS),business_value=7(speed kit data),tech_exposure=5(unknown),gate_ease=5(needs auth),cloud_surface=6(BaaS),freshness=6(active)
+[PRIO] www.obi.de,8.5,attack_surface=9(multi-API),business_value=10(e-comm 10M),tech_exposure=8(Vtex/JWT),gate_ease=4(browser UA only),cloud_surface=8(CF+Baqend),freshness=8(Vtex 2024)
+[PRIO] api.obi.com,9.2,attack_surface=10(14+ APIs),business_value=9(marketplace),tech_exposure=9(MuleSoft/CORS:*),gate_ease=10(public),cloud_surface=8(CF+MuleSoft),freshness=9(seller portal)
+[HYP] Mobile API Versioned Endpoint Enumeration & Auth Bypass
+class: AUTH
+asset: api.live.app.obi.de
+confidence: 70
+reasoning: NEW asset, Envoy proxy with /v1/ versioned API path. Mobile app APIs often have weaker auth gates than web. Versioned paths (/v1/, /v2/) suggest legacy endpoints may persist without auth updates. No probes executed yet.
+evidence_needed: Confirm /v1/ base path responds; enumerate sub-paths (/v1/auth, /v1/user, /v1/orders); test auth requirements per endpoint
+verify_steps: GET https://api.live.app.obi.de/v1/ → GET https://api.live.app.obi.de/v1/health → GET https://api.live.app.obi.de/v1/auth/login → OPTIONS https://api.live.app.obi.de/v1/ (CORS) → test POST /v1/auth/login with empty body
+impact: Full customer account access, order history, payment methods, PII for mobile app users. Severity: HIGH.
+testability: PASSIVE
+[HYP] Seller Onboarding JS Bundle Secrets & Hardcoded Endpoints
+class: MISCONFIG
+asset: assets.obi.de
+confidence: 80
+reasoning: NEW finding — seller-side-panel/resources/index-BUGS3Fny.js served from S3-backed CDN with no auth gate. Frontend bundles often contain API keys, internal endpoints, auth token formats, or seller portal URLs. CORS: * on parent domain enables cross-origin read.
+evidence_needed: Extract and analyze JS bundle for hardcoded secrets, API endpoints, auth logic, seller portal URLs, token storage patterns
+verify_steps: GET https://assets.obi.de/seller-side-panel/resources/index-BUGS3Fny.js → static analysis for endpoints/keys/tokens → check for MuleSoft API URLs, JWT handling, seller dashboard paths → verify any found endpoints respond
+impact: Exposure of seller onboarding flow, internal API topology, potential API keys, auth bypass vectors for seller portal. Severity: HIGH.
+testability: PASSIVE
+[HYP] Baqend BaaS Speed Kit Data Exposure via Misconfigured Permissions
+class: IDOR
+asset: obi-de.app.baqend.com
+confidence: 55
+reasoning: NEW asset — Baqend BaaS (Backend-as-a-Service) speed kit integration. BaaS platforms often expose data APIs with object-level permissions. If speed kit caches customer/session data with predictable IDs, cross-user data access possible. No auth requirement confirmed.
+evidence_needed: Confirm Baqend app responds; identify data collections (users, sessions, carts); test IDOR on object IDs
+verify_steps: GET https://obi-de.app.baqend.com/ → GET https://obi-de.app.baqend.com/api/ → check for /db/ or /api/v1/ paths → test GET /api/v1/users/1, /api/v1/sessions/{id} with incrementing IDs
+impact: Customer session data, cart contents, PII leakage across 10M+ users. Severity: MEDIUM-HIGH.
+testability: PASSIVE
+[PARKED] Baqend BaaS Speed Kit Data Exposure via Misconfigured Permissions: confidence 55 but Baqend platform specifics unknown; verify steps generic; may require auth from start; lower priority vs confirmed exposed assets
+[FINAL] 1. Seller Onboarding JS Bundle Secrets & Hardcoded Endpoints (assets.obi.de, confidence 80, PASSIVE, HIGH impact)
+[FINAL] 2. Mobile API Versioned Endpoint Enumeration & Auth Bypass (api.live.app.obi.de, confidence 70, PASSIVE, HIGH impact)
+[FINAL] 3. Baqend BaaS Speed Kit Data Exposure via Misconfigured Permissions (obi-de.app.baqend.com, confidence 55, PASSIVE, MEDIUM-HIGH impact) — PARKED pending platform confirmation
+[NEXT] PROBE: GET https://assets.obi.de/seller-side-panel/resources/index-BUGS3Fny.js with Accept: application/javascript and analyze response for hardcoded API endpoints, auth tokens, seller portal URLs, MuleSoft references, and JWT handling logic
+[HYP] JWT Validation Endpoint — Algorithm Confusion / Session Boundary Probe
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: Endpoint confirmed live (200 text/javascript len 0, clears obi-auth; 406 on json Accept = content-negotiation, not gate; POST unsessioned 405 = app reached, method rejected). Sibling token-issue tree closed → validation is the only live account-api surface; alg confusion (RS256→HS256 alg:none) testable once session JWT exists.
+evidence_needed: Authenticated obi-auth JWT; baseline POST valid JWT vs crafted alg:none/HS256 artifact acceptance-vs-rejection.
+verify_steps: Passive now: none new (tree exhausted). Later (auth): POST JSON valid JWT → 2xx/4xx baseline; POST alg:none artifact → 401/400 (safe) vs 200 (vuln).
+impact: ATO across 10M+ heyOBI accounts incl. payment/purchase history. Severity: CRITICAL.
+testability: AUTH_HELPED
+[HYP] Cross-Seller IDOR via Unscoped Object Endpoints on Marketplace APIs
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice}-api
+confidence: 52
+reasoning: 5 service bases live behind HTTP Basic realm=mule-realm (401 not 404 = resolvable); portal OAS declares unscoped GETs (/v1/transactions/{id}, /v1/orders/{id}, /v1/invoices/{id}) with no {sellerId} path context; gate is Client-ID Enforcement, likely not object ownership.
+evidence_needed: Valid seller clientId/clientSecret for cross-tenant object fetch; spec files (S3 signed) for exact param schemas.
+verify_steps: Passive: fetch 4 OAS/RAML specs via any live portal S3 signed URL to confirm scoping fields. Later (creds): GET /v1/transactions/{other-seller-taskId} → 403 (safe) vs 200/leak (vuln).
+impact: Cross-tenant order/invoice/financial extraction across sellers. Severity: HIGH (unproven).
+testability: AUTH_HELPED
+[HYP] Internal Recommendations v6 — Origin Erroring, Not a Query Surface (negative)
+class: MISCONFIG
+asset: www.obi.de/explore/recommendations/api/internal/v6
+confidence: 25
+reasoning: All variants (root, /recommendations ± productId/categoryId/0000000000, /health) return identical 500 0-byte with `x-cache: Error from cloudfront` → edge-cached origin exception, response invariant to any input; no 500→400/200 shift observed, so not param-driven and not queryable unauth.
+evidence_needed: 500→non-500 shift on any unknown required header/param to justify revisit.
+verify_steps: Remaining passive: vary Host/X-Forwarded-Host? No — dead end reached; no further probes.
+impact: None observable; origin liveness only. Severity: INFO.
+testability: PASSIVE
+[RISK] obi: 40/100 — All probes read-only GET/POST-empty-boundary at ≤1 rps with browser UA on OBI-owned public endpoints; jwt/validate POST carried empty/token-less body (no credentials, no auth bypass); no customer/financial data touched; imgix/baqend/recommendations were single-shot liveness checks. Net: refined two live findings (confirms AUTH_HELPED targets) and retired three dead-end assets from active list. No program-rule violations; description-error reports avoided.
+[NEW] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/ — unauth service tree diverging from siblings (feature-toggle HTTP 200, no mule-realm 401), discovered from live seller bundle
+[CHANGED] assets.obi.de seller bundle is LIVE at /seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB, application/javascript); prior 404s were wrong path (missing /seller-onboarding/ prefix), bundle never rotated
+[NEW] www.obi.de live DOM embeds obi-de.app.baqend.com/v1/speedkit/install.js?d=production + customer-center/regi-auth bundles — Baqend confirmed in client runtime (was parked)
+[PRIO] api.obi.com,8.8,attack_surface=9(new public service tree vs gated siblings),business_value=8(seller/marketplace),tech_exposure=8(MuleSoft+feature-flag oracle+CORS *),gate_ease=10(public),cloud_surface=8(CF+MuleSoft+S3),freshness=10(updated bundle serves it today)
+[PRIO] www.obi.de,8.4,attack_surface=9(SPA exposes cart/regi/customer-center bundles),business_value=10(10M e-comm),tech_exposure=8(Vtex/JWT),gate_ease=5(browser-UA),cloud_surface=8,freshness=8
+[PRIO] assets.obi.de,7.6,attack_surface=7(public S3 CDN + 230KB seller bundle),business_value=8(seller onboarding),tech_exposure=8(CORS *),gate_ease=9(public),cloud_surface=8(S3),freshness=9(bundle confirmed current)
+[HYP] Seller Data Hub Unauth /public/ Tree — Feature-Flag Disclosure + Seller-ID Oracle
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 65
+reasoning: Five sibling service bases 401 realm=mule-realm, but this base answers unauthenticated: /public/de/feature-toggle → 200 full JSON of internal Unleash-style flags (SOA.412-isDocumentUploadEnabled, soa.1262-send-mail-implementation, soa.1858-invitation-details-from-postgres-db, project:"default"); /public/de/seller-side-panel/{vtexSellerId} → 404 JSON (\u201cThe trxId not found for vtexSellerId: X and country: DE\u201d) = input-dependent oracle revealing internal mapping (vtexSellerId → trxId), fetched by the live bundle with mode:cors + credentials:include. No auth gate observed on the /public/ prefix.
+evidence_needed: (a) full public tree content — does any /public/{cc}/ handler return seller objects, upload tokens, or documented config beyond imprint? (b) whether isDocumentUploadEnabled reveals an unauth upload path; (c) response on a valid vtexSellerId vs random.
+verify_steps: GET https://api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/de/ → GET .../public/de/feature-toggle (done, 200) → GET .../public/de/seller-side-panel/0000000000000 (synthetic) → OPTIONS .../public/de/feature-toggle (CORS/credentials introspection, passive)
+impact: Internal feature-flag / project names leak (recon), vtexSellerId enumeration oracle; if a non-public handler is reachable under /public/ → seller config/PII. Severity: MEDIUM-HIGH (recon), HIGH if tree yields objects.
+testability: PASSIVE
+[HYP] JWT Validation Endpoint — Algorithm Confusion / Session Boundary Probe
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: Endpoint live with browser UA (GET/HEAD 200 text/javascript len 0, clears obi-auth; POST unsessioned 405; 406 on json Accept = content-negotiation). Regi/auth bundle referenced in live homepage DOM (/regi/auth/assets/regi-hey-obi-login-de_de-inc.html-*.js) — JWT issue/validate flow is asset-confirmed. Alg confusion (RS256→HS256/none) testable only with a session JWT.
+evidence_needed: Authenticated obi-auth JWT; baseline valid vs crafted alg:none POST acceptance/rejection.
+verify_steps: Passive: none new. Later (auth): POST JSON valid JWT → baseline; POST alg:none artifact → 401/400 (safe) vs 200 (vuln).
+impact: ATO 10M+ heyOBI accounts incl. payment/purchase history. Severity: CRITICAL.
+testability: AUTH_HELPED
+[HYP] Cross-Seller IDOR via Unscoped Object Endpoints on Marketplace APIs
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice|seller-data-hub}-service
+confidence: 52
+reasoning: 5 service bases live behind Basic realm=mule-realm; portal OAS declares unscoped GETs (/v1/transactions/{id}, /v1/orders/{id}) with no {sellerId} context; now the same prefix shows a public service (seller-data-hub) is reachable without the mule gate, proving the gateway is not uniformly 401 — scoping vs ownership must be validated per object, not per host.
+evidence_needed: Valid seller clientId/clientSecret for cross-tenant fetch; OAS/RAML specs confirm no scoping param.
+verify_steps: Passive: replay any portal S3 signed spec URL for the new seller-data-hub service; grep OAS for {sellerId} path context. Later (creds): GET /v1/transactions/{other-seller-id} → 403 (safe) vs 200 (vuln).
+impact: Cross-tenant order/invoice/financial extraction across sellers. Severity: HIGH (unproven).
+testability: AUTH_HELPED
+[PARKED] Baqend BaaS Speed Kit Data Exposure: DOM-confirmed (install.js loaded, obi-de.app.baqend.com) but data class still unknown and private; confidence remains 55 — no new payload path; park.
+[PARKED] Internal Recommendations v6 500-variant: negative result invariant to input; dead end (confidence 25).
+[FINAL] 1. Seller Data Hub Unauth /public/ Tree (api.obi.com, 65, PASSIVE, MEDIUM-HIGH) — new confirmed unauth surface this cycle
+[FINAL] 2. JWT Validation alg-confusion (www.obi.de, 70, AUTH_HELPED, CRITICAL) — unchanged, awaiting session JWT
+[FINAL] 3. Cross-Seller IDOR (api.obi.com, 52, AUTH_HELPED, HIGH) — extended to seller-data-hub service
+[NEXT] PROBE: OPTIONS https://api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/de/feature-toggle to map CORS/credentials, then GET https://api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/de/ and GET .../public/de/seller-side-panel/0000000000000 to test seller-id oracle resolution and enumerate the public tree for non-imprint handlers (≤1 rps, GET/OPTIONS only)
+[LEARN] ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public/ answers unauthenticated — /public/de/feature-toggle 200 (internal SOA.* flags + project names) and /public/de/seller-side-panel/{vtexSellerId} is an input-dependent 404 oracle; siblings are 401 mule-realm, so this is a real gate divergence
+[LEARN] ACCEPTED ENDPOINT-MAP @ assets.obi.de: correct bundle path is /seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB); all prior 404s used the bare /seller-side-panel/ path — bundle never rotated, supersedes 09-03/09-04 rotation rows
+[LEARN] ACCEPTED AUTH @ api.obi.com: seller bundle fetches seller-data-hub /public/ with mode:cors + credentials:include from assets.obi.de origin; base api.obi.com is CORS:* — cross-origin session-bearing calls are part of the portal design (no validated flaw yet)
+[RISK] obi: 30/100 — 16 GETs + 1 OPTIONS at ≤1 rps, browser UA, read-only, against a service base the app itself calls unauthenticated; returned only internal feature-flag names and 400/404 error strings (no customer/financial/auth data); seller bundle is a public CDN asset. No program-rule violations; the seller-data-hub surface is OBI-public by app design.
