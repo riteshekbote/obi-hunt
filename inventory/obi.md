@@ -78,3 +78,8 @@ www.obi.de
 - NEW assets.obi.de/ returns HTTP 200 (39 bytes) — root directory accessible, previously unprobed
 - CHANGED assets.obi.de/seller-side-panel/ and /seller-side-panel/resources/ both return 404 — seller onboarding path fully gone, bundle rotation confirmed
 - CHANGED www.obi.de/account/api/public/jwt/validate consistently returns 404 to HEAD/curl (7+ probes) — CloudFront edge behavior confirmed, requires browser UA+cookies
+
+## 2026-09-05 00:15:43 UTC
+- CHANGED Knowledge base holds 3 superseded REJECTED rows claiming /account/api/public/jwt/validate is 404; the 09-04 ACCEPTED fact (reachable with browser UA, GET/HEAD 200 + clears obi-auth, POST no-session 40
+- CHANGED /explore/recommendations/api/internal/v6/recommendations now 500 (not 401/403) with browser UA — origin app live, error type implies missing-params, not auth gate.
+- NEW None — no additional surface probed since last update; assets.obi.de seller-side-panel fully rotated (404 root + resources), api.live.app.obi.de remains fully 401-gated across all 17 sub-paths.

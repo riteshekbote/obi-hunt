@@ -1554,3 +1554,33 @@ testability: AUTH_HELPED
 
 **STEP 7 — RISK**
 [RISK] obi: 35/100 — All probes passive GET/HEAD/OPTIONS at ≤1 rps; no customer data accessed; no auth bypass attempted; next probe targets public MuleSoft developer portal (intentionally public Exchange portal); S3 signed URLs are temporary (86400s expiry) and scoped to MuleSoft shared infrastructure; program rules prohibit data exposure during testing — risk remains low
+===== ANALYST nemotron3 2026-09-05 00:15:43 UTC =====
+[0m
+> build · nemotron-3-ultra-free
+[0m
+[0m$ [0mcurl -s -H "Accept: text/html,application/xhtml+xml" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" https://api.obi.com/ 2>&1 | head -200
+...output truncated...
+
+Full output saved to: /home/runner/.local/share/opencode/tool-output/tool_06ee82c14001domCkOCSBz64M1
+
+          sessionStorage.setItem('preJsSearchText', this.value);
+        };
+        document.addEventListener('DOMContentLoaded', function() {
+          var input = document.querySelector('.ang-search-component input[type=search]');
+          if (input) {
+            input.addEventListener('input', window.preReactInputHandler);
+          }
+        });</script></body></html><!-- 📼 1.0.26800 - 📅 2026-08-28T11:02:16.524Z -->
+[0m
+[0m$ [0mcurl -s -H "Accept: text/html,application/xhtml+xml" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" https://api.obi.com/ 2>&1 | grep -o 'window\.__INITIAL_STATE__\s*=\s*{[^}]*}' | head -5
+(no output)
+[0m
+[0m$ [0mcurl -s -H "Accept: text/html,application/xhtml+xml" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" https://api.obi.com/ 2>&1 | grep -o '"assets"[^}]*}' | head -5
+(no output)
+[0m
+[0m$ [0mcurl -s -H "Accept: text/html,application/xhtml+xml" -H "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36" https://api.obi.com/ -o /tmp/api_obi.html 2>&1 && wc -l /tmp/api_obi.html && grep -n "trx-fulfillmentsellersteering\|exchange2-asset-manager\|signedUrl\|\.zip" /tmp/api_obi.html | head -20
+11 /tmp/api_obi.html
+[0m
+[93m[1m! [0mpermission requested: external_directory (/tmp/*); auto-rejecting
+[0m✗ [0mRead /tmp/api_obi.html failed
+[91m[1mError: [0mThe user rejected permission to use this specific tool call.

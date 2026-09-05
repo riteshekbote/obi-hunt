@@ -3507,3 +3507,62 @@ STEP 6 — LEARNING
 
 STEP 7 — RISK
 [RISK] obi: 42/100 — Probes GET/HEAD/OPTIONS + one empty-POST boundary test to OBI-owned public endpoint, browser UA, <1 rps; no customer data, no real credentials, no auth-bypass attempt (fabricated anonymous cookie returned identical 200). Reachability findings only strengthen AUTH_HELPED planning. No program-rule violations.
+===== ANALYST bigpickle 2026-09-05 00:15:43 UTC =====
+[0m
+> build · big-pickle
+[0m
+## STEP 1 — DELTA
+[CHANGED] Knowledge base holds 3 superseded REJECTED rows claiming /account/api/public/jwt/validate is 404; the 09-04 ACCEPTED fact (reachable with browser UA, GET/HEAD 200 + clears obi-auth, POST no-session 405) is canonical — curl/HEAD 404 is CloudFront UA-routing, not endpoint absence.
+[CHANGED] /explore/recommendations/api/internal/v6/recommendations now 500 (not 401/403) with browser UA — origin app live, error type implies missing-params, not auth gate.
+[NEW] None — no additional surface probed since last update; assets.obi.de seller-side-panel fully rotated (404 root + resources), api.live.app.obi.de remains fully 401-gated across all 17 sub-paths.
+
+## STEP 2 — PRIORITIZE
+[PRIO] www.obi.de/account/api/public/jwt/validate,6.65,tech_exposure (a7 b7 t10 g3 c4 f8)
+[PRIO] api.obi.com/trx-api/fulfillmentsellersteering-apis,6.35,business_value (a6 b9 t6 g4 c5 f6)
+[PRIO] www.obi.de/explore/recommendations/api/internal/v6,5.30,surface (a5 b4 t6 g7 c4 f7)
+
+## STEP 3 — HYPOTHESES
+[HYP] JWT Validation Endpoint — Algorithm Confusion / Session Boundary Probe
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: Production frontend JS drives this POST endpoint for session-JWT checks; confirmed live from CloudFront with browser UA (GET/HEAD 200 text/javascript len 0, Set-Cookie expires obi-auth; POST w/o session 405). If server trusts header-declared alg permissively, alg:none or RS256→HS256 confusion bypasses validation.
+evidence_needed: Authenticated obi-auth JWT; POST valid JWT for baseline, then crafted alg:none / RS256→HS256 token for acceptance-vs-rejection comparison.
+verify_steps: Passive now: GET /account/, GET /account/api/, GET /account/api/public/ (browser UA) to enumerate sibling public paths and any token-issue endpoints. Later (auth required): POST JSON with a real session token → 2xx/4xx baseline; POST alg:none artifact → 401/400 (safe) vs 200 (vuln).
+impact: Account takeover across 10M+ heyOBI accounts incl. purchase/payment history. Severity: CRITICAL.
+testability: AUTH_HELPED
+
+[HYP] Cross-Seller IDOR via Unscoped Object Endpoints on Marketplace APIs
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice|product|inventory}-api/v1/
+confidence: 55
+reasoning: 5 service bases live behind HTTP Basic realm=mule-realm; portal OAS specs declare unscoped GETs /v1/transactions/{transactionId}, /v1/orders/{orderId}, /v1/invoices/{id}, /v1/products — no {sellerId} context in path, and paths return 401 (resolve), not 404. Client-ID Enforcement gates API entry, likely not object ownership.
+evidence_needed: Valid seller clientId/clientSecret; cross-tenant object-ID fetch compare.
+verify_steps: Passive: pull each of the 4 OAS/RAML spec files via portal S3 signed URLs to map exact parameter schemas + scoping. Later (creds): GET /v1/transactions/{other-seller-id} → 403 (safe) vs 200/leak (vuln).
+impact: Cross-tenant extraction of order/invoice/price/inventory/financial data across sellers. Severity: HIGH (unproven).
+testability: AUTH_HELPED
+
+[HYP] Internal Recommendations v6 — Unauthenticated Param-Driven Query Leak
+class: MISCONFIG
+asset: www.obi.de/explore/recommendations/api/internal/v6/recommendations
+confidence: 45
+reasoning: Response shifted 404 → 500 with browser UA, proving origin app processing; 500 (not 401/403) implies missing/ malformed required params, not authentication. Sibling /api/internal/* family may expose recommendation/category data or accept product/category params.
+evidence_needed: Move 500 → 200/400 by supplying required params; observe param-driven behavior.
+verify_steps: GET with ?productId=0000000000&categoryId=0 and empty GET (browser UA); compare 500→200/400 shift indicating parameter-driven endpoint; then vary one id for error-body structural markers (never fetch or mutate real customer data).
+impact: Inner product/recommendation/category data disclosure; confirms unauthenticated internal query surface. Severity: LOW-MEDIUM.
+testability: PASSIVE
+
+## STEP 4 — SELF-CRITIQUE
+[PARKED] Marketplace MuleSoft shared/weak Basic creds via onboarding JS (40): evidence path blocked — seller-side-panel bundle rotated (404 root + resources), re-discovery has diminishing returns; revisit only if new bundle filename surfaces in liveness scans.
+[PARKED] Reuse of portal S3 signed download URLs (92 class edge): 86400s expiry temp keys, stale by definition; exploitation is out-of-scope (no customer/financial data exposure); portal CORS:* already banked as ACCEPTED finding — not re-scored.
+[FINAL] 1) [70] JWT alg/session-boundary probe @ www.obi.de/account/api/public/jwt/validate 2) [55] Cross-seller IDOR @ api.obi.com/trx-api/**/v1/ 3) [45] Internal v6 param-driven leak @ www.obi.de/explore/recommendations/api/internal/v6.
+
+## STEP 5 — NEXT ACTION
+[NEXT] PROBE: GET https://www.obi.de/account/ and GET https://www.obi.de/account/api/ with User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36, Accept: text/html,application/xhtml+xml — map the account-api tree for sibling public endpoints of the confirmed-live jwt/validate path (same CloudFront UA-routing family), including any token-issue/well-known paths.
+
+## STEP 6 — LEARNING
+[LEARN] ACCEPTED AUTH @ www.obi.de: /account/api/public/jwt/validate reachable from edge with browser UA — GET/HEAD 200 (text/javascript, len 0) + Set-Cookie expires obi-auth; POST w/o session 405. Supersedes three earlier REJECTED rows; curl/HEAD 404 = UA-based edge routing, endpoint is live. (Confirms prior tail.)
+[LEARN] ACCEPTED ENDPOINT-MAP @ www.obi.de: /explore/recommendations/api/internal/v6/recommendations returns 500 with browser UA — origin app live; 500 (not 401/403) indicates missing params, candidate for passive parameter fuzzing. (Confirms prior tail.)
+
+## STEP 7 — RISK
+[RISK] obi: 43/100 — All actions read-only GET/HEAD/OPTIONS at ≤1 rps with browser UA against OBI-owned endpoints; no credentials, no real customer data, no auth-bypass or mutating tests (JWT/IDOR verifications deferred until an authorized session exists). Reachability/param-behavior observations only; portal CORS:*/S3 findings already banked, no new exposure. Risk reflects confirmed financial-order API surface (transaction/order/invoice) strengthening future AUTH_HELPED work. No program-rule violations.
