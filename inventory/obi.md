@@ -108,3 +108,11 @@ www.obi.de
 - NEW api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/ — unauthenticated service tree diverging from siblings: /public/de/feature-toggle returns 200 with internal SOA.* f
 - CHANGED assets.obi.de/seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB, application/javascript); prior 404s used wrong path (missing /seller-onboarding/ prefix); bundle never rotat
 - NEW www.obi.de live DOM embeds obi-de.app.baqend.com/v1/speedkit/install.js?d=production + customer-center/regi-auth bundles — Baqend BaaS confirmed in client runtime (was parked)
+
+## 2026-09-05 17:39:39 UTC
+- NEW api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/{cc}/seller-side-panel/{trxId} — unauthenticated seller registry enumerating complete imprint+settings for sequentia
+- NEW api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/imprint-documents/{key}/{cp|gtc} — 35 candidate keys tested, key=obiecomprod returns PDF (Widerrufsbelehrung/AGB); p
+- CHANGED assets.obi.de/seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB); prior 404s used incorrect path missing `/seller-onboarding/` prefix — bundle never rotated
+- CHANGED www.obi.de live DOM confirms Baqend Speed Kit (`obi-de.app.baqend.com/v1/speedkit/install.js?d=production`) + customer-center/regi-auth bundles — BaaS integration active in production
+- CHANGED www.obi.de/account/api/public/jwt/validate — confirmed live with browser UA (GET/HEAD 200, text/javascript len 0, Set-Cookie expires obi-auth; POST w/o session 405); prior REJECTED rows were UA-based 
+- CHANGED www.obi.de/explore/recommendations/api/internal/v6/recommendations → 500 with browser UA (was 404) — origin app live, 500 indicates missing params not auth gate
