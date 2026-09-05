@@ -152,3 +152,10 @@ www.obi.de
 - NEW www.obi.de/explore/recommendations/api/internal/v6/recommendations — returns 500 with browser UA (was 404); origin app live, 500 indicates missing params not auth gate, candidate for passive parameter
 - CHANGED assets.obi.de/seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB); prior 404s used incorrect path missing `/seller-onboarding/` prefix — bundle never rotated
 - CHANGED www.obi.de live DOM confirms Baqend Speed Kit (`obi-de.app.baqend.com/v1/speedkit/install.js?d=production`) + customer-center/regi-auth bundles — BaaS integration active in production
+
+## 2026-09-05 23:40:21 UTC
+- NEW www.obi.de/regi/auth/api/fe/hey-obi/login-info — route found in live panel-controllers.hn0a0q0D.js (OGP: "login-info"); GET and POST → 403 session-gated, live at origin (not 404).
+- NEW www.obi.de/regi/auth/csrf — 200 application/javascript len-0; issues account-csrf=<uuid> (Domain=obi.de, Lax) + obi_storeid=000, clears obi-auth — edge cookie pattern mirrors jwt/validate.
+- NEW obi-de.app.baqend.com — /v1/config/VAPIDPublicKey → 404 JSON "Web Push is not yet configured"; /v1/db/com.baqend.speedkit.config → 466 "Permission denied. You need admin rights." — Baqend app obi-de a
+- CHANGED /explore/recommendations/api/internal/v6/recommendations — 500 invariant (empty body) across count/userId/trxId — not a params oracle; passive-fuzz avenue dead.
+- CHANGED seller-data-hub registry boundaries: trxId 0/99999999/200001 → 404 JSON oracle ("vtexSellerId not found for trxId"), 100551 → 200 (Homestyle4u) — dense block ≈ 100000–100550, sparse beyond; registry s

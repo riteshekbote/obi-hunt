@@ -873,3 +873,43 @@ evidence_needed: Endpoints/data-class names inside public JS assets.
 verify_steps: GET https://www.obi.de/ (browser UA) → extract speedkit + regi-auth bundle URLs from DOM → download → grep for class names, /v1 endpoints, token/key handling.
 impact: Potential customer data exposure via misconfigured BaaS. Severity: TBD.
 testability: PASSIVE
+## 2026-09-05 23:40:11 UTC [target] (model bigpickle)
+[NEW] www.obi.de/regi/auth/api/fe/hey-obi/login-info — route found in live panel-controllers.hn0a0q0D.js (OGP: "login-info"); GET and POST → 403 session-gated, live at origin (not 404).
+[NEW] www.obi.de/regi/auth/csrf — 200 application/javascript len-0; issues account-csrf=<uuid> (Domain=obi.de, Lax) + obi_storeid=000, clears obi-auth — edge cookie pattern mirrors jwt/validate.
+[NEW] obi-de.app.baqend.com — /v1/config/VAPIDPublicKey → 404 JSON "Web Push is not yet configured"; /v1/db/com.baqend.speedkit.config → 466 "Permission denied. You need admin rights." — Baqend app obi-de alive but class-DB admin-gated.
+[CHANGED] /explore/recommendations/api/internal/v6/recommendations — 500 invariant (empty body) across count/userId/trxId — not a params oracle; passive-fuzz avenue dead.
+[CHANGED] seller-data-hub registry boundaries: trxId 0/99999999/200001 → 404 JSON oracle ("vtexSellerId not found for trxId"), 100551 → 200 (Homestyle4u) — dense block ≈ 100000–100550, sparse beyond; registry scope characterized.
+[PRIO] www.obi.de/account/api/public/jwt/validate,6.15, a=6 b=9 t=9 g=1 c=4 f=5
+[PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public,6.15, a=5 b=6 t=4 g=10 c=4 f=9
+[PRIO] api.obi.com/{transaction|order-service|invoice}-service (mule-realm),5.95, a=7 b=9 t=5 g=2 c=3 f=6
+[PRIO] www.obi.de/regi/auth/* (csrf, login-info),5.15, a=4 b=7 t=6 g=2 c=4 f=8
+[HYP] JWT Validation Endpoint — Algorithm Confusion / Session Boundary Probe
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: Endpoint live with browser UA (GET/HEAD 200 text/javascript len-0 clears obi-auth; POST no-session 405); top-level script tag in production HTML confirms load path; /regi/auth/csrf now shows same edge family issues account-csrf. No new in-bundle call sites: regi-login(26KB)+chunk-lib(251KB) contain zero /account/api or fetch-to-validate strings — endpoint runs server-side on script load.
+evidence_needed: Authenticated obi-auth JWT; baseline valid POST → 200 vs crafted alg:none/HS256 probe response.
+verify_steps: Later (auth): POST valid session JWT → baseline; POST alg:none artifact → 400/401 (safe) vs 200 (vuln).
+impact: ATO 10M+ heyOBI accounts incl. payment/purchase history. Severity: CRITICAL.
+testability: AUTH_HELPED
+[HYP] Cross-Seller IDOR via Enumerated trxId Namespace on Mule-Realm Services
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction-api|order-service-api|invoice-api}
+confidence: 55
+reasoning: Registry boundary now proven dense 100000–100550 (+ sporadic sparse beyond, oracle 404 outside) = master seller key space fully recovered; gated siblings authorize via mule-realm scope credential, not per-object ownership.
+evidence_needed: Valid seller clientId/clientSecret.
+verify_steps: Later (creds): GET /v1/transactions/{other-trxId} → 403 (safe) vs 200/leak (vuln).
+impact: Cross-tenant order/invoice/financial extraction across sellers. Severity: HIGH (unproven).
+testability: AUTH_HELPED
+[PARKED] Baqend BaaS (obi-de.app.baqend.com): /v1/db/* → 466 admin-rights-denied, /v1/config/VAPIDPublicKey → 404 no-config, DB class access enforced — confidence 45→30, below threshold; app surface minimal.
+[PARKED] recommendations v6 500: invariant empty-body 500 across params — not a params oracle, no verify path.
+[FINAL] 1. JWT alg-confusion (www.obi.de, 70, AUTH_HELPED, CRITICAL) — unchanged, awaiting session JWT.
+[FINAL] 2. Cross-Seller IDOR (api.obi.com mule-realm, 55, AUTH_HELPED, HIGH) — trxId namespace bounded; needs creds.
+[NEXT] HUMAN: File report for the confirmed finding — seller-data-hub-service /v1/public unauthenticated registry (MEDIUM): unique gate divergence vs 7 gated siblings + own /api/v1 mirror; exact any-origin credentialed CORS access-control-allow-credentials:true reflected on BOTH /public/de/feature-toggle and data-bearing /public/de/seller-side-panel/{trxId}; dense trxId block 100000–100550 enumeration (imprint/settings/PII-lite: names, VATIN, shipping threshold); imprint-documents PDF disclosure. JWT alg-confusion + cross-seller IDOR remain creds-blocked.
+[LEARN] ACCEPTED ENDPOINT-MAP @ www.obi.de: /regi/auth/api/fe/hey-obi/login-info live (GET+POST 403 session-gated, discovered from panel-controllers route map) — new authenticated account subsystem surface.
+[LEARN] ACCEPTED AUTH @ www.obi.de: /regi/auth/csrf returns 200 len-0 + issues account-csrf UUID (Domain=obi.de) while clearing obi-auth — same edge cookie-family as jwt/validate; production login flow confirmed.
+[LEARN] REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth-closed; BaaS exposure hypothesis dead.
+[LEARN] REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asset not on this gateway) — webhook-receiver angle closed.
+[LEARN] ACCEPTED MISCONFIG @ api.obi.com: CORS wilderness extends to the DATA handler — GET /public/de/seller-side-panel/100551 with Origin: https://evil.example → 200 + ACAO:https://evil.example + ACAC:true; any-origin credentialed reads of seller registry confirmed on both /public/ endpoints, strengthening severity.
+[LEARN] ACCEPTED ENDPOINT-MAP @ api.obi.com: /public/de/seller-side-panel boundary oracle — 404 JSON "vtexSellerId not found for trxId: N" for 0/99999999/200001, 200 for 100551 — dense block ≈100000–100550, sparse beyond; registry fully characterized for report.
+[RISK] obi: 48/100 — ≈24 GETs at ≤1 rps (browser UA, read-only): rechecked jwt/validate + csrf cookie family on www.obi.de, profiled /regi/auth login-info (403), probed 9 webhook service names (404), tested 4 registry boundary ids (404 oracle), 1 Origin-fake on data handler. No new PII volume (3 records), no auth bypass, no mutation. Baqend and recommendations both closed this cycle. Inventory stable; single confirmed MEDIUM finding report-ready; two creds-blocked high-value targets remain.
