@@ -116,3 +116,11 @@ www.obi.de
 - CHANGED www.obi.de live DOM confirms Baqend Speed Kit (`obi-de.app.baqend.com/v1/speedkit/install.js?d=production`) + customer-center/regi-auth bundles — BaaS integration active in production
 - CHANGED www.obi.de/account/api/public/jwt/validate — confirmed live with browser UA (GET/HEAD 200, text/javascript len 0, Set-Cookie expires obi-auth; POST w/o session 405); prior REJECTED rows were UA-based 
 - CHANGED www.obi.de/explore/recommendations/api/internal/v6/recommendations → 500 with browser UA (was 404) — origin app live, 500 indicates missing params not auth gate
+
+## 2026-09-05 19:36:01 UTC
+- NEW api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/{cc}/seller-side-panel/{trxId} — confirmed live unauthenticated seller registry returning full imprint+settings for 
+- NEW api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/imprint-documents/{key}/{cp|gtc} — confirmed live returning PDF legal documents (Widerrufsbelehrung/AGB); key=obieco
+- NEW api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/de/feature-toggle — confirmed live exposing 15 internal SOA.* feature flags + project names (e.g., SOA.412-isDocumen
+- CHANGED www.obi.de/account/api/public/jwt/validate — confirmed live with browser UA (GET/HEAD 200, text/javascript len 0, Set-Cookie expires obi-auth; POST w/o session 405); prior curl/HEAD 404 = UA-based Clo
+- CHANGED assets.obi.de/seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB); prior 404s used incorrect path missing `/seller-onboarding/` prefix — bundle never rotated
+- CHANGED www.obi.de live DOM confirms Baqend Speed Kit (`obi-de.app.baqend.com/v1/speedkit/install.js?d=production`) + customer-center/regi-auth bundles — BaaS integration active in production
