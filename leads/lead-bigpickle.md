@@ -537,3 +537,35 @@ testability: AUTH_HELPED
 [LEARN] ACCEPTED ENDPOINT-MAP @ assets.obi.de: correct bundle path is /seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB); all prior 404s used the bare /seller-side-panel/ path — bundle never rotated, supersedes 09-03/09-04 rotation rows
 [LEARN] ACCEPTED AUTH @ api.obi.com: seller bundle fetches seller-data-hub /public/ with mode:cors + credentials:include from assets.obi.de origin; base api.obi.com is CORS:* — cross-origin session-bearing calls are part of the portal design (no validated flaw yet)
 [RISK] obi: 30/100 — 16 GETs + 1 OPTIONS at ≤1 rps, browser UA, read-only, against a service base the app itself calls unauthenticated; returned only internal feature-flag names and 400/404 error strings (no customer/financial/auth data); seller bundle is a public CDN asset. No program-rule violations; the seller-data-hub surface is OBI-public by app design.
+## 2026-09-05 15:36:03 UTC [target] (model bigpickle)
+[HYP] Seller Data-Hub /public/ Seller Registry — Full trxId Enumeration (imprint + business data)
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/{cc}/seller-side-panel/{id}
+confidence: 80
+reasoning: Sequential trxIds 1 and 100000–100550+ hit 200 returning complete companyImprint+sellerSettingsImprintObject (companyName,companyType,street,HRB,VATIN,executiveDirectors,contactEmail/Phone,GTCC/cancellation/privacy full HTML,shippingCostAndThreshold,bioCertificate,isObiEcomSellerAccount) unauthenticated. Distinct errors prove dual moniker: numeric→"vtexSellerId not found for trxId: N", alpha→"trxId not found for vtexSellerId: S". Countries DE/AT/IT/PL each map own seller namespace (CH/CZ empty). Bundle fetches this with credentials:include from assets.obi.de; CORS echoes that origin only. Sibling services 401 mule-realm → real gate divergence.
+evidence_needed: For severity ceiling: whether any returned field is NOT legally-required-public for the storefront (e.g., negotiated shipping thresholds, isObiEcomSellerAccount, bioCertificate) and whether pre-launch/onboarding sellers appear before Going-live.
+verify_steps: Passive done. Report directly; no further live probes justified.
+impact: Attacker can dump full marketplace seller registry (legal entities, VATINs, HRBs, director names, addresses, contact, shipping business terms) across 4 countries and recover the complete internal trxId namespace for targeting gated services. Severity: MEDIUM (imprint is legally public; aggregate registry + internal IDs exceed storefront intent).
+testability: PASSIVE
+[HYP] Cross-Seller IDOR via Enumerated trxId Namespace on Mule-Realm Services
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice}-service
+confidence: 55
+reasoning: Registry proof shows dense sequential trxIds (1, 100000+) are master seller keys; gated services authorize via mule-realm scope credential, not per-object ownership; portal OAS declares unscoped GETs (/v1/transactions/{id}). Enumeration now gives the exact attacker-controlled ID space.
+evidence_needed: Valid seller clientId/clientSecret.
+verify_steps: Later (creds): GET /v1/transactions/{other-trxId} → 403 (safe) vs 200/leak (vuln).
+impact: Cross-tenant order/invoice/financial extraction across sellers. Severity: HIGH (unproven).
+testability: AUTH_HELPED
+[HYP] JWT Validation Endpoint — Algorithm Confusion / Session Boundary Probe
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: Endpoint live with browser UA (GET/HEAD 200 text/javascript len0, clears obi-auth; POST no-session 405; 406 on json Accept); regi-hey-obi-login bundle in live DOM confirms JWT issue/validate flow.
+evidence_needed: Authenticated obi-auth JWT; baseline valid vs alg:none/HS256 probe.
+verify_steps: Later (auth): POST valid JWT → baseline; crafted alg:none → 401/400 (safe) vs 200 (vuln).
+impact: ATO 10M+ heyOBI accounts. Severity: CRITICAL.
+testability: AUTH_HELPED
+[NEXT] PROBE: Via MuleSoft portal HTML (api.obi.com, CORS:*), re-extract current S3 signed URL for the **seller-data-hub-service** API spec (OAS/RAML) and grep it for every `/api/v1/public/*` handler to close the enumeration tree; if any non-imprint public handler exists (e.g., seller postings, upload tokens), probe it GET-only at ≤1 rps.
+[LEARN] ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public is a full unauthenticated seller registry — /public/{cc}/seller-side-panel/{trxId} returns complete imprint+settings for sequential IDs 1, 100000–100550+ across DE/AT/IT/PL; numeric vs alpha inputs disclose trxId↔vtexSellerId dual moniker semantics; /public/feature-toggle identical across 6 countries; siblings are 401 mule-realm — gate divergence proven as registry enumeration.
+[LEARN] ACCEPTED ENDPOINT-MAP @ api.obi.com: /public tree is exactly feature-toggle + seller-side-panel/{id} + imprint-documents/{key}/{cp|gtc} (35 candidate names 404); imprint-documents key=obiecomprod → PDF (Widerrufsbelehrung/AGB), traversal `ct%2F..` → 403 blocked.
+[RISK] obi: 40/100 — ≈150 GETs at ≤1 rps, read-only, browser UA, against a service the OBI app itself calls unauthenticated; responses were seller imprint/business data (legally-required-public company imprint incl. director names/VATIN aggregations) — no customer PII, no financial data, no auth tokens, no auth-bypass mutation; sequence sweep may approach enumeration-volume thresholds but stays within passive bounds. Net: one confirmed registry-level finding (MEDIUM) + trxId namespace recovered for gated-service targeting.

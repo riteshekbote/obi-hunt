@@ -2842,3 +2842,68 @@ aria-label="Order Service Management API. REST API. No rating."><a data-test-id=
 </body>
 </html>
 [0m
+===== ANALYST nemotron3 2026-09-05 15:36:13 UTC =====
+[0m
+> build · nemotron-3-ultra-free
+[0m
+# STEP 1 — DELTA
+[NEW] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/ — unauthenticated service tree diverging from siblings: /public/de/feature-toggle returns 200 with internal SOA.* flags + project names; /public/de/seller-side-panel/{vtexSellerId} is input-dependent 404 oracle; siblings return 401 mule-realm
+[CHANGED] assets.obi.de/seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB, application/javascript); prior 404s used wrong path (missing /seller-onboarding/ prefix); bundle never rotated
+[NEW] www.obi.de live DOM embeds obi-de.app.baqend.com/v1/speedkit/install.js?d=production + customer-center/regi-auth bundles — Baqend BaaS confirmed in client runtime (was parked)
+
+# STEP 2 — PRIORITIZE
+[PRIO] api.obi.com,9.65,attack_surface=10(4 cataloged marketplace APIs + S3 spec access + seller-data-hub public tree),business_value=9(marketplace/order/payment/inventory + seller onboarding),tech_exposure=10(MuleSoft Exchange + CORS:* + embedded S3 signed URLs + unauth public API tree),gate_ease=10(public no auth),cloud_surface=9(CF+MuleSoft+S3 shared infra),freshness=10(active seller portal, live signed URLs, new public API tree)
+[PRIO] www.obi.de,8.40,attack_surface=9(Vtex/Discover CMS + JWT validate + recommendations 500 + Baqend integration),business_value=10(e-comm 10M users + payments),tech_exposure=8(JWT alg confusion + Baqend BaaS + internal recommendations API),gate_ease=5(browser UA+cookies for JWT validate; recommendations 500 unauth),cloud_surface=8(CF+Baqend+Vtex),freshness=9(Vtex 2024, live DOM changes)
+[PRIO] api.live.app.obi.de,8.35,attack_surface=9(mobile API v1 + 17 enumerated versioned/debug/admin/actuator paths),business_value=9(customer auth/data 10M+ users),tech_exposure=8(Envoy/K8s + Spring Boot actuator/swagger/graphql/metrics auth-gated),gate_ease=7(base path open),cloud_surface=7(Envoy on K8s),freshness=9(active, fully mapped)
+[PRIO] assets.obi.de,6.95,attack_surface=6(230KB seller onboarding JS bundle),business_value=6(seller onboarding flow),tech_exposure=7(public CORS:* S3-backed CDN),gate_ease=10(no auth gate),cloud_surface=6(S3/CDN),freshness=8(live bundle confirmed)
+[PRIO] obi-de.app.baqend.com,6.85,attack_surface=7(BaaS Speed Kit + customer-center/regi-auth bundles),business_value=7(customer auth/session),tech_exposure=7(BaaS platform potential misconfig),gate_ease=6(public JS bundles),cloud_surface=6(BaaS cloud),freshness=8(confirmed in live DOM)
+
+# STEP 3 — HYPOTHESES
+[HYP] Seller Data Hub Public API — Unauthenticated SOA Flag Exposure & Cross-Seller Enumeration Oracle
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 88
+reasoning: /public/de/feature-toggle returns 200 unauthenticated with internal SOA.* feature flags and project names; /public/de/seller-side-panel/{vtexSellerId} behaves as 404 oracle (input-dependent) while sibling services require Basic auth (mule-realm); gateway inconsistency indicates broken authorization boundary
+evidence_needed: Confirm feature-toggle response contains sensitive internal config; verify seller-side-panel oracle allows enumeration of valid vtexSellerId values; check for additional unauthenticated endpoints under /public/
+verify_steps: GET https://api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/de/feature-toggle (analyze SOA flags) → GET https://api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/de/seller-side-panel/TEST_ID (observe 404 vs other codes) → enumerate predictable vtexSellerId patterns → GET https://api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/ (check for directory listing or additional endpoints)
+impact: Attacker extracts internal SOA architecture flags, project names, and enumerates valid seller IDs across marketplace — enables targeted seller impersonation, data access, or supply chain attacks. Severity: HIGH
+testability: PASSIVE
+
+[HYP] JWT Validation + Baqend BaaS — Algorithm Confusion & BaaS Permission Misconfiguration Chain
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate + obi-de.app.baqend.com
+confidence: 72
+reasoning: JWT validate endpoint live with browser UA (GET/HEAD 200, clears obi-auth, POST 405 w/o session); production JS confirms JWT usage for 10M+ heyOBI users; Baqend Speed Kit + customer-center/regi-auth bundles loaded in live DOM — BaaS platforms historically expose data via misconfigured class/role permissions; JWT alg confusion (RS256→HS256 or alg:none) + BaaS data exposure could chain to full ATO
+evidence_needed: Confirm JWT algorithm/key handling at validate endpoint; test alg:none and RS256→HS256 confusion with authenticated session; probe Baqend class permissions via Speed Kit endpoints; check for cross-origin data leakage from Baqed to www.obi.de
+verify_steps: GET https://www.obi.de/account/ + /account/api/ with browser UA (map account-api tree) → obtain authenticated session → POST https://www.obi.de/account/api/public/jwt/validate with valid JWT → test alg:none JWT → test HS256 using public key as secret → GET https://obi-de.app.baqend.com/v1/speedkit/install.js?d=production (analyze for config/endpoints) → probe Baqend REST API for unauthenticated data access
+impact: Account takeover of 10M+ heyOBI users (purchase history, payment methods, PII) + potential BaaS customer data exposure. Severity: CRITICAL
+testability: AUTH_HELPED
+
+[HYP] Mobile API v1 — Auth-Gated Spring Boot Actuator/Swagger/GraphQL with Potential IDOR on Authenticated Endpoints
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 68
+reasoning: /v1/ base returns 200 (Envoy), all 17 sub-paths (/users, /orders, /cart, /profile, /health, /auth/login, /admin, /debug, /v2/, /internal/, /beta, /test, /swagger, /openapi.json, /graphql, /metrics, /actuator/health) return 401; Spring Boot actuator endpoints exist but auth-gated; versioned paths (/v2/, /internal/) suggest legacy/undocumented endpoints; no unauthenticated leakage at root
+evidence_needed: Confirm no endpoint hints/version info in /v1/ root response; verify JWT token format/algorithm; test IDOR on /v1/users/{id}, /v1/orders/{id} with authenticated session; check for BOLA on cross-user object access
+verify_steps: GET https://api.live.app.obi.de/v1/ (analyze response body) → OPTIONS https://api.live.app.obi.de/v1/ (CORS) → POST https://api.live.app.obi.de/v1/auth/login with empty body (error format) → if auth obtained: GET /v1/users/{incrementing_ids} + /v1/orders/{incrementing_ids} for IDOR → GET /v1/openapi.json + /v1/swagger + /v1/graphql (introspection) with auth
+impact: Full customer account access, order history, payment methods, PII for mobile app users. Severity: HIGH
+testability: AUTH_HELPED
+
+# STEP 4 — SELF-CRITIQUE
+[PARKED] Cross-Seller IDOR via Unscoped Object Endpoints on Marketplace APIs: confidence 52 but requires authenticated seller context + valid object IDs from spec files; no verify steps without first downloading spec files from api.obi.com — dependent on HYP1 completion
+[PARKED] Baqend BaaS Speed Kit Data Exposure via Misconfigured Permissions: confidence 55 but Baqend platform specifics unknown; verify steps generic; may require auth from start; lower priority vs confirmed exposed assets
+[FINAL] 1. Seller Data Hub Public API — Unauthenticated SOA Flag Exposure & Cross-Seller Enumeration Oracle (api.obi.com, confidence 88, PASSIVE, HIGH impact)
+[FINAL] 2. JWT Validation + Baqend BaaS — Algorithm Confusion & BaaS Permission Misconfiguration Chain (www.obi.de + obi-de.app.baqend.com, confidence 72, AUTH_HELPED, CRITICAL impact)
+[FINAL] 3. Mobile API v1 — Auth-Gated Spring Boot Actuator/Swagger/GraphQL with Potential IDOR (api.live.app.obi.de, confidence 68, AUTH_HELPED, HIGH impact)
+
+# STEP 5 — NEXT ACTION
+[NEXT] PROBE: GET https://api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/de/feature-toggle with Accept: application/json, User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 — extract SOA flags and project names; then GET https://api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/de/seller-side-panel/TEST_SELLER_ID to confirm 404 oracle behavior
+
+# STEP 6 — LEARNING
+[LEARN] ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public/ answers unauthenticated — /public/de/feature-toggle 200 (internal SOA.* flags + project names) and /public/de/seller-side-panel/{vtexSellerId} is an input-dependent 404 oracle; siblings are 401 mule-realm, so this is a real gate divergence
+[LEARN] ACCEPTED ENDPOINT-MAP @ assets.obi.de: correct bundle path is /seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB); all prior 404s used the bare /seller-side-panel/ path — bundle never rotated, supersedes 09-03/09-04 rotation rows
+[LEARN] ACCEPTED AUTH @ api.obi.com: seller bundle fetches seller-data-hub /public/ with mode:cors + credentials:include from assets.obi.de origin; base api.obi.com is CORS:* — cross-origin session-bearing calls are part of the portal design (no validated flaw yet)
+[LEARN] ACCEPTED MISCONFIG @ www.obi.de: Baqend Speed Kit + customer-center/regi-auth bundles confirmed in live DOM — BaaS integration active in production (supersedes PARKED Baqend hypothesis)
+
+# STEP 7 — RISK
+[RISK] obi: 35/100 — All probes passive GET/HEAD/OPTIONS at ≤1 rps; no customer data accessed; no auth bypass attempted; next probe targets unauthenticated public API tree on api.obi.com (read-only); S3 signed URLs are temporary (86400s expiry) and scoped to MuleSoft shared infrastructure; program rules prohibit data exposure during testing — risk remains low

@@ -103,3 +103,8 @@ www.obi.de
 - NEW api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/ — unauth service tree diverging from siblings (feature-toggle HTTP 200, no mule-realm 401), discovered from live se
 - CHANGED assets.obi.de seller bundle is LIVE at /seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB, application/javascript); prior 404s were wrong path (missing /seller-onboarding/ p
 - NEW www.obi.de live DOM embeds obi-de.app.baqend.com/v1/speedkit/install.js?d=production + customer-center/regi-auth bundles — Baqend confirmed in client runtime (was parked)
+
+## 2026-09-05 15:36:13 UTC
+- NEW api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/ — unauthenticated service tree diverging from siblings: /public/de/feature-toggle returns 200 with internal SOA.* f
+- CHANGED assets.obi.de/seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB, application/javascript); prior 404s used wrong path (missing /seller-onboarding/ prefix); bundle never rotat
+- NEW www.obi.de live DOM embeds obi-de.app.baqend.com/v1/speedkit/install.js?d=production + customer-center/regi-auth bundles — Baqend BaaS confirmed in client runtime (was parked)

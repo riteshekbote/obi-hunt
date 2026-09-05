@@ -125,3 +125,15 @@
 - LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public/ answers unauthenticated — /public/de/feature-toggle 200 (internal SOA.* flags + project
 - LEARN: ACCEPTED ENDPOINT-MAP @ assets.obi.de: correct bundle path is /seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB); all prior 404s use
 - LEARN: ACCEPTED AUTH @ api.obi.com: seller bundle fetches seller-data-hub /public/ with mode:cors + credentials:include from assets.obi.de origin; base api.obi.com is 
+
+## RANKED HYPOTHESES 2026-09-05 15:36:13 UTC
+- [88] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/: Seller Data Hub Public API — Unauthenticated SOA Flag Exposure & Cross-Seller Enumeration Oracle (from art/lead_nemotron3.txt)
+- [80] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/{cc}/seller-side-panel/{id}: Seller Data-Hub /public/ Seller Registry — Full trxId Enumeration (imprint + business data) (from art/lead_bigpickle.txt)
+- NEXT(hypotheses-bigpickle.txt): PROBE: Via MuleSoft portal HTML (api.obi.com, CORS:*), re-extract current S3 signed URL for the **seller-data-hub-service** API spec (OAS/RAML) and grep it for 
+- NEXT(hypotheses-nemotron3.txt): PROBE: GET https://api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/de/feature-toggle with Accept: application/json, User-Age
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public is a full unauthenticated seller registry — /public/{cc}/seller-side-panel/{trxId} retur
+- LEARN: ACCEPTED ENDPOINT-MAP @ api.obi.com: /public tree is exactly feature-toggle + seller-side-panel/{id} + imprint-documents/{key}/{cp|gtc} (35 candidate names 404)
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public/ answers unauthenticated — /public/de/feature-toggle 200 (internal SOA.* flags + project
+- LEARN: ACCEPTED ENDPOINT-MAP @ assets.obi.de: correct bundle path is /seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB); all prior 404s use
+- LEARN: ACCEPTED AUTH @ api.obi.com: seller bundle fetches seller-data-hub /public/ with mode:cors + credentials:include from assets.obi.de origin; base api.obi.com is 
+- LEARN: ACCEPTED MISCONFIG @ www.obi.de: Baqend Speed Kit + customer-center/regi-auth bundles confirmed in live DOM — BaaS integration active in production (supersedes 
