@@ -164,3 +164,54 @@
 - LEARN: ACCEPTED MISCONFIG @ www.obi.de: Baqend Speed Kit + customer-center/regi-auth bundles confirmed in live DOM — BaaS integration active in production (supersedes 
 - LEARN: ACCEPTED AUTH @ www.obi.de: /account/api/public/jwt/validate reachable from edge with browser UA — GET/HEAD 200 (text/javascript, len 0) + Set-Cookie expires ob
 - LEARN: ACCEPTED ENDPOINT-MAP @ www.obi.de: /explore/recommendations/api/internal/v6/recommendations returns 500 with browser UA — origin app live; 500 (not 401/403) in
+
+## RANKED HYPOTHESES 2026-09-05 21:46:58 UTC
+- [95] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/: Seller Data Hub Public API — Unauthenticated Seller Registry Enumeration & PII Exposure (from art/lead_nemotron3.txt)
+- NEXT(hypotheses-bigpickle.txt): PROBE: GET https://api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/de/seller-side-panel/1 with Accept: application/json, Use
+- NEXT(hypotheses-nemotron3.txt): PROBE: GET https://api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/de/seller-side-panel/1 with Accept: application/json, Use
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public/ is a full unauthenticated seller registry — /public/{cc}/seller-side-panel/{trxId} retu
+- LEARN: ACCEPTED ENDPOINT-MAP @ api.obi.com: /public tree is exactly feature-toggle + seller-side-panel/{id} + imprint-documents/{key}/{cp|gtc} (35 candidate keys teste
+- LEARN: ACCEPTED ENDPOINT-MAP @ assets.obi.de: correct bundle path is /seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB); all prior 404s use
+- LEARN: ACCEPTED AUTH @ api.obi.com: seller bundle fetches seller-data-hub /public/ with mode:cors + credentials:include from assets.obi.de origin; base api.obi.com is 
+- LEARN: ACCEPTED MISCONFIG @ www.obi.de: Baqend Speed Kit + customer-center/regi-auth bundles confirmed in live DOM — BaaS integration active in production (supersedes 
+- LEARN: ACCEPTED AUTH @ www.obi.de: /account/api/public/jwt/validate reachable from edge with browser UA — GET/HEAD 200 (text/javascript, len 0) + Set-Cookie expires ob
+- LEARN: ACCEPTED ENDPOINT-MAP @ www.obi.de: /explore/recommendations/api/internal/v6/recommendations returns 500 with browser UA — origin app live; 500 (not 401/403) in
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public/ answers unauthenticated — /public/de/feature-toggle 200 (internal SOA.* flags + project
+- LEARN: ACCEPTED ENDPOINT-MAP @ assets.obi.de: correct bundle path is /seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB); all prior 404s use
+- LEARN: ACCEPTED AUTH @ api.obi.com: seller bundle fetches seller-data-hub /public/ with mode:cors + credentials:include from assets.obi.de origin; base api.obi.com is 
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public is a full unauthenticated seller registry — /public/{cc}/seller-side-panel/{trxId} retur
+- LEARN: ACCEPTED ENDPOINT-MAP @ api.obi.com: /public tree is exactly feature-toggle + seller-side-panel/{id} + imprint-documents/{key}/{cp|gtc} (35 candidate names 404)
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public/ is a full unauthenticated seller registry — /public/{cc}/seller-side-panel/{trxId} retu
+- LEARN: ACCEPTED ENDPOINT-MAP @ api.obi.com: /public tree is exactly feature-toggle + seller-side-panel/{id} + imprint-documents/{key}/{cp|gtc} (35 candidate names 404)
+- LEARN: ACCEPTED AUTH @ api.obi.com: seller bundle fetches seller-data-hub /public/ with mode:cors + credentials:include from assets.obi.de origin; base api.obi.com is 
+- LEARN: ACCEPTED ENDPOINT-MAP @ api.obi.com: /public tree is exactly feature-toggle + seller-side-panel/{id} + imprint-documents/{key}/{cp|gtc} (35 candidate names 404)
+- LEARN: ACCEPTED ENDPOINT-MAP @ assets.obi.de: correct bundle path is /seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB); all prior 404s use
+- LEARN: ACCEPTED AUTH @ api.obi.com: seller bundle fetches seller-data-hub /public/ with mode:cors + credentials:include from assets.obi.de origin; base api.obi.com is 
+- LEARN: ACCEPTED MISCONFIG @ www.obi.de: Baqend Speed Kit + customer-center/regi-auth bundles confirmed in live DOM — BaaS integration active in production (supersedes 
+- LEARN: ACCEPTED AUTH @ www.obi.de: /account/api/public/jwt/validate reachable from edge with browser UA — GET/HEAD 200 (text/javascript, len 0) + Set-Cookie expires ob
+- LEARN: ACCEPTED ENDPOINT-MAP @ www.obi.de: /explore/recommendations/api/internal/v6/recommendations returns 500 with browser UA — origin app live; 500 (not 401/403) in
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public/ is a full unauthenticated seller registry — /public/{cc}/seller-side-panel/{trxId} retu
+- LEARN: ACCEPTED ENDPOINT-MAP @ api.obi.com: /public tree is exactly feature-toggle + seller-side-panel/{id} + imprint-documents/{key}/{cp|gtc} (35 candidate keys teste
+- LEARN: ACCEPTED ENDPOINT-MAP @ assets.obi.de: correct bundle path is /seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB); all prior 404s use
+- LEARN: ACCEPTED AUTH @ api.obi.com: seller bundle fetches seller-data-hub /public/ with mode:cors + credentials:include from assets.obi.de origin; base api.obi.com is 
+- LEARN: ACCEPTED MISCONFIG @ www.obi.de: Baqend Speed Kit + customer-center/regi-auth bundles confirmed in live DOM — BaaS integration active in production (supersedes 
+- LEARN: ACCEPTED AUTH @ www.obi.de: /account/api/public/jwt/validate reachable from edge with browser UA — GET/HEAD 200 (text/javascript, len 0) + Set-Cookie expires ob
+- LEARN: ACCEPTED ENDPOINT-MAP @ www.obi.de: /explore/recommendations/api/internal/v6/recommendations returns 500 with browser UA — origin app live; 500 (not 401/403) in
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public is a full unauthenticated seller registry — /public/{cc}/seller-side-panel/{trxId} retur
+- LEARN: ACCEPTED ENDPOINT-MAP @ api.obi.com: /public tree is exactly feature-toggle + seller-side-panel/{id} + imprint-documents/{key}/{cp|gtc} (35 candidate names 404)
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public/ is a full unauthenticated seller registry — /public/{cc}/seller-side-panel/{trxId} retu
+- LEARN: ACCEPTED ENDPOINT-MAP @ api.obi.com: /public tree is exactly feature-toggle + seller-side-panel/{id} + imprint-documents/{key}/{cp|gtc} (35 candidate names 404)
+- LEARN: ACCEPTED AUTH @ api.obi.com: seller bundle fetches seller-data-hub /public/ with mode:cors + credentials:include from assets.obi.de origin; base api.obi.com is 
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public/ is a full unauthenticated seller registry — /public/{cc}/seller-side-panel/{trxId} retu
+- LEARN: ACCEPTED ENDPOINT-MAP @ api.obi.com: /public tree is exactly feature-toggle + seller-side-panel/{id} + imprint-documents/{key}/{cp|gtc} (35 candidate names 404)
+- LEARN: ACCEPTED AUTH @ api.obi.com: seller bundle fetches seller-data-hub /public/ with mode:cors + credentials:include from assets.obi.de origin; base api.obi.com is 
+- LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no seller-data-hub-service spec asset in exchange catalog and root portal HTML no longer embeds S3 signed URLs — OAS-extrac
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: /public/ exposure is UNIQUE to seller-data-hub-service — its own non-public /api/v1/ mirror of feature-toggle+seller-side-pane
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: /public/de/feature-toggle live (1228B) reflects arbitrary Origin with ACAC:true — any-origin credentialed reads confirmed (str
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public/ is a full unauthenticated seller registry — /public/{cc}/seller-side-panel/{trxId} retu
+- LEARN: ACCEPTED ENDPOINT-MAP @ api.obi.com: /public tree is exactly feature-toggle + seller-side-panel/{id} + imprint-documents/{key}/{cp|gtc} (35 candidate keys teste
+- LEARN: ACCEPTED ENDPOINT-MAP @ assets.obi.de: correct bundle path is /seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js → 200 (230KB); all prior 404s use
+- LEARN: ACCEPTED AUTH @ api.obi.com: seller bundle fetches seller-data-hub /public/ with mode:cors + credentials:include from assets.obi.de origin; base api.obi.com is 
+- LEARN: ACCEPTED MISCONFIG @ www.obi.de: Baqend Speed Kit + customer-center/regi-auth bundles confirmed in live DOM — BaaS integration active in production (supersedes 
+- LEARN: ACCEPTED AUTH @ www.obi.de: /account/api/public/jwt/validate reachable from edge with browser UA — GET/HEAD 200 (text/javascript, len 0) + Set-Cookie expires ob
+- LEARN: ACCEPTED ENDPOINT-MAP @ www.obi.de: /explore/recommendations/api/internal/v6/recommendations returns 500 with browser UA — origin app live; 500 (not 401/403) in
