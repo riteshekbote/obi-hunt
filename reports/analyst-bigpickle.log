@@ -3742,3 +3742,554 @@ echo "== GET ?callback=%5CXSS Accept */*"
 curl -sS -o /tmp/c3 -D /tmp/ch3 -w "STATUS:%{http_code} TYPE:%{content_type} SIZE:%{size_download}\n" -H "User-Agent: $BROWSER" -H "Accept: text/javascript" "https://www.obi.de$E?callback=probe%5CXSS%5D"
 echo "[body] [$(cat /tmp/c3 | tr '\n' ' ')]" failed
 [91m[1mError: [0mThe user rejected permission to use this specific tool call.
+===== ANALYST bigpickle 2026-09-05 08:56:11 UTC =====
+[0m
+> build · big-pickle
+[0m
+[0m$ [0mls -la && cat scope.yml 2>/dev/null | head -50
+total 148
+drwxr-xr-x 12 runner runner  4096 Sep  5 08:35 .
+drwxr-xr-x  3 runner runner  4096 Sep  5 08:35 ..
+drwxr-xr-x  7 runner runner  4096 Sep  5 08:36 .git
+drwxr-xr-x  3 runner runner  4096 Sep  5 08:35 .github
+-rw-r--r--  1 runner runner  1814 Sep  5 08:35 README.md
+-rw-r--r--  1 runner runner    32 Sep  5 08:36 analyst-out.txt
+-rw-r--r--  1 runner runner 31673 Sep  5 08:35 analyst-prompt.txt
+-rw-r--r--  1 runner runner 27811 Sep  5 08:35 ctx.txt
+drwxr-xr-x  2 runner runner  4096 Sep  5 08:35 inventory
+drwxr-xr-x  2 runner runner  4096 Sep  5 08:35 knowledge
+drwxr-xr-x  2 runner runner  4096 Sep  5 08:35 leads
+-rw-r--r--  1 runner runner  3361 Sep  5 08:35 probe-results.md
+drwxr-xr-x  2 runner runner  4096 Sep  5 08:35 recon-notes
+drwxr-xr-x  2 runner runner  4096 Sep  5 08:35 reports
+drwxr-xr-x  2 runner runner  4096 Sep  5 08:35 reposcan-raw
+-rw-r--r--  1 runner runner  3275 Sep  5 08:35 scope.yml
+drwxr-xr-x  2 runner runner  4096 Sep  5 08:35 scripts
+-rw-r--r--  1 runner runner    33 Sep  5 08:35 state_bigpickle.json
+-rw-r--r--  1 runner runner    33 Sep  5 08:35 state_laguna.json
+-rw-r--r--  1 runner runner    33 Sep  5 08:35 state_ling3.json
+-rw-r--r--  1 runner runner    33 Sep  5 08:35 state_longcat.json
+-rw-r--r--  1 runner runner    33 Sep  5 08:35 state_mimo.json
+-rw-r--r--  1 runner runner    33 Sep  5 08:35 state_nemotron3.json
+drwxr-xr-x  2 runner runner  4096 Sep  5 08:35 triage
+programs:
+  obi:
+    name: OBI Group Holding SE & Co. KGaA Bug Bounty
+    disclosure_policy: via bugs.olivermaicher.eu (Oliver Maicher private program) - report + PoC + contact + payment
+    assets:
+      - name: "All company-owned infrastructure, retail systems, e-commerce platforms, mobile applications, APIs, supply chain systems, customer accounts, and domains operated by OBI Group and its subsidiaries"
+        priority: In
+    out_of_scope:
+- "Network level Denial of Service attacks"
+      - "Application Denial of Service by locking user accounts"
+      - "Descriptive error messages or headers (e.g. Stack Traces, banner grabbing)"
+      - "Disclosure of known public files or directories (e.g. robots.txt)"
+      - "Outdated software / library versions"
+      - "OPTIONS / TRACE HTTP method enabled"
+      - "CSRF on logout"
+      - "CSRF on forms that are available to anonymous users"
+      - "Cookies that lack HTTP Only or Secure settings for non-sensitive data"
+      - "Self-XSS and issues exploitable only through Self-XSS"
+      - "Reports resulting from automated scanning utilities without additional details or a POC demonstrating a specific exploit"
+      - "Attacks requiring physical access to a user's device"
+      - "Attacks dependent upon social engineering of employees or vendors"
+      - "Username enumeration based on login or forgot password pages"
+      - "Enforcement policies for brute force, rate limiting, or account lockout"
+      - "SSL/TLS best practices"
+      - "SSL attacks such as BEAST, BREACH, Renegotiation attack"
+      - "Clickjacking, without additional details demonstrating a specific exploit"
+      - "Mail configuration issues including SPF, DKIM, DMARC settings"
+      - "Use of a known-vulnerable library without a description of an exploit specific to our implementation"
+      - "Password and account recovery policies"
+      - "Presence of autocomplete functionality in form fields"
+      - "Publicly accessible login panels"
+      - "Lack of email address verification during account registration or account invitation"
+      - "Lack of email address verification password restore"
+      - "Session control during email/password changes"
+      - "Social engineering, physical attacks, and DoS/DDoS testing (per program notes)"
+      - "Exposure of customer/employee/financial/authentication data during testing (per program notes)"
+    github_orgs:
+      - none-configured
+
+rules:
+  passive_first: false          # deep-hunt agent: active probes allowed when scoped
+  max_requests_per_second: 1    # never hammer live infra
+  no_doom: true                 # no DoS/DDoS, no account-lockout attacks
+  account_creation: restricted  # only on test/sandbox assets, never live customer data
+  no_data_modification: true    # no writes/deletes on live customer data
+  no_pre_disclosure: true       # never disclose before program response
+  poc_required: true            # scanner output alone is REJECTED
+  redact_secrets_in_commits: true
+
+models:
+[0m
+Let me examine the context, probes, leads, and state to run the analysis.
+[0m$ [0mcat probe-results.md; echo "=====LEADS====="; ls leads/; echo "=====STATE====="; cat state_bigpickle.json; echo "=====KNOWLEDGE====="; ls knowledge/
+## 2026-09-02 21:42:23 UTC
+
+
+## 2026-09-02 23:55:00 UTC
+
+
+## 2026-09-03 03:49:23 UTC
+
+
+## 2026-09-03 08:20:36 UTC
+
+
+## 2026-09-03 12:54:33 UTC
+
+
+## 2026-09-03 17:18:19 UTC
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+https://www.obi.de/explore/recommendations/api/internal/v6/ -> HTTP 404
+
+## 2026-09-03 20:01:58 UTC
+https://api.live.app.obi.de/v1/ -> 200 len=?
+https://api.live.app.obi.de/v1/health -> HTTP 401
+https://api.live.app.obi.de/v1/auth/login -> HTTP 401
+https://assets.obi.de/seller-side-panel/resources/index-BUGS3Fny.js -> HTTP 404
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+https://www.obi.de/explore/recommendations/api/internal/v6/ -> HTTP 404
+
+## 2026-09-03 22:28:41 UTC
+https://api.live.app.obi.de/v1/ -> 200 len=?
+https://api.live.app.obi.de/v1/users -> HTTP 401
+https://api.live.app.obi.de/v1/orders -> HTTP 401
+https://api.live.app.obi.de/v1/cart -> HTTP 401
+https://api.live.app.obi.de/v1/profile -> HTTP 401
+https://api.live.app.obi.de/v1/auth/login -> HTTP 401
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+
+## 2026-09-04 00:37:46 UTC
+https://api.live.app.obi.de/v1/ -> 200 len=?
+https://api.live.app.obi.de/v1/admin -> HTTP 401
+https://api.live.app.obi.de/v1/debug -> HTTP 401
+https://api.live.app.obi.de/v1/v2/ -> HTTP 401
+https://api.live.app.obi.de/v1/internal/ -> HTTP 401
+https://api.live.app.obi.de/v1/auth/login -> HTTP 401
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+
+## 2026-09-04 05:18:47 UTC
+
+
+## 2026-09-04 09:49:55 UTC
+https://api.live.app.obi.de/v1/ -> 200 len=?
+https://api.live.app.obi.de/v1/beta -> HTTP 401
+https://api.live.app.obi.de/v1/test -> HTTP 401
+https://api.live.app.obi.de/v1/swagger -> HTTP 401
+https://api.live.app.obi.de/v1/openapi.json -> HTTP 401
+https://api.live.app.obi.de/v1/graphql -> HTTP 401
+https://api.live.app.obi.de/v1/metrics -> HTTP 401
+https://api.live.app.obi.de/v1/actuator/health -> HTTP 401
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+https://www.obi.de/explore/recommendations/api/internal/v6/ -> HTTP 404
+
+## 2026-09-04 14:17:01 UTC
+https://api.live.app.obi.de/v1/ -> 200 len=?
+https://api.live.app.obi.de/v1/auth/login -> HTTP 401
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+
+## 2026-09-04 17:50:30 UTC
+https://api.live.app.obi.de/v1/ -> 200 len=?
+https://api.live.app.obi.de/v1/auth/login -> HTTP 401
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+
+## 2026-09-04 20:13:07 UTC
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+https://assets.obi.de/seller-side-panel/resources/ -> HTTP 404
+https://assets.obi.de/seller-side-panel/ -> HTTP 404
+https://assets.obi.de/ -> 200 len=39
+
+## 2026-09-04 22:15:32 UTC
+https://api.live.app.obi.de/v1/ -> 200 len=?
+https://api.live.app.obi.de/v1/auth/login -> HTTP 401
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+https://www.obi.de/account/ -> HTTP 404
+https://www.obi.de/account/api/ -> HTTP 404
+
+## 2026-09-05 00:15:46 UTC
+https://www.obi.de/account/ -> HTTP 404
+https://www.obi.de/account/api/ -> HTTP 404
+
+## 2026-09-05 04:40:57 UTC
+https://api.live.app.obi.de/v1/ -> 200 len=?
+https://api.live.app.obi.de/v1/auth/login -> HTTP 401
+https://www.obi.de/account/ -> HTTP 404
+https://www.obi.de/account/api/ -> HTTP 404
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+=====LEADS=====
+lead-bigpickle.md
+lead-laguna.md
+lead-ling3.md
+lead-longcat.md
+lead-mimo.md
+lead-nemotron3.md
+reposcan-obi.md
+=====STATE=====
+{"phase": "POC", "target": "api"}=====KNOWLEDGE=====
+index.md
+[0m
+Let me look at the leads, recent probes, and check current state. My previous NEXT PROBE was for the account tree mapping at www.obi.de. Let me check what probes were run since. The last probe results show /account/, /account/api/, and jwt/validate all returning 404 to raw requests. Let me examine the leads and check the current state of the key findings.
+
+Let me run the pending NEXT PROBE with browser UA to verify the account tree, and check the internal v6 param behavior. Let me first check the leads files.
+[0m$ [0mcat leads/lead-bigpickle.md 2>/dev/null | head -80; echo "===NEMO==="; cat leads/lead-nemotron3.md 2>/dev/null | head -40
+## 2026-09-03 17:01:44 UTC [target] (model bigpickle)
+[NEW] api.obi.com — MuleSoft API Portal, publicly accessible, 14+ marketplace APIs exposed
+[NEW] api.live.app.obi.de — Mobile app API, Envoy proxy, /v1/ versioned
+[NEW] imgix.obi.de — Image CDN, CORS: *, S3-backed
+[NEW] assets.obi.de — Static asset CDN, S3 origin
+[NEW] obi-de.app.baqend.com — Baqend BaaS speed kit integration
+[NEW] 6+ backend API paths on www.obi.de (cart, PDP, CMS, recommendations, JWT validate)
+[NEW] Seller onboarding JS bundle exposed on frontend
+[CHANGED] www.obi.de — Now confirmed live with browser UA; Discover CMS + Vtex platform; origin returns 404 to raw HEAD but serves full SPA to browser UA
+[PRIO] api.obi.com,9.2,attack_surface=10(14+ APIs),business_value=9(marketplace/seller/payment/order),tech_exposure=9(MuleSoft/CORS:*),gate_ease=10(publicly accessible),cloud_surface=8(CF+MuleSoft),freshness=9(recently built seller portal)
+[PRIO] www.obi.de,8.5,attack_surface=9(multi-API surface),business_value=10(e-commerce/payments/10M users),tech_exposure=8(Vtex/DiscoverCMS/Prudsys/JWT),gate_ease=7(needs browser UA),cloud_surface=8(CF+Baquend),freshness=8(Vtex migration 2024)
+[PRIO] api.live.app.obi.de,7.8,attack_surface=7(mobile API),business_value=9(customer data/auth),tech_exposure=7(Envoy/versioned),gate_ease=6(needs further enum),cloud_surface=7(Envoy),freshness=7(active)
+[HYP] MuleSoft API Portal Public Exposure — Unauthenticated API Documentation & Seller Onboarding
+class: MISCONFIG
+asset: api.obi.com
+confidence: 85
+reasoning: api.obi.com serves full MuleSoft Exchange portal HTML with 14+ API docs (order-service-management-api, product-management-api, price-management-api, inventory-management-api, transactions-management-api, subscription-management-api, seller-portal-payout-info) publicly accessible. CSP frame-ancestors allows mulesoft.com domains. Login endpoint exists at /login but portal content is fully readable without auth. Seller onboarding JS bundle (seller-side-panel/resources/index-BUGS3Fny.js) served from assets.obi.de with no auth gate. CORS: Access-Control-Allow-Origin: * on api.obi.com.
+evidence_needed: Confirm whether API docs expose endpoint URLs, request/response schemas, auth token formats, or seller credentials; test /login for auth bypass or default creds
+verify_steps: GET https://api.obi.com/ (done — 200, full portal) → follow each API doc link → GET https://api.obi.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/order-service-management-api/ (404 SPA — needs JS rendering) → GET https://api.obi.com/login (check auth flow) → OPTIONS https://api.obi.com/ (verify CORS)
+impact: Exposed API documentation enables attackers to discover internal marketplace APIs, seller onboarding flows, order/payment/inventory endpoints. Combined with CORS: *, cross-origin JS can read portal content. Severity: HIGH — reconnaissance advantage + potential auth bypass on seller APIs.
+testability: PASSIVE
+[HYP] JWT Validation Endpoint with Potential Algorithm Confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 65
+reasoning: Frontend JavaScript calls /account/api/public/jwt/validate to check session state. Endpoint currently returns 404 to HEAD/curl but may respond to POST with JWT body. The heyOBI system uses JWT for customer auth across 10M+ users. If the validation endpoint accepts alg:none or allows key confusion (RS256→HS256), account takeover is possible.
+evidence_needed: Confirm endpoint responds to POST with JWT body; identify JWT algorithm and key handling; test alg:none and alg confusion
+verify_steps: POST https://www.obi.de/account/api/public/jwt/validate with Content-Type: application/json and empty body → observe response → craft test JWT with alg:none → POST with test JWT → check if rejected correctly
+impact: Account takeover of 10M+ heyOBI users, access to purchase history, payment methods, personal data. Severity: CRITICAL.
+testability: AUTH_HELPED
+[HYP] Internal Recommendations API Potential IDOR via Product/Customer IDs
+class: IDOR
+asset: www.obi.de/explore/recommendations/api/internal/v6/
+confidence: 55
+reasoning: The endpoint path contains "internal" suggesting it was not designed for public access. Prudsys recommendation engine at /explore/recommendations/api/internal/v6/ likely accepts product IDs or customer session tokens. robots.txt also reveals /pdp/prudsys/*/productview tracking endpoint. If product IDs are sequential/ predictable, cross-tenant recommendation data or customer behavior profiles could be leaked.
+evidence_needed: Confirm endpoint accepts requests; identify required parameters (product ID, customer ID, session token); test with incrementing IDs
+verify_steps: GET https://www.obi.de/explore/recommendations/api/internal/v6/ → GET with ?productId=2191162265821 → test with incrementing IDs → check response for PII or cross-customer data
+impact: Leakage of customer browsing/purchase patterns, product affinity data. Severity: MEDIUM.
+testability: PASSIVE
+[HYP] MuleSoft API Portal Public Exposure — **SURVIVORS [FINAL-1]**: Confidence 85, fully verifiable passively, high business value, clear misconfiguration (CORS:* + public docs). Recheck: SPA rendering may limit what curl can extract, but portal is confirmed live.
+[HYP] JWT Validation — **SURVIVORS [FINAL-2]**: Confidence 65, needs auth_helper to test POST with JWT body. Not rejectable — endpoint path exists in production JS, pattern is real. Kept at AUTH_HELPED.
+[HYP] Internal Recommendations API — **PARKED**: Confidence 55, "internal" path may just be naming convention. Without being able to confirm the endpoint responds to requests (all /api/ paths return 404 at CloudFront level for HEAD/curl), too speculative. Park until browser-confirmed.
+[NEXT] PROBE: GET https://api.obi.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/order-service-management-api/ with browser-like Accept headers and check if API documentation content (endpoints, schemas, auth requirements) is extractable. Also GET https://api.obi.com/login and OPTIONS https://api.obi.com/ to map CORS policy and auth flow.
+[LEARN] ACCEPTED MISCONFIG @ api.obi.com: Public MuleSoft Exchange portal exposes marketplace API documentation (order, product, price, inventory, transactions, seller) with CORS: * — real misconfiguration enabling reconnaissance.
+[LEARN] ACCEPTED AUTH @ www.obi.de: JWT validation endpoint path confirmed in production JavaScript — viable test target for alg confusion with authenticated session.
+[LEARN] REJECTED ENDPOINT-MAP @ www.obi.de: All /api/* paths return 404 at CloudFront edge — origin routing requires browser-level session/cookies. Cannot enumerate live backend APIs from curl alone.
+[RISK] obi: 35/100 — Passive-only recon; no customer data accessed; no auth bypass attempted; all probes are GET/HEAD at ≤1 rps. MuleSoft portal is publicly accessible by design (it's a developer portal). JWT test would require creating test account per program rules. Low risk of impact to production systems.
+## 2026-09-03 19:43:34 UTC [target] (model bigpickle)
+[PRIO] api.obi.com,9.0,attack_surface=10(14+ APIs),business_value=9(marketplace/seller/payment),tech_exposure=9(MuleSoft/CORS:*),gate_ease=10(public),cloud_surface=8(CF+MuleSoft),freshness=9(seller portal)
+[PRIO] www.obi.de,8.5,attack_surface=9(multi-API),business_value=10(e-commerce/10M users),tech_exposure=8(Vtex/DiscoverCMS/JWT),gate_ease=7(needs browser UA),cloud_surface=8(CF+Baqend),freshness=8(Vtex migration)
+[PRIO] api.live.app.obi.de,7.8,attack_surface=7(mobile API),business_value=9(customer data),tech_exposure=7(Envoy/versioned),gate_ease=6(needs enum),cloud_surface=7(Envoy),freshness=7(active)
+[HYP] MuleSoft API Portal — Unauthenticated API Documentation & Seller Onboarding Exposure
+class: MISCONFIG
+asset: api.obi.com
+confidence: 85
+reasoning: Public MuleSoft Exchange portal serves 14+ API docs (order, product, price, inventory, transactions, seller) with CORS: *. Login endpoint at /login exists but portal content readable without auth. Seller onboarding JS bundle served from assets.obi.de without auth gate.
+evidence_needed: Confirm API docs expose actual endpoint URLs, request/response schemas, auth token formats; test /login for auth bypass; verify CORS allows cross-origin reading of portal content
+verify_steps: GET https://api.obi.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/order-service-management-api/ with Accept: text/html → follow links → GET https://api.obi.com/login → OPTIONS https://api.obi.com/
+impact: Attackers discover internal marketplace APIs, seller onboarding flows, order/payment/inventory endpoints. Combined with CORS: *, cross-origin JS can read portal. Severity: HIGH
+testability: PASSIVE
+[HYP] JWT Validation Endpoint — Potential Algorithm Confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 65
+reasoning: Frontend JS calls /account/api/public/jwt/validate to check session state. Endpoint returns 404 to HEAD/curl but may respond to POST with JWT body. heyOBI uses JWT for customer auth across 10M+ users. If validation accepts alg:none or allows key confusion (RS256→HS256), account takeover is possible.
+evidence_needed: Confirm endpoint responds to POST with JWT body; identify JWT algorithm and key handling; test alg:none and alg confusion
+verify_steps: POST https://www.obi.de/account/api/public/jwt/validate with Content-Type: application/json and empty body → craft test JWT with alg:none → POST with test JWT
+impact: Account takeover of 10M+ heyOBI users, access to purchase history, payment methods, personal data. Severity: CRITICAL
+testability: AUTH_HELPED
+[HYP] Internal Recommendations API — Potential IDOR via Product IDs
+class: IDOR
+asset: www.obi.de/explore/recommendations/api/internal/v6/
+confidence: 55
+reasoning: Endpoint path contains "internal" suggesting not designed for public access. Prudsys recommendation engine at /explore/recommendations/api/internal/v6/ likely accepts product IDs or customer session tokens. If product IDs are sequential/predictable, cross-tenant recommendation data or customer behavior profiles could be leaked.
+evidence_needed: Confirm endpoint accepts requests; identify required parameters (product ID, customer ID, session token); test with incrementing IDs
+verify_steps: GET https://www.obi.de/explore/recommendations/api/internal/v6/ → GET with ?productId=2191162265821 → test with incrementing IDs
+impact: Leakage of customer browsing/purchase patterns, product affinity data. Severity: MEDIUM
+testability: PASSIVE
+[PARKED] Internal Recommendations API — Confidence 55, "internal" path may just be naming convention. Without confirming endpoint responds to requests (all /api/ paths return 404 at CloudFront for HEAD/curl), too speculative. Park until browser-confirmed.
+[NEXT] PROBE: GET https://api.obi.com/e9d97593-77e2-4c1d-983c-b4593b3393ed/order-service-management-api/ with Accept: text/html,application/xhtml+xml and User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 — check if API documentation content (endpoints, schemas, auth requirements) is extractable. Also GET https://api.obi.com/login to map auth flow.
+===NEMO===
+## 2026-09-03 17:18:06 UTC [target] (model nemotron3)
+## 2026-09-03 20:01:37 UTC [target] (model nemotron3)
+[PRIO] api.live.app.obi.de,8.1,attack_surface=8(mobile API v1),business_value=9(customer auth/data),tech_exposure=8(Envoy/versioned),gate_ease=6(needs enum),cloud_surface=7(Envoy),freshness=8(active)
+[PRIO] assets.obi.de,7.6,attack_surface=7(S3 CDN + seller JS),business_value=8(seller onboarding),tech_exposure=8(CORS:*+exposed JS),gate_ease=9(public),cloud_surface=8(S3),freshness=7(recent bundle)
+[PRIO] imgix.obi.de,6.8,attack_surface=6(image CDN),business_value=6(media),tech_exposure=7(CORS:* S3),gate_ease=10(public),cloud_surface=7(S3),freshness=6(standard)
+[PRIO] obi-de.app.baqend.com,6.2,attack_surface=5(BaaS),business_value=7(speed kit data),tech_exposure=5(unknown),gate_ease=5(needs auth),cloud_surface=6(BaaS),freshness=6(active)
+[PRIO] www.obi.de,8.5,attack_surface=9(multi-API),business_value=10(e-comm 10M),tech_exposure=8(Vtex/JWT),gate_ease=4(browser UA only),cloud_surface=8(CF+Baqend),freshness=8(Vtex 2024)
+[PRIO] api.obi.com,9.2,attack_surface=10(14+ APIs),business_value=9(marketplace),tech_exposure=9(MuleSoft/CORS:*),gate_ease=10(public),cloud_surface=8(CF+MuleSoft),freshness=9(seller portal)
+[HYP] Mobile API Versioned Endpoint Enumeration & Auth Bypass
+class: AUTH
+asset: api.live.app.obi.de
+confidence: 70
+reasoning: NEW asset, Envoy proxy with /v1/ versioned API path. Mobile app APIs often have weaker auth gates than web. Versioned paths (/v1/, /v2/) suggest legacy endpoints may persist without auth updates. No probes executed yet.
+evidence_needed: Confirm /v1/ base path responds; enumerate sub-paths (/v1/auth, /v1/user, /v1/orders); test auth requirements per endpoint
+verify_steps: GET https://api.live.app.obi.de/v1/ → GET https://api.live.app.obi.de/v1/health → GET https://api.live.app.obi.de/v1/auth/login → OPTIONS https://api.live.app.obi.de/v1/ (CORS) → test POST /v1/auth/login with empty body
+impact: Full customer account access, order history, payment methods, PII for mobile app users. Severity: HIGH.
+testability: PASSIVE
+[HYP] Seller Onboarding JS Bundle Secrets & Hardcoded Endpoints
+class: MISCONFIG
+asset: assets.obi.de
+confidence: 80
+reasoning: NEW finding — seller-side-panel/resources/index-BUGS3Fny.js served from S3-backed CDN with no auth gate. Frontend bundles often contain API keys, internal endpoints, auth token formats, or seller portal URLs. CORS: * on parent domain enables cross-origin read.
+evidence_needed: Extract and analyze JS bundle for hardcoded secrets, API endpoints, auth logic, seller portal URLs, token storage patterns
+verify_steps: GET https://assets.obi.de/seller-side-panel/resources/index-BUGS3Fny.js → static analysis for endpoints/keys/tokens → check for MuleSoft API URLs, JWT handling, seller dashboard paths → verify any found endpoints respond
+impact: Exposure of seller onboarding flow, internal API topology, potential API keys, auth bypass vectors for seller portal. Severity: HIGH.
+testability: PASSIVE
+[HYP] Baqend BaaS Speed Kit Data Exposure via Misconfigured Permissions
+class: IDOR
+asset: obi-de.app.baqend.com
+confidence: 55
+reasoning: NEW asset — Baqend BaaS (Backend-as-a-Service) speed kit integration. BaaS platforms often expose data APIs with object-level permissions. If speed kit caches customer/session data with predictable IDs, cross-user data access possible. No auth requirement confirmed.
+evidence_needed: Confirm Baqend app responds; identify data collections (users, sessions, carts); test IDOR on object IDs
+verify_steps: GET https://obi-de.app.baqend.com/ → GET https://obi-de.app.baqend.com/api/ → check for /db/ or /api/v1/ paths → test GET /api/v1/users/1, /api/v1/sessions/{id} with incrementing IDs
+impact: Customer session data, cart contents, PII leakage across 10M+ users. Severity: MEDIUM-HIGH.
+testability: PASSIVE
+[PARKED] Baqend BaaS Speed Kit Data Exposure via Misconfigured Permissions: confidence 55 but Baqend platform specifics unknown; verify steps generic; may require auth from start; lower priority vs confirmed exposed assets
+[FINAL] 1. Seller Onboarding JS Bundle Secrets & Hardcoded Endpoints (assets.obi.de, confidence 80, PASSIVE, HIGH impact)
+[FINAL] 2. Mobile API Versioned Endpoint Enumeration & Auth Bypass (api.live.app.obi.de, confidence 70, PASSIVE, HIGH impact)
+[FINAL] 3. Baqend BaaS Speed Kit Data Exposure via Misconfigured Permissions (obi-de.app.baqend.com, confidence 55, PASSIVE, MEDIUM-HIGH impact) — PARKED pending platform confirmation
+[NEXT] PROBE: GET https://assets.obi.de/seller-side-panel/resources/index-BUGS3Fny.js with Accept: application/javascript and analyze response for hardcoded API endpoints, auth tokens, seller portal URLs, MuleSoft references, and JWT handling logic
+[0m
+I have a good understanding of the current state. Let me run the pending NEXT probes to verify the account-api tree with browser UA, and test the internal recommendations v6 param behavior. These are read-only GET probes within scope.
+
+Let me run the probes:
+[0m$ [0mUA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+for p in "/account/" "/account/api/" "/account/api/public/" "/account/api/public/jwt/validate"; do
+  code=$(curl -s -o /dev/null -w "%{http_code} %{content_type} %{size_download}" -A "$UA" -H "Accept: text/html,application/xhtml+xml" "https://www.obi.de$p" 2>/dev/null)
+  echo "$p -> $code"
+  sleep 1
+done
+/account/ -> 404 text/html; charset=utf-8 135315
+/account/api/ -> 404 text/html; charset=utf-8 135315
+/account/api/public/ -> 404 text/html; charset=utf-8 135315
+/account/api/public/jwt/validate -> 406 text/html;charset=UTF-8 280
+[0m
+Interesting — with browser UA, `/account/api/public/jwt/validate` now returns **406** (not 200 as the accepted finding claims). The 406 Not Acceptable is a UA/accept-header routing response. The 404s returned 135KB (SPA fallback page, since 406 for jwt/validate with text/html Accept rejected due to content-type mismatch — the endpoint serves text/javascript).
+
+Let me probe more carefully to characterize the jwt/validate endpoint. The 406 suggests the endpoint is live but rejects the Accept: text/html (it wants application/json or text/javascript). Let me test various Accept headers on the JWT validate endpoint, and also probe the internal recommendations v6 param behavior.
+[0m$ [0mUA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+echo "=== jwt/validate various Accept ==="
+for acc in "application/json" "text/javascript" "*/*" "text/html"; do
+  out=$(curl -s -o /dev/null -w "%{http_code} %{content_type} %{size_download}" -A "$UA" -H "Accept: $acc" "https://www.obi.de/account/api/public/jwt/validate" 2>/dev/null)
+  echo "Accept=$acc -> $out"
+  sleep 1
+done
+echo "=== jwt/validate POST empty ==="
+curl -s -o /dev/null -w "%{http_code} %{content_type} %{size_download}\n" -A "$UA" -X POST -H "Accept: application/json" -H "Content-Type: application/json" -d '{}' "https://www.obi.de/account/api/public/jwt/validate" 2>/dev/null
+sleep 1
+echo "=== recommendations v6 param test ==="
+for q in "" "?productId=2191162265821&categoryId=0" "?productId=0000000000"; do
+  out=$(curl -s -o /dev/null -w "%{http_code} %{content_type} %{size_download}" -A "$UA" -H "Accept: application/json" "https://www.obi.de/explore/recommendations/api/internal/v6/recommendations$q" 2>/dev/null)
+  echo "q='$q' -> $out"
+  sleep 1
+done
+=== jwt/validate various Accept ===
+Accept=application/json -> 406 application/json 120
+Accept=text/javascript -> 200 text/javascript 0
+Accept=*/* -> 200 text/javascript 0
+Accept=text/html -> 406 text/html;charset=UTF-8 280
+=== jwt/validate POST empty ===
+405  0
+=== recommendations v6 param test ===
+q='' -> 500  0
+q='?productId=2191162265821&categoryId=0' -> 500  0
+q='?productId=0000000000' -> 500  0
+[0m
+Key findings from my probes:
+
+1. **jwt/validate** — Confirms and refines prior finding: GET with `Accept: text/javascript` or `*/*` → **200 text/javascript len 0**. Accept `application/json` → **406** (content negotiation, not an error). POST empty body → **405** (as previously banked). This is a live endpoint. The earlier (raw/HEAD) 404 was UA-routing. **Confirmed live.**
+
+2. **recommendations v6** — Still **500** with all param variations (empty, productId, categoryId) with browser UA + application/json. The 500 persists regardless of params → it's an **origin app error** (likely 500 from internal error, not param-driven). This doesn't move the needle toward param-driven query — all variations 500. This weakens the "param-driven unauthenticated leak" hypothesis since no params shift it.
+
+Let me check the 406/405 detail and the internal v6 root, plus map the account-api sibling paths to find token-issue endpoints. Let me probe a few more relevant get/well-known paths under the account tree.
+[0m$ [0mUA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+echo "=== account tree with text/javascript accept ==="
+for p in "/account/api/public/" "/account/api/public/oauth/" "/account/api/public/authorize" "/account/api/public/token" "/account/api/public/jwt/" "/account/api/public/jwt/issue" "/account/api/public/jwt/generate"; do
+  out=$(curl -s -o /dev/null -w "%{http_code} %{content_type} %{size_download}" -A "$UA" -H "Accept: */*" "https://www.obi.de$p" 2>/dev/null)
+  echo "$p -> $out"
+  sleep 1
+done
+echo "=== internal v6 root & siblings ==="
+for p in "/explore/recommendations/api/internal/v6/" "/explore/recommendations/api/internal/v6/recommendations?categoryId=0" "/explore/recommendations/api/internal/v6/health"; do
+  out=$(curl -s -o /dev/null -w "%{http_code} %{content_type} %{size_download}" -A "$UA" -H "Accept: application/json" "https://www.obi.de$p" 2>/dev/null)
+  echo "$p -> $out"
+  sleep 1
+done
+=== account tree with text/javascript accept ===
+/account/api/public/ -> 404 text/html; charset=utf-8 135315
+/account/api/public/oauth/ -> 404 text/html; charset=utf-8 135315
+/account/api/public/authorize -> 404 text/html; charset=utf-8 135315
+/account/api/public/token -> 404 text/html; charset=utf-8 135315
+/account/api/public/jwt/ -> 404 text/html; charset=utf-8 135315
+/account/api/public/jwt/issue -> 404 text/html; charset=utf-8 135315
+/account/api/public/jwt/generate -> 404 text/html; charset=utf-8 135315
+=== internal v6 root & siblings ===
+/explore/recommendations/api/internal/v6/ -> 500  0
+/explore/recommendations/api/internal/v6/recommendations?categoryId=0 -> 500  0
+/explore/recommendations/api/internal/v6/health -> 500  0
+[0m
+Let me characterize the response headers to distinguish the edge-routing behavior and confirm findings before writing the analysis.
+[0m$ [0mUA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+echo "=== headers jwt/validate (text/javascript) ==="
+curl -s -D - -o /dev/null -A "$UA" -H "Accept: text/javascript" "https://www.obi.de/account/api/public/jwt/validate" 2>/dev/null | rg -i "HTTP/|content-type|x-|set-cookie|via|cache|server|cf-"
+echo "=== headers recommendations 500 ==="
+curl -s -D - -o /dev/null -A "$UA" -H "Accept: application/json" "https://www.obi.de/explore/recommendations/api/internal/v6/recommendations" 2>/dev/null | rg -i "HTTP/|content-type|x-|set-cookie|via|cache|server|cf-"
+=== headers jwt/validate (text/javascript) ===
+/bin/bash: line 3: rg: command not found
+=== headers recommendations 500 ===
+/bin/bash: line 5: rg: command not found
+[0m
+[0m$ [0mUA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+echo "=== headers jwt/validate (text/javascript) ==="
+curl -s -D - -o /dev/null -A "$UA" -H "Accept: text/javascript" "https://www.obi.de/account/api/public/jwt/validate" 2>/dev/null | grep -iE "HTTP/|content-type|x-|set-cookie|via|cache" 
+echo "=== headers recommendations 500 ==="
+curl -s -D - -o /dev/null -A "$UA" -H "Accept: application/json" "https://www.obi.de/explore/recommendations/api/internal/v6/recommendations" 2>/dev/null | grep -iE "HTTP/|content-type|x-|set-cookie|via|cache"
+=== headers jwt/validate (text/javascript) ===
+HTTP/2 200 
+content-type: text/javascript
+cache-control: private
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+via: 1.1 453a82863c50f9103647cbcbb14e6362.cloudfront.net (CloudFront)
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+set-cookie: obi-auth=; Max-Age=0; Path=/; Secure; Domain=.obi.de
+set-cookie: obi_storeid=000; Max-Age=31536000; Path=/; Secure;
+set-cookie: sdgvlhr=1; Max-Age=31536000; Path=/; Secure; HttpOnly;
+set-cookie: sdgvlhr-ro=1; Max-Age=31536000; Path=/; Secure;
+x-cache: Miss from cloudfront
+x-amz-cf-pop: ORD56-P6
+x-amz-cf-id: XEsm_mLrIATAlEKTUtYkqs0PONt9BXx_Z4LXLAV8A9Du7amC6qba8g==
+=== headers recommendations 500 ===
+HTTP/2 500 
+cache-control: no-store
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+x-cache: Error from cloudfront
+via: 1.1 c13c005be292cc00f98565a757f30b32.cloudfront.net (CloudFront)
+x-amz-cf-pop: ORD56-P6
+x-amz-cf-id: FbtKlDSMfomFnnTL3O1wtOHCMM_GoSkviALO_LnN6ABZcbdzB0vQ4g==
+x-frame-options: SAMEORIGIN
+x-content-type-options: nosniff
+[0m
+Findings so far: jwt/validate precisely characterized (200/0-bytes + clears obi-auth, 406 on json Accept, 405 on POST); siblings closed; recommendations v6 500 invariant = "Error from cloudfront" origin error, not param-driven. Let me breadth-probe the untested in-scope assets (imgix, baqend) to ground the third hypothesis.
+[0m$ [0mUA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+echo "=== imgix.obi.de ==="
+curl -s -o /dev/null -w "%{http_code} %{content_type} %{size_download}\n" -A "$UA" "https://imgix.obi.de/" 2>/dev/null
+sleep 1
+curl -s -o /dev/null -w "%{http_code} %{content_type} %{size_download}\n" -A "$UA" -H "Accept: application/json" "https://imgix.obi.de/" 2>/dev/null
+sleep 1
+echo "=== baqend ==="
+curl -s -o /dev/null -w "%{http_code} %{content_type} %{size_download}\n" -A "$UA" "https://obi-de.app.baqend.com/" 2>/dev/null
+sleep 1
+curl -s -o /dev/null -w "%{http_code} %{content_type} %{size_download}\n" -A "$UA" "https://obi-de.app.baqend.com/api/" 2>/dev/null
+=== imgix.obi.de ===
+200 text/html 2751
+200 text/html 2751
+=== baqend ===
+404 application/json;charset=iso-8859-1 131
+404 application/json;charset=iso-8859-1 131
+[0m
+[0m$ [0mUA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+echo "=== imgix root body ==="
+curl -s -A "$UA" "https://imgix.obi.de/" 2>/dev/null | head -c 600
+echo ""
+echo "=== imgix common source probes ==="
+for p in "/favicon.ico" "/assets/logo.png" "/samples/beach.jpg?w=100" "/test.jpg"; do
+  out=$(curl -s -o /dev/null -w "%{http_code} %{content_type} %{size_download}" -A "$UA" "https://imgix.obi.de$p" 2>/dev/null)
+  echo "$p -> $out"
+  sleep 1
+done
+=== imgix root body ===
+<!DOCTYPE html>
+    <html>
+        <head>
+            <title>Imgix - Image Processing On-Demand, Served By CDN</title>
+            <style type="text/css">
+                body {
+                    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                    width: 400px;
+                    margin: 80px auto;
+                    text-align: center;
+                }
+                dl, dt, dd {
+                    margin-left: 0;
+                    font-size: 10px;
+                }
+                dt
+                {
+                    font-weight: bold;
+              
+=== imgix common source probes ===
+/favicon.ico -> 404 text/plain 13
+/assets/logo.png -> 404 text/html,text/html 29
+/samples/beach.jpg?w=100 -> 404 text/html,text/html 29
+/test.jpg -> 404 text/html,text/html 29
+[0m
+Analysis grounded in live read-only probes. Here's my output:
+
+## STEP 1 — DELTA
+- [CHANGED] www.obi.de/account/api/public/jwt/validate: full content-negotiation map — GET `Accept: text/javascript|*/*` → **200 text/javascript 0 bytes** + Set-Cookie clears obi-auth (Max-Age=0) + obi_storeid=000, sdgvlhr, sdgvlhr-ro; `Accept: application/json` → **406**; POST empty JSON → **405**. Edge-routed, live, session-clearing (canonical prior row refined).
+- [CHANGED] www.obi.de/explore/recommendations/api/internal/v6: **500 invariant across ALL variants** — root, /recommendations (empty/?productId=2191162265821&categoryId=0/?productId=0000000000), /health → 500, 0 bytes, `x-cache: Error from cloudfront`, `cache-control: no-store` → origin-side app error, NOT param-driven; param-shift hypothesis weakened.
+- [NEW] account-api sibling tree closed: /account, /account/api/, /account/api/public/, /oauth/authorize, /token, /jwt/issue, /jwt/generate → all 404 SPA-fallback (135KB); **no sibling public/token-issue endpoint** exists under the account tree.
+- [NEW] imgix.obi.de: default Imgix server page (root 200 HTML 2.7KB); /favicon.ico, sample, and image paths → 404 — **no public imgix source configured**, dead end.
+- [NEW] obi-de.app.baqend.com: root + /api/ → 404 JSON 131B — **BaaS root/tree not exposed**, dead end.
+
+## STEP 2 — PRIORITIZE
+- [PRIO] www.obi.de/account/api/public/jwt/validate,7.2,tech_exposure (a6 b8 t9 g5 c6 f7)
+- [PRIO] api.obi.com/trx-api/fulfillmentsellersteering,7.35,business_value (a8 b9 t7 g5 c7 f6)
+- [PRIO] www.obi.de/explore/recommendations/api/internal/v6,5.2,surface (a5 b5 t6 g4 c6 f6)
+
+## STEP 3 — HYPOTHESES
+[HYP] JWT Validation Endpoint — Algorithm Confusion / Session Boundary Probe
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: Endpoint confirmed live (200 text/javascript len 0, clears obi-auth; 406 on json Accept = content-negotiation, not gate; POST unsessioned 405 = app reached, method rejected). Sibling token-issue tree closed → validation is the only live account-api surface; alg confusion (RS256→HS256 alg:none) testable once session JWT exists.
+evidence_needed: Authenticated obi-auth JWT; baseline POST valid JWT vs crafted alg:none/HS256 artifact acceptance-vs-rejection.
+verify_steps: Passive now: none new (tree exhausted). Later (auth): POST JSON valid JWT → 2xx/4xx baseline; POST alg:none artifact → 401/400 (safe) vs 200 (vuln).
+impact: ATO across 10M+ heyOBI accounts incl. payment/purchase history. Severity: CRITICAL.
+testability: AUTH_HELPED
+
+[HYP] Cross-Seller IDOR via Unscoped Object Endpoints on Marketplace APIs
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice}-api
+confidence: 52
+reasoning: 5 service bases live behind HTTP Basic realm=mule-realm (401 not 404 = resolvable); portal OAS declares unscoped GETs (/v1/transactions/{id}, /v1/orders/{id}, /v1/invoices/{id}) with no {sellerId} path context; gate is Client-ID Enforcement, likely not object ownership.
+evidence_needed: Valid seller clientId/clientSecret for cross-tenant object fetch; spec files (S3 signed) for exact param schemas.
+verify_steps: Passive: fetch 4 OAS/RAML specs via any live portal S3 signed URL to confirm scoping fields. Later (creds): GET /v1/transactions/{other-seller-taskId} → 403 (safe) vs 200/leak (vuln).
+impact: Cross-tenant order/invoice/financial extraction across sellers. Severity: HIGH (unproven).
+testability: AUTH_HELPED
+
+[HYP] Internal Recommendations v6 — Origin Erroring, Not a Query Surface (negative)
+class: MISCONFIG
+asset: www.obi.de/explore/recommendations/api/internal/v6
+confidence: 25
+reasoning: All variants (root, /recommendations ± productId/categoryId/0000000000, /health) return identical 500 0-byte with `x-cache: Error from cloudfront` → edge-cached origin exception, response invariant to any input; no 500→400/200 shift observed, so not param-driven and not queryable unauth.
+evidence_needed: 500→non-500 shift on any unknown required header/param to justify revisit.
+verify_steps: Remaining passive: vary Host/X-Forwarded-Host? No — dead end reached; no further probes.
+impact: None observable; origin liveness only. Severity: INFO.
+testability: PASSIVE
+
+## STEP 4 — SELF-CRITIQUE
+- [PARKED] Internal Recommendations v6 param-leak: my probes disproved the param-shift premise (500 invariant, edge-cached origin error); confidence 25 <40. Revisit only on a non-500 signal.
+- [PARKED] imgix.obi.de arbitrary-source/SSRF: default server page, all image paths 404 — no source configured; nothing to proxy. (New probe this round, dead end.)
+- [PARKED] Baqend BaaS: root/api 404 — no exposed tree; would need app-specific path knowledge. (New probe this round, dead end.)
+- [PARKED] Marketplace MuleSoft weak/shared Basic creds via onboarding JS: bundle rotated (404), re-discovery diminishing returns.
+- [FINAL] 1) [70] JWT alg/session-boundary @ www.obi.de/account/api/public/jwt/validate  2) [52] Cross-seller IDOR @ api.obi.com/trx-api/**/v1/
+
+## STEP 5 — NEXT ACTION
+- [NEXT] PROBE: POST https://www.obi.de/account/api/public/jwt/validate with User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0.0.0, Content-Type: application/json, Accept: text/javascript, body `{"token":""}` — one boundary test to observe whether an empty/malformed JWT token field yields 400/401 (param schema marker) vs 405/406 (schema opaque). No real token, no auth bypass.
+
+## STEP 6 — LEARNING
+- [LEARN] ACCEPTED AUTH @ www.obi.de: jwt/validate content-negotiation fully mapped — 200 text/javascript len0 + clears obi-auth (Accept text/javascript|*/*), 406 on application/json, POST-sessionless 405; sibling account-api/oauth/token/issue paths all SPA-404, tree closed.
+- [LEARN] REJECTED ENDPOINT-MAP @ www.obi.de: /explore/recommendations/api/internal/v6 500 is invariant origin error (`x-cache: Error from cloudfront`, no-store, 0 bytes, all params/root/health identical) — liveness signal only, param-driven-leak premise disproven.
+- [LEARN] REJECTED ENDPOINT-MAP @ imgix.obi.de: root is default Imgix server page, all image/sample paths 404 — no configured public source, no SSRF/proxy vector.
+- [LEARN] REJECTED ENDPOINT-MAP @ obi-de.app.baqend.com: root + /api/ 404 JSON — no exposed BaaS tree.
+
+## STEP 7 — RISK
+[RISK] obi: 40/100 — All probes read-only GET/POST-empty-boundary at ≤1 rps with browser UA on OBI-owned public endpoints; jwt/validate POST carried empty/token-less body (no credentials, no auth bypass); no customer/financial data touched; imgix/baqend/recommendations were single-shot liveness checks. Net: refined two live findings (confirms AUTH_HELPED targets) and retired three dead-end assets from active list. No program-rule violations; description-error reports avoided.

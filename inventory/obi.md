@@ -88,3 +88,13 @@ www.obi.de
 - CHANGED www.obi.de/account/api/public/jwt/validate: Previously REJECTED as 404 (curl/HEAD), now ACCEPTED as live with browser UA (GET/HEAD 200, text/javascript len 0, Set-Cookie expires obi-auth; POST w/o ses
 - CHANGED www.obi.de/explore/recommendations/api/internal/v6/recommendations: Now returns 500 with browser UA (was 404) — origin app live, 500 indicates missing params not auth gate, candidate for passive param
 - NEW No additional surface probed since last update; assets.obi.de seller-side-panel fully rotated (404 root + resources), api.live.app.obi.de remains fully 401-gated across all 17 sub-paths.
+
+## 2026-09-05 08:56:11 UTC
+- NEW api.obi.com — MuleSoft API Portal, publicly accessible, 14+ marketplace APIs exposed
+- NEW api.live.app.obi.de — Mobile app API, Envoy proxy, /v1/ versioned
+- NEW imgix.obi.de — Image CDN, CORS: *, S3-backed
+- NEW assets.obi.de — Static asset CDN, S3 origin
+- NEW obi-de.app.baqend.com — Baqend BaaS speed kit integration
+- NEW 6+ backend API paths on www.obi.de (cart, PDP, CMS, recommendations, JWT validate)
+- NEW Seller onboarding JS bundle exposed on frontend
+- CHANGED www.obi.de — Now confirmed live with browser UA; Discover CMS + Vtex platform; origin returns 404 to raw HEAD but serves full SPA to browser UA
