@@ -1127,3 +1127,31 @@ testability: AUTH_HELPED
 [NEXT] HUMAN: Submit report-seller-data-hub-public.md via bugs.olivermaicher.eu. 
 [LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: MEDIUM finding report drafted with full reproduction steps, gate divergence proof, CORS evidence chain, and remediation guidance.
 [RISK] obi: 35/100 — 0 live probes this cycle. Report drafted from existing read-only evidence. No mutation, no auth-bypass, no new PII volume. Risk unchanged.
+## 2026-09-06 21:29:24 UTC [target] (model bigpickle)
+[HYP] JWT alg-confusion / session boundary on production validator
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: Anonymous 200 SSI fragment (regi-hey-obi-login) bootstraps account-csrf + obi-auth + jwt/validate from one edge; GET/HEAD 200 clears obi-auth; POST no-session 405; obi-auth validated here is the same token trusted by account backend.
+evidence_needed: Authorized authenticated obi-auth JWT; validator returning 200 for alg:none or HS256-with-disclosed-key artifact vs 4xx baseline.
+verify_steps: Only with confirmed authorized session: POST baseline JWT, then POST alg:none artifact, compare statuses; no artifact persistence. Currently creds-blocked.
+impact: ATO of heyOBI accounts incl. order/payment history. Severity: CRITICAL (unproven).
+testability: AUTH_HELPED
+[HYP] Cross-seller IDOR via trxId namespace on mule-realm services
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice}-service
+confidence: 55
+reasoning: Dense trxId block 100000–100550 proven via /public/ 404-oracle; /public/ divergence unique to seller-data-hub (all siblings 401 mule-realm), implying per-service authorization flaws rather than platform default; mule-realm may authorize by credential, not object ownership.
+evidence_needed: Valid seller credentials; foreign-trxId resource returning 200 vs 403/404.
+verify_steps: With authorized creds only: compare own vs foreign seller resources across bounded trxId range. Currently creds-blocked.
+impact: Cross-tenant order/invoice/financial extraction. Severity: HIGH (unproven).
+testability: AUTH_HELPED
+[HYP] login-info POST state-coupling on heyOBI account subsystem
+class: AUTH
+asset: www.obi.de/regi/auth/api/fe/hey-obi/login-info
+confidence: 40
+reasoning: Route live (GET/POST 403 session-gated); discovered in panel-controllers route map; bound field-set unproven; same cookie family as jwt/validate.
+evidence_needed: Authorized session; accepted POST body field-set causing 200/state change.
+verify_steps: With authorized session only: GET baseline, then POST empty + candidate field-sets, document 200-vs-403 deltas.
+impact: Account-type/state manipulation. Severity: TBD.
+testability: AUTH_HELPED

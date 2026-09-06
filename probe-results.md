@@ -165,3 +165,9 @@ https://api.live.app.obi.de/v1/auth/login -> HTTP 401
 ## 2026-09-06 19:26:18 UTC
 https://api.live.app.obi.de/v1/ -> 200 len=?
 https://api.live.app.obi.de/v1/auth/login -> HTTP 401
+
+## 2026-09-06 21:32:27 UTC
+https://api.live.app.obi.de/v1/ -> 200 len=?
+https://api.live.app.obi.de/v1/auth/login -> HTTP 401
+https://www.obi.de/account/ -> HTTP 404
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
