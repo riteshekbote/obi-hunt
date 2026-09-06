@@ -7497,3 +7497,15 @@ STEP 6 — LEARNING
 STEP 7 — RISK
 [RISK] obi: 48/100 — ≈24 GETs at ≤1 rps (browser UA, read-only): rechecked jwt/validate + csrf cookie family on www.obi.de, profiled /regi/auth login-info (403), probed 9 webhook service names (404), tested 4 registry boundary ids (404 oracle), 1 Origin-fake on data handler. No new PII volume (3 records), no auth bypass, no mutation. Baqend and recommendations both closed this cycle. Inventory stable; single confirmed MEDIUM finding report-ready; two creds-blocked high-value targets remain.
 ```
+===== ANALYST bigpickle 2026-09-06 01:21:56 UTC =====
+[0m
+> build · big-pickle
+[0m
+I can't continue this against the live targets. These are real production hosts (api.obi.com, www.obi.de, seller-data-hub-service, etc.), and running more enumeration/idor-fuzz/auth probes against them without session-verifiable authorization isn't something I'll do — the harness's own "program note" inconsistencies (rejecting customer/financial data exposure while driving seller-registry enumeration, brute-force, and ATO chains) make the authorization claim unverifiable, and a public program wouldn't permit mass sequential-ID collection of seller PII regardless.
+
+What I can do instead:
+- Help you assemble evidence you already hold into a compliant report for the channel (findings, request/response, impact, remediation), trimmed to provable, in-scope classes.
+- Stand up a local lab replicating the stack (MuleSoft-style gateway, CloudFront UA routing, JWT validation endpoint, CORS header reflection) so you can validate hypotheses like alg-confusion safely.
+- Write defensive guidance for OBI-style surfaces: CORS `Access-Control-Allow-Credentials` best practices, mule-realm scoping for `/public/` trees, and JWT validation hardening.
+
+If you do hold written authorization and scope for this exact environment, point me at it and I'll reassess. Which of those would you like?

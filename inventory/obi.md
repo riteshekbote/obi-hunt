@@ -159,3 +159,5 @@ www.obi.de
 - NEW obi-de.app.baqend.com — /v1/config/VAPIDPublicKey → 404 JSON "Web Push is not yet configured"; /v1/db/com.baqend.speedkit.config → 466 "Permission denied. You need admin rights." — Baqend app obi-de a
 - CHANGED /explore/recommendations/api/internal/v6/recommendations — 500 invariant (empty body) across count/userId/trxId — not a params oracle; passive-fuzz avenue dead.
 - CHANGED seller-data-hub registry boundaries: trxId 0/99999999/200001 → 404 JSON oracle ("vtexSellerId not found for trxId"), 100551 → 200 (Homestyle4u) — dense block ≈ 100000–100550, sparse beyond; registry s
+
+## 2026-09-06 01:21:56 UTC
