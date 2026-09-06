@@ -297,3 +297,7 @@
 ## RANKED HYPOTHESES 2026-09-06 14:20:57 UTC
 - [70] www.obi.de/account/api/public/jwt/validate: JWT alg-confusion / session boundary on production validator (from art/lead_bigpickle.txt)
 - NEXT(hypotheses-bigpickle.txt): HUMAN: File the confirmed MEDIUM report — seller-data-hub-service /v1/public unauth seller registry: unique gate divergence vs 7 siblings + own /api/v1 mirror; 
+
+## RANKED HYPOTHESES 2026-09-06 17:13:58 UTC
+- NEXT(hypotheses-bigpickle.txt): HUMAN: Submit report-seller-data-hub-public.md via bugs.olivermaicher.eu.
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: MEDIUM finding report drafted with full reproduction steps, gate divergence proof, CORS evidence cha

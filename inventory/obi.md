@@ -177,3 +177,5 @@ www.obi.de
 - NEW www.obi.de rotated chunks (regi-chunk-lib.BXy1zykA, HeyObiSidePaneFragment.Dr8_3eZQ, rolldown-runtime.hePW80VL) contain zero new endpoint strings — frontend surface closed beyond login-info (09-06)
 - CHANGED /explore/recommendations/api/internal/v6/recommendations 500 invariant across count/userId/trxId — not a params oracle; passive-fuzz avenue dead (09-06)
 - CHANGED seller-data-hub registry boundaries confirmed: trxId 0/99999999/200001 → 404 JSON oracle, 100551 → 200 — dense block ≈100000–100550, sparse beyond; registry fully characterized (09-06)
+
+## 2026-09-06 17:13:58 UTC

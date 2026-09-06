@@ -992,3 +992,13 @@ testability: AUTH_HELPED
 [FINAL] 3. Account subsystem login-info post-auth binding (40, AUTH_HELPED) — low, held.
 [NEXT] HUMAN: File the confirmed MEDIUM report — seller-data-hub-service /v1/public unauth seller registry: unique gate divergence vs 7 siblings + own /api/v1 mirror; any-origin credentialed CORS (ACAC:true reflected) on BOTH /public endpoints (feature-toggle + data-bearing seller-side-panel/{trxId}); dense trxId 100000–100550 enumeration with imprint/settings/PII-lite (names, VATIN, shipping threshold); imprint-documents PDF disclosure (obiecomprod/obiecomprodat). Note cross-tenant-read CSRF angle (credentials:include + reflected ACAC:true)
 [RISK] obi: 35/100 — 0 probes this cycle (no new requests sent). Risk unchanged/declining. Inventory flat, no new PII volume, no mutation, no auth-bypass, no DoS. All live probing was prior, read-only, ≤1 rps with browser UA. Single confirmed MEDIUM finding report-ready; two high-value targets remain creds-blocked; frontend + registry + BaaS surfaces fully closed.
+## 2026-09-06 17:11:14 UTC [target] (model bigpickle)
+[PRIO] api.obi.com,9.2 (seller-data-hub /public/ — report-ready MEDIUM)
+[PRIO] www.obi.de,8.5 (jwt/validate — creds-blocked)
+[PRIO] api.live.app.obi.de,7.8 (fully 401-gated)
+[PRIO] assets.obi.de,7.6 (bundle accessible, static-analysis done)
+[PRIO] imgix.obi.de,6.8 (standard CDN)
+[PRIO] obi-de.app.baqend.com,6.2 (auth-closed)
+[NEXT] HUMAN: Submit report-seller-data-hub-public.md via bugs.olivermaicher.eu. 
+[LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: MEDIUM finding report drafted with full reproduction steps, gate divergence proof, CORS evidence chain, and remediation guidance.
+[RISK] obi: 35/100 — 0 live probes this cycle. Report drafted from existing read-only evidence. No mutation, no auth-bypass, no new PII volume. Risk unchanged.

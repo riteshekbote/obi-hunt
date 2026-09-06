@@ -64,3 +64,4 @@
 - 2026-09-06 ACCEPTED ENDPOINT-MAP @ www.obi.de: /regi/auth/ssi/regi-hey-obi-login → 200 text/html 776B anonymous SSI fragment bootstrapping account-csrf + jwt/validate + 5 modulepreload chunks — auth subsystem is server-side include, unauth-readable.
 - 2026-09-06 REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing through CloudFront.
 - 2026-09-06 ACCEPTED ENDPOINT-MAP @ www.obi.de: rotated chunks (regi-chunk-lib.BXy1zykA, HeyObiSidePaneFragment.Dr8_3eZQ, rolldown-runtime.hePW80VL) contain zero new endpoint strings — frontend surface closed beyond login-info.
+- 2026-09-06 ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: MEDIUM finding report drafted with full reproduction steps, gate divergence proof, CORS evidence chain, and remediation guidance.
