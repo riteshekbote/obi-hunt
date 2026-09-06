@@ -301,3 +301,30 @@
 ## RANKED HYPOTHESES 2026-09-06 17:13:58 UTC
 - NEXT(hypotheses-bigpickle.txt): HUMAN: Submit report-seller-data-hub-public.md via bugs.olivermaicher.eu.
 - LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: MEDIUM finding report drafted with full reproduction steps, gate divergence proof, CORS evidence cha
+
+## RANKED HYPOTHESES 2026-09-06 19:26:14 UTC
+- [70] www.obi.de/account/api/public/jwt/validate: JWT Validation Endpoint — Algorithm Confusion / Session Boundary Probe (from art/lead_bigpickle.txt)
+- NEXT(hypotheses-bigpickle.txt): HUMAN: Submit report-seller-data-hub-public.md via bugs.olivermaicher.eu.
+- NEXT(hypotheses-nemotron3.txt): PROBE: GET https://api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/de/seller-side-panel/1 with Accept: application/json, Use
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: MEDIUM finding report drafted with full reproduction steps, gate divergence proof, CORS evidence cha
+- LEARN: ACCEPTED ENDPOINT-MAP @ www.obi.de: /regi/auth/api/fe/hey-obi/login-info live (GET+POST 403 session-gated, discovered from panel-controllers route map) — new au
+- LEARN: ACCEPTED AUTH @ www.obi.de: /regi/auth/csrf returns 200 len-0 + issues account-csrf UUID (Domain=obi.de) while clearing obi-auth — same edge cookie-family as jw
+- LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth
+- LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asse
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: CORS wilderness extends to the DATA handler — GET /public/de/seller-side-panel/100551 with Origin: https://evil.example → 200 
+- LEARN: ACCEPTED ENDPOINT-MAP @ api.obi.com: /public/de/seller-side-panel boundary oracle — 404 JSON "vtexSellerId not found for trxId: N" for 0/99999999/200001, 200 fo
+- LEARN: ACCEPTED ENDPOINT-MAP @ www.obi.de: /regi/auth/ssi/regi-hey-obi-login → 200 text/html 776B anonymous SSI fragment bootstrapping account-csrf + jwt/validate + 5 
+- LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing throug
+- LEARN: ACCEPTED ENDPOINT-MAP @ www.obi.de: rotated chunks (regi-chunk-lib.BXy1zykA, HeyObiSidePaneFragment.Dr8_3eZQ, rolldown-runtime.hePW80VL) contain zero new endpoi
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: MEDIUM finding report drafted with full reproduction steps, gate divergence proof, CORS evidence cha
+- LEARN: ACCEPTED ENDPOINT-MAP @ www.obi.de: /regi/auth/ssi/regi-hey-obi-login → 200 text/html 776B anonymous SSI fragment bootstrapping account-csrf + jwt/validate + 5 
+- LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing throug
+- LEARN: ACCEPTED ENDPOINT-MAP @ www.obi.de: rotated chunks (regi-chunk-lib.BXy1zykA, HeyObiSidePaneFragment.Dr8_3eZQ, rolldown-runtime.hePW80VL) contain zero new endpoi
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub-service/api/v1/public/ is a full unauthenticated seller registry — /public/{cc}/seller-side-panel/{trxId} retu
+- LEARN: ACCEPTED ENDPOINT-MAP @ api.obi.com: /public tree is exactly feature-toggle + seller-side-panel/{id} + imprint-documents/{key}/{cp|gtc} (35 candidate keys teste
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: /public/ exposure is UNIQUE to seller-data-hub-service — its own non-public /api/v1/ mirror of feature-toggle+seller-side-pane
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: /public/de/feature-toggle live (1228B) reflects arbitrary Origin with ACAC:true — any-origin credentialed reads confirmed (str
+- LEARN: ACCEPTED ENDPOINT-MAP @ api.obi.com: /public/de/seller-side-panel boundary oracle — 404 JSON "vtexSellerId not found for trxId: N" for 0/99999999/200001, 200 fo
+- LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth
+- LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asse
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: MEDIUM finding report drafted with full reproduction steps, gate divergence proof, CORS evidence cha

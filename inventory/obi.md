@@ -179,3 +179,5 @@ www.obi.de
 - CHANGED seller-data-hub registry boundaries confirmed: trxId 0/99999999/200001 → 404 JSON oracle, 100551 → 200 — dense block ≈100000–100550, sparse beyond; registry fully characterized (09-06)
 
 ## 2026-09-06 17:13:58 UTC
+
+## 2026-09-06 19:26:14 UTC
