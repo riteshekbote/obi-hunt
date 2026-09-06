@@ -161,3 +161,5 @@ www.obi.de
 - CHANGED seller-data-hub registry boundaries: trxId 0/99999999/200001 → 404 JSON oracle ("vtexSellerId not found for trxId"), 100551 → 200 (Homestyle4u) — dense block ≈ 100000–100550, sparse beyond; registry s
 
 ## 2026-09-06 01:21:56 UTC
+
+## 2026-09-06 06:09:43 UTC
