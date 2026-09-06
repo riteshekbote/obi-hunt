@@ -163,3 +163,10 @@ www.obi.de
 ## 2026-09-06 01:21:56 UTC
 
 ## 2026-09-06 06:09:43 UTC
+
+## 2026-09-06 11:16:11 UTC
+- NEW www.obi.de/regi/auth/ssi/regi-hey-obi-login → 200 text/html 776B anonymous SSI fragment bootstrapping account-csrf + jwt/validate + 5 modulepreload chunks — auth subsystem is server-side include, unau
+- NEW assets.obi.de/seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js.map → 404; root + ?list-type=2 serve identical 39B default HTML — no bucket listing through CloudFront
+- NEW www.obi.de rotated chunks (regi-chunk-lib.BXy1zykA, HeyObiSidePaneFragment.Dr8_3eZQ, rolldown-runtime.hePW80VL) contain zero new endpoint strings — frontend surface closed beyond login-info
+- CHANGED /explore/recommendations/api/internal/v6/recommendations 500 invariant across count/userId/trxId — not a params oracle; passive-fuzz avenue dead
+- CHANGED seller-data-hub registry boundaries confirmed: trxId 0/99999999/200001 → 404 JSON oracle, 100551 → 200 — dense block ≈100000–100550, sparse beyond; registry fully characterized

@@ -957,3 +957,4 @@ testability: AUTH_HELPED
 [LEARN] REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing through CloudFront.
 [LEARN] ACCEPTED ENDPOINT-MAP @ www.obi.de: rotated chunks (regi-chunk-lib.BXy1zykA, HeyObiSidePaneFragment.Dr8_3eZQ, rolldown-runtime.hePW80VL) contain zero new endpoint strings — frontend surface closed beyond login-info.
 [RISK] obi: 35/100 — ~8 GET/HEAD at ≤1 rps (browser UA, read-only): sourcemap HEAD, bundle HEAD, homepage DOM, 2 static JS greps, 1 anonymous SSI fragment (empty HTML, no PII), root+listing GET. No mutation, no auth-bypass, no new PII volume. Inventory flat; no new finding beyond two dead angles; report for the single confirmed MEDIUM finding remains pending.
+## 2026-09-06 11:08:09 UTC [target] (model bigpickle)
