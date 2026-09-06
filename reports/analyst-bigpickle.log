@@ -7833,3 +7833,108 @@ Report filed at `reports/finding-seller-data-hub-public-registry.md`. Analyst bl
 
 **STEP 7 — RISK**
 - [RISK] obi: 35/100 — ~8 GET/HEAD at ≤1 rps (browser UA, read-only): sourcemap HEAD, bundle HEAD, homepage DOM, 2 static JS greps, 1 anonymous SSI fragment (empty HTML, no PII), root+listing GET. No mutation, no auth-bypass, no new PII volume (report redacts all sampled records). Inventory flat; single confirmed MEDIUM finding is now report-filed; two creds-blocked high-value targets remain.
+===== ANALYST bigpickle 2026-09-06 14:20:57 UTC =====
+[0m
+> build · big-pickle
+[0m
+[0m→ [0mRead scope.yml
+I'll analyze the current state and run the 8 steps. Let me review the surface for genuinely new signals.
+
+Looking at the state: the seller-data-hub /v1/public finding is fully characterized and report-ready, JWT alg-confusion and cross-seller IDOR are creds-blocked. The last cycle closed Baqend, sourcemap, and bucket-listing angles. Frontend surface is closed beyond login-info.
+
+Let me think about what's genuinely actionable now without repeating dead ends.
+
+STEP 1 — DELTA:
+- [NO_DELTA] Nothing genuinely new since last cycle; last 8 probes (sourcemap, bucket listing, SSI fragment, rotated chunks) all closed or non-discovery. Inventory flat.
+
+STEP 2 — PRIORITIZE:
+All assets already scored and stable. No new assets to score.
+
+STEP 3 — HYPOTHESES:
+The actionable hypotheses remain the same three creds-blocked ones. No new passive-probeable lead emerged. The one thing I have not yet fully exhausted: the imprint-documents endpoint — I've probed 35 keys. But that's endpoint-map only.
+
+Actually, let me reconsider one thing worth a low-cost passive probe: whether the seller-data-hub /public/ tree has any additional countries or a country-less path variant, or whether feature-toggle exposes any URL that reveals additional endpoints. But that's reportedly fully enumerated.
+
+I should not invent. The honest output: no new actionable passive lead; the confirmed finding awaits human report; two high-value targets await creds.
+
+STEP 4 — SELF-CRITIQUE: park the no-new leads. Keep the three existing hypotheses as-is (unchanged, creds-blocked).
+
+STEP 5 — NEXT: HUMAN — file the report (this is the pending confirmed finding, explicitly queued by prior state and the [NEXT] directive chain).
+
+STEP 6 — LEARNING: No new probe data this cycle; nothing to accept/reject.
+
+STEP 7 — RISK: honor the low-risk posture; this cycle conducted no probes, so no risk added.
+
+Let me produce the structured output.
+I've confirmed the scope. Let me run the 8 steps honestly. The state shows all three actionable hypotheses are creds-blocked, the confirmed finding is report-ready, and the last cycle closed the remaining passive angles. No genuinely new surface emerged.
+
+STEP 1 — DELTA
+
+- [NO_DELTA] Inventory + knowledge base unchanged vs last cycle. No new hosts, no changed status codes, no new endpoints discovered. Last 8 probes (sourcemap 404, bucket-listing dead, SSI fragment empty, rotated chunk greps) all closed or non-discovery.
+
+STEP 2 — PRIORITIZE
+
+No new assets to score. Existing scores stable (no re-scoring without fresh evidence — re-scoring unchanged assets is filler).
+
+STEP 3 — HYPOTHESES
+
+No new passive-probeable lead emerged. All three actionable hypotheses are unchanged from prior state and remain blocked on external input (creds/JWT):
+
+[HYP] JWT alg-confusion / session boundary on production validator
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: SSI-bootstrap now corroborated (anonymous 200 fragment loads jwt/validate + account-csrf; GET/HEAD 200 clears obi-auth, POST-no-session 405). Edge cookie family (account-csrf/obi-auth/obi_storeid) issued together from the same fragment.
+evidence_needed: Authenticated obi-auth JWT; validator accepts alg:none / HS256-with-public-key-crafted tokens.
+verify_steps: Later (auth): POST valid session JWT → baseline; POST alg:none artifact → 400/401 (safe) vs 200 (vuln).
+impact: ATO of heyOBI accounts incl. purchase/payment history. Severity: CRITICAL.
+testability: AUTH_HELPED
+
+[HYP] Cross-seller IDOR via trxId namespace on mule-realm services
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice}-service
+confidence: 55
+reasoning: Dense trxId block 100000–100550 proven via 404-oracle; /public/ exposure unique to seller-data-hub proves gate divergence within same org; mule-realm scopes authorize by credential, not per-object ownership.
+evidence_needed: Valid seller clientId/clientSecret.
+verify_steps: Later (creds): GET /v1/transactions/{other-trxId} → 403 (safe) vs 200 (leak).
+impact: Cross-tenant order/invoice/financial extraction. Severity: HIGH (unproven).
+testability: AUTH_HELPED
+
+[HYP] Account subsystem login-info POST state-coupling
+class: AUTH
+asset: www.obi.de/regi/auth/api/fe/hey-obi/login-info
+confidence: 40
+reasoning: Route live (GET+POST 403 session-gated); bound fields not yet enumerated; SSI fragment proves account-csrf+obi-auth cookie-state coupling.
+evidence_needed: Authenticated session; POST body field-set from login bundle.
+verify_steps: Later (auth): POST login-info with bound fields → 200/state-change (vuln) vs 403.
+impact: Account-type/state manipulation on heyOBI account subsystem. Severity: TBD.
+testability: AUTH_HELPED
+
+STEP 4 — SELF-CRITIQUE
+
+- Keeeping all three (all ≥40, all have verify steps, none REJECTED-class).
+- No new hypothesis to add — every passive angle (sourcemap, bucket-list, Baqend, recommendations-oracle, rotated chunks) closed this/prior cycle. Forcing a new guess would be inventing.
+
+[PARKED] (unchanged, from prior state) — sourcemap, bucket-listing, Baqend, recommendations-500: all dead, no verify path.
+
+[FINAL] 1. JWT alg-confusion (www.obi.de jwt/validate, 70, AUTH_HELPED, CRITICAL) — awaiting session JWT.
+[FINAL] 2. Cross-seller IDOR (api.obi.com mule-realm, 55, AUTH_HELPED, HIGH) — trxId space bounded; needs creds.
+[FINAL] 3. Account subsystem login-info post-auth binding (40, AUTH_HELPED) — low, held.
+
+STEP 5 — NEXT ACTION
+
+[NEXT] HUMAN: File the confirmed MEDIUM report — seller-data-hub-service /v1/public unauth seller registry: unique gate divergence vs 7 siblings + own /api/v1 mirror; any-origin credentialed CORS (ACAC:true reflected) on BOTH /public endpoints (feature-toggle + data-bearing seller-side-panel/{trxId}); dense trxId 100000–100550 enumeration with imprint/settings/PII-lite (names, VATIN, shipping threshold); imprint-documents PDF disclosure (obiecomprod/obiecomprodat). Note cross-tenant-read CSRF angle (credentials:include + reflected ACAC:true)
+
+STEP 6 — LEARNING
+
+No new probe data this cycle → no new ACCEPTED/REJECTED rows. All conclusions already logged in knowledge base.
+
+- [LEARN] ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /v1/public exposure UNIQUE to that service (own non-public /api/v1 mirror + 7 siblings = 401 mule-realm) — confirmed auth-boundary flaw, not platform default. (Re-confirmed in KB.)
+- [LEARN] ACCEPTED ENDPOINT-MAP @ api.obi.com: /public tree fully characterized — exactly feature-toggle + seller-side-panel/{id} + imprint-documents/{key}/{cp|gtc}; traversal `ct%2F..` → 403 blocked. (Re-confirmed.)
+- [LEARN] ACCEPTED AUTH @ www.obi.de: jwt/validate + /regi/auth/* all live via browser UA; SSI fragment corroborates server-side bootstrap; supersedes prior REJECTED 404 rows. (Re-confirmed.)
+
+STEP 7 — RISK
+
+[RISK] obi: 35/100 — 0 probes this cycle (no new requests sent). Risk unchanged/declining. Inventory flat, no new PII volume, no mutation, no auth-bypass, no DoS. All live probing was prior, read-only, ≤1 rps with browser UA. Single confirmed MEDIUM finding report-ready; two high-value targets remain creds-blocked; frontend + registry + BaaS surfaces fully closed.
+
+**Recommendation to human:** File the report now — it's the only reportable, confirmed finding. The other two leads cannot advance without credentials/JWT, which are outside read-only analyst reach.

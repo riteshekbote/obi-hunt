@@ -958,3 +958,37 @@ testability: AUTH_HELPED
 [LEARN] ACCEPTED ENDPOINT-MAP @ www.obi.de: rotated chunks (regi-chunk-lib.BXy1zykA, HeyObiSidePaneFragment.Dr8_3eZQ, rolldown-runtime.hePW80VL) contain zero new endpoint strings — frontend surface closed beyond login-info.
 [RISK] obi: 35/100 — ~8 GET/HEAD at ≤1 rps (browser UA, read-only): sourcemap HEAD, bundle HEAD, homepage DOM, 2 static JS greps, 1 anonymous SSI fragment (empty HTML, no PII), root+listing GET. No mutation, no auth-bypass, no new PII volume. Inventory flat; no new finding beyond two dead angles; report for the single confirmed MEDIUM finding remains pending.
 ## 2026-09-06 11:08:09 UTC [target] (model bigpickle)
+## 2026-09-06 14:14:44 UTC [target] (model bigpickle)
+[HYP] JWT alg-confusion / session boundary on production validator
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: SSI-bootstrap now corroborated (anonymous 200 fragment loads jwt/validate + account-csrf; GET/HEAD 200 clears obi-auth, POST-no-session 405). Edge cookie family (account-csrf/obi-auth/obi_storeid) issued together from the same fragment.
+evidence_needed: Authenticated obi-auth JWT; validator accepts alg:none / HS256-with-public-key-crafted tokens.
+verify_steps: Later (auth): POST valid session JWT → baseline; POST alg:none artifact → 400/401 (safe) vs 200 (vuln).
+impact: ATO of heyOBI accounts incl. purchase/payment history. Severity: CRITICAL.
+testability: AUTH_HELPED
+[HYP] Cross-seller IDOR via trxId namespace on mule-realm services
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice}-service
+confidence: 55
+reasoning: Dense trxId block 100000–100550 proven via 404-oracle; /public/ exposure unique to seller-data-hub proves gate divergence within same org; mule-realm scopes authorize by credential, not per-object ownership.
+evidence_needed: Valid seller clientId/clientSecret.
+verify_steps: Later (creds): GET /v1/transactions/{other-trxId} → 403 (safe) vs 200 (leak).
+impact: Cross-tenant order/invoice/financial extraction. Severity: HIGH (unproven).
+testability: AUTH_HELPED
+[HYP] Account subsystem login-info POST state-coupling
+class: AUTH
+asset: www.obi.de/regi/auth/api/fe/hey-obi/login-info
+confidence: 40
+reasoning: Route live (GET+POST 403 session-gated); bound fields not yet enumerated; SSI fragment proves account-csrf+obi-auth cookie-state coupling.
+evidence_needed: Authenticated session; POST body field-set from login bundle.
+verify_steps: Later (auth): POST login-info with bound fields → 200/state-change (vuln) vs 403.
+impact: Account-type/state manipulation on heyOBI account subsystem. Severity: TBD.
+testability: AUTH_HELPED
+[PARKED] (unchanged, from prior state) — sourcemap, bucket-listing, Baqend, recommendations-500: all dead, no verify path.
+[FINAL] 1. JWT alg-confusion (www.obi.de jwt/validate, 70, AUTH_HELPED, CRITICAL) — awaiting session JWT.
+[FINAL] 2. Cross-seller IDOR (api.obi.com mule-realm, 55, AUTH_HELPED, HIGH) — trxId space bounded; needs creds.
+[FINAL] 3. Account subsystem login-info post-auth binding (40, AUTH_HELPED) — low, held.
+[NEXT] HUMAN: File the confirmed MEDIUM report — seller-data-hub-service /v1/public unauth seller registry: unique gate divergence vs 7 siblings + own /api/v1 mirror; any-origin credentialed CORS (ACAC:true reflected) on BOTH /public endpoints (feature-toggle + data-bearing seller-side-panel/{trxId}); dense trxId 100000–100550 enumeration with imprint/settings/PII-lite (names, VATIN, shipping threshold); imprint-documents PDF disclosure (obiecomprod/obiecomprodat). Note cross-tenant-read CSRF angle (credentials:include + reflected ACAC:true)
+[RISK] obi: 35/100 — 0 probes this cycle (no new requests sent). Risk unchanged/declining. Inventory flat, no new PII volume, no mutation, no auth-bypass, no DoS. All live probing was prior, read-only, ≤1 rps with browser UA. Single confirmed MEDIUM finding report-ready; two high-value targets remain creds-blocked; frontend + registry + BaaS surfaces fully closed.

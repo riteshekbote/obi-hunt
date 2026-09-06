@@ -3784,3 +3784,70 @@ testability: AUTH_HELPED
 
 **STEP 7 — RISK**
 [RISK] obi: 35/100 — All probes passive GET/HEAD/OPTIONS at ≤1 rps; no customer data accessed; no auth bypass attempted; current probe targets unauthenticated public seller registry on api.obi.com (read-only); S3 signed URLs are temporary (86400s expiry) and scoped to MuleSoft shared infrastructure; program rules prohibit data exposure during testing — risk remains low
+===== ANALYST nemotron3 2026-09-06 14:20:57 UTC =====
+[0m
+> build · nemotron-3-ultra-free
+[0m
+[0m$ [0mls -la /home/runner/work/obi-hunt/obi-hunt
+total 208
+drwxr-xr-x 12 runner runner  4096 Sep  6 14:14 .
+drwxr-xr-x  3 runner runner  4096 Sep  6 14:13 ..
+drwxr-xr-x  7 runner runner  4096 Sep  6 14:14 .git
+drwxr-xr-x  3 runner runner  4096 Sep  6 14:13 .github
+-rw-r--r--  1 runner runner  1814 Sep  6 14:13 README.md
+-rw-r--r--  1 runner runner    43 Sep  6 14:14 analyst-out.txt
+-rw-r--r--  1 runner runner 57562 Sep  6 14:14 analyst-prompt.txt
+-rw-r--r--  1 runner runner 53700 Sep  6 14:14 ctx.txt
+drwxr-xr-x  2 runner runner  4096 Sep  6 14:13 inventory
+drwxr-xr-x  2 runner runner  4096 Sep  6 14:13 knowledge
+drwxr-xr-x  2 runner runner  4096 Sep  6 14:13 leads
+-rw-r--r--  1 runner runner  5914 Sep  6 14:13 probe-results.md
+drwxr-xr-x  2 runner runner  4096 Sep  6 14:13 recon-notes
+drwxr-xr-x  2 runner runner  4096 Sep  6 14:13 reports
+drwxr-xr-x  2 runner runner  4096 Sep  6 14:13 reposcan-raw
+-rw-r--r--  1 runner runner  3275 Sep  6 14:13 scope.yml
+drwxr-xr-x  2 runner runner  4096 Sep  6 14:13 scripts
+-rw-r--r--  1 runner runner    33 Sep  6 14:13 state_bigpickle.json
+-rw-r--r--  1 runner runner    33 Sep  6 14:13 state_laguna.json
+-rw-r--r--  1 runner runner    33 Sep  6 14:13 state_ling3.json
+-rw-r--r--  1 runner runner    33 Sep  6 14:13 state_longcat.json
+-rw-r--r--  1 runner runner    33 Sep  6 14:13 state_mimo.json
+-rw-r--r--  1 runner runner    33 Sep  6 14:13 state_nemotron3.json
+drwxr-xr-x  2 runner runner  4096 Sep  6 14:13 triage
+[0m
+[0m→ [0mRead state_nemotron3.json
+[0m→ [0mRead analyst-out.txt
+[0m
+[0m$ [0mls -la /home/runner/work/obi-hunt/obi-hunt/leads/
+total 336
+drwxr-xr-x  2 runner runner   4096 Sep  6 14:13 .
+drwxr-xr-x 12 runner runner   4096 Sep  6 14:14 ..
+-rw-r--r--  1 runner runner 146317 Sep  6 14:13 lead-bigpickle.md
+-rw-r--r--  1 runner runner   1122 Sep  6 14:13 lead-laguna.md
+-rw-r--r--  1 runner runner   1100 Sep  6 14:13 lead-ling3.md
+-rw-r--r--  1 runner runner   1144 Sep  6 14:13 lead-longcat.md
+-rw-r--r--  1 runner runner     18 Sep  6 14:13 lead-mimo.md
+-rw-r--r--  1 runner runner 163196 Sep  6 14:13 lead-nemotron3.md
+-rw-r--r--  1 runner runner   7499 Sep  6 14:13 reposcan-obi.md
+[0m
+[0m$ [0mls -la /home/runner/work/obi-hunt/obi-hunt/knowledge/
+total 28
+drwxr-xr-x  2 runner runner  4096 Sep  6 14:13 .
+drwxr-xr-x 12 runner runner  4096 Sep  6 14:14 ..
+-rw-r--r--  1 runner runner 17448 Sep  6 14:13 index.md
+[0m
+[0m→ [0mRead leads/lead-nemotron3.md
+[0m→ [0mRead knowledge/index.md
+[93m[1m! [0mpermission requested: external_directory (/tmp/*); auto-rejecting
+[0m✗ [0mcat > /tmp/delta.txt << 'EOF'
+[NEW] www.obi.de/regi/auth/ssi/regi-hey-obi-login → 200 text/html 776B anonymous SSI fragment bootstrapping account-csrf + jwt/validate + 5 modulepreload chunks — auth subsystem is server-side include, unauth-readable (09-06)
+[NEW] assets.obi.de/seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js.map → 404; root + ?list-type=2 serve identical 39B default HTML — no bucket listing through CloudFront (09-06)
+[NEW] www.obi.de rotated chunks (regi-chunk-lib.BXy1zykA, HeyObiSidePaneFragment.Dr8_3eZQ, rolldown-runtime.hePW80VL) contain zero new endpoint strings — frontend surface closed beyond login-info (09-06)
+[CHANGED] /explore/recommendations/api/internal/v6/recommendations 500 invariant across count/userId/trxId — not a params oracle; passive-fuzz avenue dead (09-06)
+[CHANGED] seller-data-hub registry boundaries confirmed: trxId 0/99999999/200001 → 404 JSON oracle, 100551 → 200 — dense block ≈100000–100550, sparse beyond; registry fully characterized (09-06)
+EOF
+cat /tmp/delta.txt failed
+[91m[1mError: [0mThe user rejected permission to use this specific tool call.
+Now I have a complete picture. Let me execute the 8-step analysis.
+
+## STEP 1 — DELTA

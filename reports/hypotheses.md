@@ -293,3 +293,7 @@
 - LEARN: ACCEPTED ENDPOINT-MAP @ api.obi.com: /public/de/seller-side-panel boundary oracle — 404 JSON "vtexSellerId not found for trxId: N" for 0/99999999/200001, 200 fo
 - LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth
 - LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asse
+
+## RANKED HYPOTHESES 2026-09-06 14:20:57 UTC
+- [70] www.obi.de/account/api/public/jwt/validate: JWT alg-confusion / session boundary on production validator (from art/lead_bigpickle.txt)
+- NEXT(hypotheses-bigpickle.txt): HUMAN: File the confirmed MEDIUM report — seller-data-hub-service /v1/public unauth seller registry: unique gate divergence vs 7 siblings + own /api/v1 mirror; 

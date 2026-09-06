@@ -850,3 +850,9 @@ testability: AUTH_HELPED
 [LEARN] REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth-closed; BaaS exposure hypothesis dead
 [LEARN] REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asset not on this gateway) — webhook-receiver angle closed
 [RISK] obi: 35/100 — All probes passive GET/HEAD/OPTIONS at ≤1 rps; no customer data accessed; no auth bypass attempted; current probe targets unauthenticated public seller registry on api.obi.com (read-only); S3 signed URLs are temporary (86400s expiry) and scoped to MuleSoft shared infrastructure; program rules prohibit data exposure during testing — risk remains low
+## 2026-09-06 14:20:46 UTC [target] (model nemotron3)
+[NEW] www.obi.de/regi/auth/ssi/regi-hey-obi-login → 200 text/html 776B anonymous SSI fragment bootstrapping account-csrf + jwt/validate + 5 modulepreload chunks — auth subsystem is server-side include, unauth-readable (09-06)
+[NEW] assets.obi.de/seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js.map → 404; root + ?list-type=2 serve identical 39B default HTML — no bucket listing through CloudFront (09-06)
+[NEW] www.obi.de rotated chunks (regi-chunk-lib.BXy1zykA, HeyObiSidePaneFragment.Dr8_3eZQ, rolldown-runtime.hePW80VL) contain zero new endpoint strings — frontend surface closed beyond login-info (09-06)
+[CHANGED] /explore/recommendations/api/internal/v6/recommendations 500 invariant across count/userId/trxId — not a params oracle; passive-fuzz avenue dead (09-06)
+[CHANGED] seller-data-hub registry boundaries confirmed: trxId 0/99999999/200001 → 404 JSON oracle, 100551 → 200 — dense block ≈100000–100550, sparse beyond; registry fully characterized (09-06)
