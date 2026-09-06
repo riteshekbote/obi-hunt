@@ -1,28 +1,40 @@
-## 2026-09-06 21:29:24 UTC [target] (model bigpickle)
-[HYP] JWT alg-confusion / session boundary on production validator
+## 2026-09-06 23:08:58 UTC [target] (model bigpickle)
+[PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service,9.2 — report-ready MEDIUM, CORS wilderness + dense trxId 100000–100550, auth-gate divergence proven
+[PRIO] www.obi.de/account/api/public/jwt/validate,8.5 — alg-confusion target, creds-blocked
+[PRIO] www.obi.de/regi/auth/api/fe/hey-obi/login-info,7.9 — account subsystem, session-gated
+[PRIO] api.live.app.obi.de,7.8 — fully 401-gated, 17 sub-paths enumerated
+[PRIO] assets.obi.de,7.6 — bundle static-analysis done, surface closed
+[HYP] JWT alg/key confusion on production account validator
 class: AUTH
 asset: www.obi.de/account/api/public/jwt/validate
 confidence: 70
-reasoning: Anonymous 200 SSI fragment (regi-hey-obi-login) bootstraps account-csrf + obi-auth + jwt/validate from one edge; GET/HEAD 200 clears obi-auth; POST no-session 405; obi-auth validated here is the same token trusted by account backend.
-evidence_needed: Authorized authenticated obi-auth JWT; validator returning 200 for alg:none or HS256-with-disclosed-key artifact vs 4xx baseline.
-verify_steps: Only with confirmed authorized session: POST baseline JWT, then POST alg:none artifact, compare statuses; no artifact persistence. Currently creds-blocked.
+reasoning: Anonymous SSI fragment bootstraps account-csrf + obi-auth + jwt/validate from one edge call; GET/HEAD 200 clears obi-auth; POST no-session 405; validator consumes the same token trusted by account backend.
+evidence_needed: Authenticated obi-auth JWT; validator 200 for alg:none/HS256-key artifact vs 4xx/405 baseline.
+verify_steps: Only with authorized session: POST baseline JWT, then POST crafted artifact; compare response codes; no persistence.
 impact: ATO of heyOBI accounts incl. order/payment history. Severity: CRITICAL (unproven).
 testability: AUTH_HELPED
 [HYP] Cross-seller IDOR via trxId namespace on mule-realm services
 class: IDOR
 asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice}-service
 confidence: 55
-reasoning: Dense trxId block 100000–100550 proven via /public/ 404-oracle; /public/ divergence unique to seller-data-hub (all siblings 401 mule-realm), implying per-service authorization flaws rather than platform default; mule-realm may authorize by credential, not object ownership.
-evidence_needed: Valid seller credentials; foreign-trxId resource returning 200 vs 403/404.
-verify_steps: With authorized creds only: compare own vs foreign seller resources across bounded trxId range. Currently creds-blocked.
+reasoning: Dense trxId block 100000–100550 proven via /public/ 404-oracle; /public/ divergence unique to seller-data-hub implies per-service authorization flaws; mule-realm may authorize by credential, not object ownership.
+evidence_needed: Valid seller clientId/clientSecret; foreign-trxId resource returns 200 vs 403/404.
+verify_steps: With authorized creds only: compare own vs foreign seller resources across bounded trxId range. Creds-blocked.
 impact: Cross-tenant order/invoice/financial extraction. Severity: HIGH (unproven).
 testability: AUTH_HELPED
 [HYP] login-info POST state-coupling on heyOBI account subsystem
 class: AUTH
 asset: www.obi.de/regi/auth/api/fe/hey-obi/login-info
 confidence: 40
-reasoning: Route live (GET/POST 403 session-gated); discovered in panel-controllers route map; bound field-set unproven; same cookie family as jwt/validate.
+reasoning: Route live (GET/POST 403 session-gated); bound field-set unenumerated; same edge cookie family as jwt/validate.
 evidence_needed: Authorized session; accepted POST body field-set causing 200/state change.
-verify_steps: With authorized session only: GET baseline, then POST empty + candidate field-sets, document 200-vs-403 deltas.
+verify_steps: With authorized session: GET baseline, then POST empty + candidate field-sets, document 200-vs-403 deltas.
 impact: Account-type/state manipulation. Severity: TBD.
 testability: AUTH_HELPED
+[PARKED] (unchanged): sourcemap/bucket-listing, Baqend, recommendations-500, shipping-webhook — all REJECTED, no verify path.
+[FINAL] 1. JWT alg-confusion (www.obi.de jwt/validate, 70, AUTH_HELPED, CRITICAL) — awaiting session JWT.
+[FINAL] 2. Cross-seller IDOR (api.obi.com mule-realm, 55, AUTH_HELPED, HIGH) — trxId space bounded; needs creds.
+[FINAL] 3. login-info POST binding (40, AUTH_HELPED) — held.
+[NEXT] HUMAN: Submit reports/report-seller-data-hub-public.md (MEDIUM — unauthenticated seller registry + any-origin credentialed CORS, dense trxId 100000–100550 enumeration, imprint-documents PDF disclosure) to bugs.olivermaicher.eu; include the cross-tenant-read CSRF angle (credentials:include + reflected ACAC:true).
+[LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: MEDIUM draft closed this cycle — evidence chain complete (guard-divergence vs 7 siblings + own /api/v1 mirror, ACAC:true reflection on both /public endpoints, oracle-bounded trxId space, PDF legal-doc disclosure); no additional live probing warranted pre-submission.
+[RISK] obi: 35/100 — 0 live probes this cycle. Submitting the report is the only pending action. All open hypotheses are creds-blocked; frontend, registry, BaaS, and API surfaces fully characterized and closed. No mutation, no auth-bypass, no new PII volume, ≤1 rps read-only compliant throughout. Risk unchanged/declining.
