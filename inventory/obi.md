@@ -206,3 +206,8 @@ www.obi.de
 ## 2026-09-07 06:18:06 UTC
 - NEW Confirmed live via fresh probes (2026-09-07 06:13 UTC):
 - CHANGED Report file `reports/report-seller-data-hub-public.md` does not exist — draft from knowledge base not materialized.
+
+## 2026-09-07 12:53:13 UTC
+- CHANGED `reports/report-seller-data-hub-public.md` — knowledge base accepted 3x but file does not exist on disk. Must be materialized before submission.
+- CHANGED `reports/hypotheses-bigpickle.txt` — only 3 lines (tail state), not a full analysis. Existing state supersedes.
+- CHANGED Report file `reports/report-seller-data-hub-public.md` does not exist — draft from knowledge base not materialized (confirmed 2026-09-07 06:13 UTC)

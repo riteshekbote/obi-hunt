@@ -1,3 +1,44 @@
-## 2026-09-07 06:11:06 UTC [target] (model bigpickle)
-[NEXT] HUMAN: Submit reports/report-seller-data-hub-public.md to bugs.olivermaicher.eu
-[RISK] obi: 35/100 — No live probes this cycle. Report submission is sole pending action. All hypotheses creds-blocked. Risk unchanged/declining.
+## 2026-09-07 12:46:52 UTC [target] (model bigpickle)
+[CHANGED] `reports/report-seller-data-hub-public.md` — knowledge base accepted 3x but file does not exist on disk. Must be materialized before submission.
+[CHANGED] `reports/hypotheses-bigpickle.txt` — only 3 lines (tail state), not a full analysis. Existing state supersedes.
+[PRIO] api.obi.com/seller-data-hub-service/api/v1/public/,9.2 — report-ready MEDIUM, CORS wilderness + dense trxId 100000-100550, auth-gate divergence proven. READY TO SUBMIT.
+[PRIO] www.obi.de/account/api/public/jwt/validate,8.5 — alg-confusion target, creds-blocked. Cannot test without authorized session.
+[PRIO] www.obi.de/regi/auth/api/fe/hey-obi/login-info,7.9 — account subsystem, session-gated, field-set unenumerated. AUTH_HELPED.
+[PRIO] api.live.app.obi.de,7.8 — fully 401-gated, 17 sub-paths enumerated, surface closed.
+[PRIO] assets.obi.de,7.6 — bundle static-analysis done, 2 fetch targets mapped, surface closed.
+[HYP] Seller Data Hub /public/ Unauthenticated Registry — Report-Ready
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 92
+reasoning: /public/{cc}/seller-side-panel/{trxId} returns complete imprint+settings for sequential IDs 100000-100550 across DE/AT/IT/PL/FR/ES; 404 JSON oracle ("vtexSellerId not found for trxId: N") confirms dense block; 7 sibling services + own /api/v1/ mirror all 401 mule-realm — auth-boundary flaw unique to seller-data-hub; /public/de/feature-toggle exposes 15 internal SOA.* flags; imprint-documents returns PDF legal docs; CORS reflects arbitrary Origin with ACAC:true allowing any-origin credentialed reads.
+evidence_needed: None — all evidence collected. Report draft missing from disk.
+verify_steps: HUMAN: Create reports/report-seller-data-hub-public.md and submit to bugs.olivermaicher.eu.
+impact: Unauthenticated enumeration of ~550 seller identities with full imprint+settings PII across 6 European countries; internal SOA feature flag disclosure; PDF legal document disclosure; any-origin cross-origin credentialed read via ACAC:true reflection. Severity: MEDIUM.
+testability: HUMAN_ONLY
+[HYP] JWT alg/key confusion on production account validator
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: Anonymous SSI fragment (regi-hey-obi-login) bootstraps account-csrf + obi-auth + jwt/validate from one edge call; GET/HEAD 200 clears obi-auth; POST no-session 405; validator consumes same token trusted by account backend.
+evidence_needed: Authenticated obi-auth JWT; validator 200 for alg:none/HS256-key artifact vs 4xx/405 baseline.
+verify_steps: Only with authorized session: POST baseline JWT, then POST crafted artifact; compare response codes; no persistence.
+impact: ATO of heyOBI accounts incl. order/payment history. Severity: CRITICAL (unproven).
+testability: AUTH_HELPED
+[HYP] Cross-seller IDOR via trxId namespace on mule-realm services
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice}-service
+confidence: 55
+reasoning: Dense trxId block 100000-100550 proven via /public/ 404-oracle; /public/ divergence unique to seller-data-hub implies per-service authorization flaws rather than platform default; mule-realm may authorize by credential, not object ownership.
+evidence_needed: Valid seller clientId/clientSecret; foreign-trxId resource returning 200 vs 403/404.
+verify_steps: With authorized creds only: compare own vs foreign seller resources across bounded trxId range. Currently creds-blocked.
+impact: Cross-tenant order/invoice/financial extraction. Severity: HIGH (unproven).
+testability: AUTH_HELPED
+[FINAL] 1. Seller Data Hub /public/ (92, MISCONFIG, report-ready) — evidence chain complete: guard-divergence vs 7 siblings + own /api/v1 mirror, ACAC:true reflection on both /public endpoints, oracle-bounded trxId space, PDF legal-doc disclosure. Report MUST be created and submitted.
+[FINAL] 2. JWT alg-confusion (70, AUTH, creds-blocked) — waiting for session JWT from HUMAN. No verify path without auth.
+[FINAL] 3. Cross-seller IDOR (55, IDOR, creds-blocked) —trxId space bounded; needs seller creds.
+[FINAL] 4. login-info POST binding (40, AUTH, held) — field-set unenumerated, at floor.
+[NEXT] HUMAN: Create `reports/report-seller-data-hub-public.md` with full PoC (unauthenticated /public/de/feature-toggle CORS:ACAC reflection, /public/de/seller-side-panel/1 PII dump, cross-country AT/100000 proof, imprint-documents PDF, gate divergence evidence against 7 siblings + own /api/v1/ mirror) and submit to bugs.olivermaicher.eu.
+[LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: knowledge base accepted 3x (09-06, 09-07 01:06, 09-07 06:11) but file does not exist on disk. Evidence chain complete; materialization is blocking submission.
+[LEARN] ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding is MEDIUM, report-ready.
+[LEARN] ACCEPTED ENDPOINT-MAP @ www.obi.de: rotated frontend chunks contain zero new endpoint strings — frontend surface closed beyond login-info.
+[RISK] obi: 35/100 — 0 live probes this cycle. Report submission is sole blocking action. All open hypotheses are creds-blocked. No mutation, no auth-bypass, no new PII volume, ≤1 rps read-only compliant throughout. Risk unchanged/declining.
