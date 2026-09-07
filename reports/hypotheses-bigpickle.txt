@@ -1,28 +1,42 @@
-## 2026-09-07 21:37:54 UTC [target] (model bigpickle)
+## 2026-09-07 23:46:36 UTC [target] (model bigpickle)
+[NEW] `reports/report-seller-data-hub-public.md` — materialized on disk (112 lines, 8453 B) from KB evidence chain: repro steps, gate-divergence proof (7 siblings + own /api/v1 mirror = 401 mule-realm), ACAC:true reflection on both /public endpoints, oracle-bounded trxId space (0/99999999/200001 → 404, 100551 → 200), 1228B feature-toggle with 15 SOA.* flags, imprint-documents PDF keys obiecomprod/obiecomprodat, CORS wilderness. No PII values in file.
+[PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/, 9.4, attack_surface=10 business_value=10 tech_exposure=8 gate_ease=10 cloud_surface=6 freshness=9
+[PRIO] www.obi.de/account/api/public/jwt/validate, 7.8, attack_surface=7 business_value=9 tech_exposure=9 gate_ease=5 cloud_surface=7 freshness=8
+[PRIO] api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice}-service, 6.8, attack_surface=7 business_value=9 tech_exposure=7 gate_ease=3 cloud_surface=6 freshness=8
+[HYP] Seller Data Hub /public/ gate-divergence registry — REPORT MATERIALIZED
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 92
+reasoning: Finding already validated (valid-bugs.md·2×, KB accepted 3×). Report now on disk at reports/report-seller-data-hub-public.md. Sole remaining step is submission.
+evidence_needed: None — evidence chain complete.
+verify_steps: None — no further live probing warranted pre-submission.
+impact: ~550 seller identities with imprint+settings PII across 6 countries, 15 SOA.* flags, legal PDFs, any-origin credentialed reads. Severity: MEDIUM.
+testability: HUMAN_ONLY
 [HYP] JWT alg/key confusion on production account validator
 class: AUTH
 asset: www.obi.de/account/api/public/jwt/validate
 confidence: 70
-reasoning: Anonymous SSI fragment /regi/auth/ssi/regi-hey-obi-login bootstraps account-csrf + obi-auth + jwt/validate in one edge call; GET/HEAD 200 clears obi-auth; POST no-session 405; validator consumes the same token the account backend trusts. No verify path without a real session.
-evidence_needed: Authenticated obi-auth JWT; 200/2xx for alg:none or RS256→HS256 crafted token vs 4xx rejection baseline.
-verify_steps: With authorized session: POST baseline JWT → baseline; POST alg:none artifact → compare. No persistence; do not attempt on third-party accounts.
+reasoning: Anonymous SSI fragment /regi/auth/ssi/regi-hey-obi-login bootstraps account-csrf + obi-auth + jwt/validate in one edge call; GET/HEAD 200 clears obi-auth; POST no-session 405. No verify path without a real session.
+evidence_needed: Authenticated obi-auth JWT; 200/2xx for alg:none or RS256→HS256 artifact vs 4xx baseline.
+verify_steps: With authorized session: POST baseline JWT → baseline; POST crafted artifact → compare. No persistence.
 impact: ATO of heyOBI accounts incl. purchase/payment history. Severity: CRITICAL (unproven).
 testability: AUTH_HELPED
 [HYP] Cross-seller IDOR via trxId on mule-realm services
 class: IDOR
-asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice|product|inventory}-service
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice}-service
 confidence: 55
 reasoning: Dense trxId block 100000–100550 proven via /public/ 404-oracle; /public/ divergence unique to seller-data-hub implies per-service authz diverges from platform default; mule-realm may authorize by credential, not object ownership.
 evidence_needed: Valid seller clientId/clientSecret; foreign-trxId resource returning 200 vs 403/404.
 verify_steps: With authorized creds: compare own vs foreign seller resources across bounded trxId range. Creds-blocked today.
 impact: Cross-tenant order/invoice/financial extraction. Severity: HIGH (unproven).
 testability: AUTH_HELPED
-[HYP] login-info POST state-coupling on account subsystem
-class: AUTH
-asset: www.obi.de/regi/auth/api/fe/hey-obi/login-info
-confidence: 40
-reasoning: GET+POST 403 session-gated (panel-controllers route map); bound field-set unenumerated; same edge cookie family as jwt/validate.
-evidence_needed: Authorized session; accepted POST body field-set causing 200/state change.
-verify_steps: With authorized session: GET baseline, then POST empty + candidate field-sets; document 200-vs-403 deltas.
-impact: Account-type/state manipulation. Severity: TBD.
-testability: AUTH_HELPED
+[HYP] login-info POST state-coupling (40, AUTH) — dropped: floor confidence, field-set unenumerated, session-gated with no verify path; not actionable ahead of human session. PARKED.
+[FINAL] 1. Seller Data Hub /public/ (92, MISCONFIG, HUMAN_ONLY) — report file now materialized; keep on hold for human submission, do NOT re-probe.
+[FINAL] 2. JWT alg-confusion (70, AUTH, creds-blocked) — waiting for session JWT from HUMAN.
+[FINAL] 3. Cross-seller IDOR (55, IDOR, creds-blocked) — trxId space bounded; needs seller creds.
+[NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` via bugs.olivermaicher.eu (report + PoC + contact + payment per scope.yml). Materialization blocker is resolved; submission is now the only step before the finding can go out.
+[LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: REPORT FILE NOW ON DISK (112 lines, 8453 B) — prior blocker (accepted 3× in KB, missing on disk) resolved 2026-09-07 23:46 UTC. Evidence chain complete, no PII values, repro steps + gate-divergence proof + CORS ACAC chain + remediation included.
+[LEARN] ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding is MEDIUM, report-ready. (Confirms prior tail.)
+[LEARN] ACCEPTED ENDPOINT-MAP @ www.obi.de: rotated frontend chunks contain zero new endpoint strings — frontend surface closed beyond login-info.
+[LEARN] ACCEPTED AUTH @ api.obi.com: seller bundle fetches /public/ with mode:cors + credentials:include from assets.obi.de; base api.obi.com CORS:* — cross-origin session-bearing calls part of portal design (no additional flaw beyond ACAC reflection already reported).
+[RISK] obi: 30/100 — down from 35: sole materialization blocker resolved (report file on disk), no live probes this cycle, all remaining hypotheses creds-blocked, ≤1 rps read-only GET history throughout, no mutation/auth-bypass/PII capture. Sub-threshold for further active testing until submission or new in-scope surface.

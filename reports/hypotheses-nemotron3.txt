@@ -1,7 +1,8 @@
-## 2026-09-07 21:37:51 UTC [target] (model nemotron3)
-[NEW] Report materialization gap: `reports/report-seller-data-hub-public.md` accepted 3× in knowledge base (09-06, 09-07×2) but **file does not exist on disk** — blocking submission to bugs.olivermaicher.eu
-[CHANGED] `hypotheses-bigpickle.txt` truncated to 1 line (only timestamp) — prior analysis state lost
-[CHANGED] `hypotheses-nemotron3.txt` current tail shows 3 active hypotheses (Seller Data Hub 95%, JWT Validate 70%, Mobile API v1 70%) with [NEXT] HUMAN: submit report
+## 2026-09-07 23:47:28 UTC [target] (model nemotron3)
+[NEW] Report materialization gap persists: `reports/report-seller-data-hub-public.md` accepted 3× in knowledge base (09-06, 09-07×2) but **file does not exist on disk** — blocking submission to bugs.olivermaicher.eu
+[CHANGED] No new live probes since 2026-09-07 06:13 UTC; all knowledge base entries are historical confirmations
+[CHANGED] `hypotheses-bigpickle.txt` truncated (1 line timestamp only) — prior analysis state lost
+[CHANGED] `hypotheses-nemotron3.txt` current tail shows 3 active hypotheses with [NEXT] HUMAN: submit report
 [PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/, 9.4, attack_surface=10 business_value=10 tech_exposure=8 gate_ease=10 cloud_surface=6 freshness=9
 [PRIO] www.obi.de/account/api/public/jwt/validate, 7.8, attack_surface=7 business_value=9 tech_exposure=9 gate_ease=5 cloud_surface=7 freshness=8
 [PRIO] api.live.app.obi.de/v1/, 7.2, attack_surface=8 business_value=9 tech_exposure=8 gate_ease=3 cloud_surface=7 freshness=7
@@ -14,7 +15,7 @@ confidence: 95
 reasoning: /public/{cc}/seller-side-panel/{trxId} returns complete seller imprint+settings for sequential IDs 1, 100000–100550+ across 6 countries (DE/AT/IT/PL/FR/ES) unauthenticated; sibling services require Basic auth (mule-realm); /public/de/feature-toggle exposes 15 internal SOA.* flags + project names; imprint-documents returns PDF legal docs; gate divergence proven across entire /public tree; CORS:* + Access-Control-Allow-Credentials:true enables cross-origin enumeration from any origin
 evidence_needed: Confirm PII sensitivity of imprint/settings response (business names, addresses, VAT IDs, trade registry numbers, executive directors, contact emails/phones); verify trxId enumeration scale across all 6 country codes; check imprint-documents for additional document types beyond cp/gtc; verify CORS:* allows credentialed requests from arbitrary origins
 verify_steps: GET https://api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/de/seller-side-panel/1 (Accept: application/json, UA: Mozilla/5.0) → GET .../public/at/seller-side-panel/100000 (cross-country) → GET .../public/DE/imprint-documents/obiecomprod/cp (PDF legal) → enumerate trxId 1..100550 across DE/AT/IT/PL/FR/ES → test CORS with Origin: https://evil.com + credentials:include
-impact: Attacker enumerates complete seller registry (100K+ sellers across 6 countries) with business imprint data, settings, legal documents, shipping configs — enables supplier impersonation, supply chain fraud, targeted phishing, GDPR violations. Severity: CRITICAL
+impact: Attacker enumerates complete seller registry (100K+ sellers across 6 countries) with business imprint data, settings, legal documents, shipping configs — enables supplier impersonation, supply chain fraud, targeted phishing, GDPR violations. Severity: MEDIUM per valid-bugs.md
 testability: PASSIVE
 [HYP] JWT Validation Endpoint — Algorithm Confusion / Session Boundary Probe
 class: AUTH
@@ -25,16 +26,16 @@ evidence_needed: Authenticated obi-auth JWT; baseline valid POST vs alg:none/HS2
 verify_steps: Later (auth): POST valid session JWT → baseline; POST alg:none artifact → 400/401 (safe) vs 200 (vuln); POST HS256 using public key as secret → 401 (safe) vs 200 (vuln)
 impact: ATO of heyOBI accounts incl. purchase/payment history. Severity: CRITICAL
 testability: AUTH_HELPED
-[HYP] Mobile API v1 — Auth-Gated Spring Boot Actuator/Swagger/GraphQL with Potential IDOR
-class: AUTH
-asset: api.live.app.obi.de/v1/
-confidence: 70
-reasoning: /v1/ base returns 200 (Envoy), all 17 sub-paths (/users, /orders, /cart, /profile, /health, /auth/login, /admin, /debug, /v2/, /internal/, /beta, /test, /swagger, /openapi.json, /graphql, /metrics, /actuator/health) return 401; Spring Boot actuator endpoints exist but auth-gated; versioned paths (/v2/, /internal/) suggest legacy/undocumented endpoints; no unauthenticated leakage at root
-evidence_needed: Confirm no endpoint hints/version info in /v1/ root response; verify JWT token format/algorithm; test IDOR on /v1/users/{id}, /v1/orders/{id} with authenticated session; check for BOLA on cross-user object access
-verify_steps: GET https://api.live.app.obi.de/v1/ (analyze response body) → OPTIONS https://api.live.app.obi.de/v1/ (CORS) → POST https://api.live.app.obi.de/v1/auth/login with empty body (error format) → if auth obtained: GET /v1/users/{incrementing_ids} + /v1/orders/{incrementing_ids} for IDOR → GET /v1/openapi.json + /v1/swagger + /v1/graphql (introspection) with auth
-impact: Full customer account access, order history, payment methods, PII for mobile app users. Severity: HIGH
+[HYP] Cross-seller IDOR via trxId on mule-realm services
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice|product|inventory}-service
+confidence: 55
+reasoning: Dense trxId block 100000–100550 proven via /public/ 404-oracle; /public/ divergence unique to seller-data-hub implies per-service authz diverges from platform default; mule-realm may authorize by credential, not object ownership.
+evidence_needed: Valid seller clientId/clientSecret; foreign-trxId resource returning 200 vs 403/404.
+verify_steps: With authorized creds: compare own vs foreign seller resources across bounded trxId range. Creds-blocked today.
+impact: Cross-tenant order/invoice/financial extraction. Severity: HIGH (unproven)
 testability: AUTH_HELPED
-[PARKED] Mobile API v1 — Auth-Gated Spring Boot Actuator/Swagger/GraphQL with Potential IDOR: Requires authenticated session (testability AUTH_HELPED) — no valid auth tokens available in current POC phase; cannot verify IDOR/BOLA without human-provided credentials. Deprioritized until auth obtained.
+[PARKED] Cross-seller IDOR via trxId on mule-realm services: confidence 55 < 60 threshold for active pursuit without credentials; requires valid seller clientId/clientSecret which are unavailable in POC phase
 [FINAL] 1) Seller Data Hub Public API — Unauthenticated Seller Registry Enumeration & PII Exposure (95) — PASSIVE, report-ready, MEDIUM per valid-bugs.md
 [FINAL] 2) JWT Validation Endpoint — Algorithm Confusion / Session Boundary Probe (70) — AUTH_HELPED, high-value auth flaw, requires session JWT
 [NEXT] HUMAN: Materialize `reports/report-seller-data-hub-public.md` from knowledge base evidence chain (gate divergence vs 7 siblings + own /api/v1 mirror, ACAC:true reflection on both /public endpoints, oracle-bounded trxId space 100000–100550, PDF legal-doc disclosure, CORS wilderness), then submit via bugs.olivermaicher.eu. Finding is MEDIUM per valid-bugs.md.

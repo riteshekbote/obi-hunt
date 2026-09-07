@@ -8957,3 +8957,172 @@ STEP 6 — LEARNING
 
 STEP 7 — RISK
 - [RISK] obi: 35/100 — 0 live probes this cycle (none warranted; only filesystem materialization). Report submission is sole pending action. All open hypotheses creds-blocked; ≤1 rps read-only ≤1 rps read-only compliant maintained; no mutation, no auth-bypass, no PII re-published in report. Risk unchanged/declining.
+===== ANALYST bigpickle 2026-09-07 23:47:38 UTC =====
+[0m
+> build · big-pickle
+[0m
+[0m$ [0mls -la reports/ 2>/dev/null; echo "---"; ls -la art/ 2>/dev/null; echo "---"; ls *.yml *.md 2>/dev/null
+total 1896
+drwxr-xr-x  2 runner runner    4096 Sep  7 23:45 .
+drwxr-xr-x 12 runner runner    4096 Sep  7 23:45 ..
+-rw-r--r--  1 runner runner 1007570 Sep  7 23:45 analyst-bigpickle.log
+-rw-r--r--  1 runner runner    6944 Sep  7 23:45 analyst-laguna.log
+-rw-r--r--  1 runner runner    6912 Sep  7 23:45 analyst-ling3.log
+-rw-r--r--  1 runner runner    6976 Sep  7 23:45 analyst-longcat.log
+-rw-r--r--  1 runner runner  881627 Sep  7 23:45 analyst-nemotron3.log
+-rw-r--r--  1 runner runner    2237 Sep  7 23:45 hypotheses-bigpickle.txt
+-rw-r--r--  1 runner runner      51 Sep  7 23:45 hypotheses-laguna.txt
+-rw-r--r--  1 runner runner      50 Sep  7 23:45 hypotheses-ling3.txt
+-rw-r--r--  1 runner runner      52 Sep  7 23:45 hypotheses-longcat.txt
+-rw-r--r--  1 runner runner   10220 Sep  7 23:45 hypotheses-nemotron3.txt
+-rw-r--r--  1 runner runner   80723 Sep  7 23:45 hypotheses.md
+-rw-r--r--  1 runner runner     666 Sep  7 23:45 valid-bugs.md
+---
+---
+README.md
+probe-results.md
+scope.yml
+[0m
+[0m✱ [0mGlob "reports/**"[90m 12 matches[0m
+[0m✱ [0mGlob "**/report-seller-data-hub-public.md"[90m 0 matches[0m
+[0m→ [0mRead reports/valid-bugs.md
+[0m→ [0mRead reports/hypotheses-nemotron3.txt
+[0m→ [0mRead reports/hypotheses-bigpickle.txt
+[0m
+[0m$ [0mwc -l art/* reports/analyst-*.log scope.yml README.md 2>/dev/null; echo "---scope---"; cat scope.yml 2>/dev/null | head -80
+8959 reports/analyst-bigpickle.log
+    256 reports/analyst-laguna.log
+    256 reports/analyst-ling3.log
+    256 reports/analyst-longcat.log
+   5428 reports/analyst-nemotron3.log
+     55 scope.yml
+     34 README.md
+  15244 total
+---scope---
+programs:
+  obi:
+    name: OBI Group Holding SE & Co. KGaA Bug Bounty
+    disclosure_policy: via bugs.olivermaicher.eu (Oliver Maicher private program) - report + PoC + contact + payment
+    assets:
+      - name: "All company-owned infrastructure, retail systems, e-commerce platforms, mobile applications, APIs, supply chain systems, customer accounts, and domains operated by OBI Group and its subsidiaries"
+        priority: In
+    out_of_scope:
+- "Network level Denial of Service attacks"
+      - "Application Denial of Service by locking user accounts"
+      - "Descriptive error messages or headers (e.g. Stack Traces, banner grabbing)"
+      - "Disclosure of known public files or directories (e.g. robots.txt)"
+      - "Outdated software / library versions"
+      - "OPTIONS / TRACE HTTP method enabled"
+      - "CSRF on logout"
+      - "CSRF on forms that are available to anonymous users"
+      - "Cookies that lack HTTP Only or Secure settings for non-sensitive data"
+      - "Self-XSS and issues exploitable only through Self-XSS"
+      - "Reports resulting from automated scanning utilities without additional details or a POC demonstrating a specific exploit"
+      - "Attacks requiring physical access to a user's device"
+      - "Attacks dependent upon social engineering of employees or vendors"
+      - "Username enumeration based on login or forgot password pages"
+      - "Enforcement policies for brute force, rate limiting, or account lockout"
+      - "SSL/TLS best practices"
+      - "SSL attacks such as BEAST, BREACH, Renegotiation attack"
+      - "Clickjacking, without additional details demonstrating a specific exploit"
+      - "Mail configuration issues including SPF, DKIM, DMARC settings"
+      - "Use of a known-vulnerable library without a description of an exploit specific to our implementation"
+      - "Password and account recovery policies"
+      - "Presence of autocomplete functionality in form fields"
+      - "Publicly accessible login panels"
+      - "Lack of email address verification during account registration or account invitation"
+      - "Lack of email address verification password restore"
+      - "Session control during email/password changes"
+      - "Social engineering, physical attacks, and DoS/DDoS testing (per program notes)"
+      - "Exposure of customer/employee/financial/authentication data during testing (per program notes)"
+    github_orgs:
+      - none-configured
+
+rules:
+  passive_first: false          # deep-hunt agent: active probes allowed when scoped
+  max_requests_per_second: 1    # never hammer live infra
+  no_doom: true                 # no DoS/DDoS, no account-lockout attacks
+  account_creation: restricted  # only on test/sandbox assets, never live customer data
+  no_data_modification: true    # no writes/deletes on live customer data
+  no_pre_disclosure: true       # never disclose before program response
+  poc_required: true            # scanner output alone is REJECTED
+  redact_secrets_in_commits: true
+
+models:
+  - { id: opencode/big-pickle, name: bigpickle }
+  - { id: opencode/nemotron-3-ultra-free, name: nemotron3 }
+  - { id: opencode/longcat-2.0-free, name: longcat }
+  - { id: opencode/ling-3.0-flash-free, name: ling3 }
+  - { id: opencode/laguna-s-2.1-free, name: laguna }
+[0m
+[0m✱ [0mGrep "seller-side-panel|feature-toggle|imprint-documents|ACAC|ation"[90m in reports/analyst-bigpickle.log · 60 matches[0m
+[0m✱ [0mGrep "seller-data-hub|seller-side-panel|vtexSellerId|feature-toggle|imprint-documents|mule-realm|ACAC|obi-ecom-prod|SOA\."[90m in reports/analyst-bigpickle.log · 4 matches[0m
+[0m✱ [0mGrep "seller-side-panel|vtexSellerId|feature-toggle|imprint-documents|mule-realm|ACAC|Access-Control-Allow-Credentials|HistoryTrail|companyImprint|ibi"[90m in reports/analyst-nemotron3.log · 4 matches[0m
+[0m→ [0mRead probe-results.md
+[0m→ [0mRead README.md
+[0m
+[0m← [0mWrite reports/report-seller-data-hub-public.md
+Wrote file successfully.
+[0m
+Evidence chain confirms the finding is validated (valid-bugs.md marks it VALID, KB accepted 3×) but `reports/report-seller-data-hub-public.md` is still absent from disk — the sole blocker. I'll materialize the report from the knowledge-base evidence, then emit structured blocks.
+[0m$ [0mls -la /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md && wc -l /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md
+-rw-r--r-- 1 runner runner 8453 Sep  7 23:46 /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md
+112 /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md
+[0m
+STEP 1 — DELTA:
+[NEW] `reports/report-seller-data-hub-public.md` — materialized on disk (112 lines, 8453 B) from KB evidence chain: repro steps, gate-divergence proof (7 siblings + own /api/v1 mirror = 401 mule-realm), ACAC:true reflection on both /public endpoints, oracle-bounded trxId space (0/99999999/200001 → 404, 100551 → 200), 1228B feature-toggle with 15 SOA.* flags, imprint-documents PDF keys obiecomprod/obiecomprodat, CORS wilderness. No PII values in file.
+[NO_DELTA] No new live surface probed this cycle; no mutation; the 3 open AUTH hypotheses remain creds-blocked.
+
+STEP 2 — PRIORITIZE:
+[PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/, 9.4, attack_surface=10 business_value=10 tech_exposure=8 gate_ease=10 cloud_surface=6 freshness=9
+[PRIO] www.obi.de/account/api/public/jwt/validate, 7.8, attack_surface=7 business_value=9 tech_exposure=9 gate_ease=5 cloud_surface=7 freshness=8
+[PRIO] api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice}-service, 6.8, attack_surface=7 business_value=9 tech_exposure=7 gate_ease=3 cloud_surface=6 freshness=8
+
+STEP 3 — HYPOTHESES:
+[HYP] Seller Data Hub /public/ gate-divergence registry — REPORT MATERIALIZED
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 92
+reasoning: Finding already validated (valid-bugs.md·2×, KB accepted 3×). Report now on disk at reports/report-seller-data-hub-public.md. Sole remaining step is submission.
+evidence_needed: None — evidence chain complete.
+verify_steps: None — no further live probing warranted pre-submission.
+impact: ~550 seller identities with imprint+settings PII across 6 countries, 15 SOA.* flags, legal PDFs, any-origin credentialed reads. Severity: MEDIUM.
+testability: HUMAN_ONLY
+
+[HYP] JWT alg/key confusion on production account validator
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: Anonymous SSI fragment /regi/auth/ssi/regi-hey-obi-login bootstraps account-csrf + obi-auth + jwt/validate in one edge call; GET/HEAD 200 clears obi-auth; POST no-session 405. No verify path without a real session.
+evidence_needed: Authenticated obi-auth JWT; 200/2xx for alg:none or RS256→HS256 artifact vs 4xx baseline.
+verify_steps: With authorized session: POST baseline JWT → baseline; POST crafted artifact → compare. No persistence.
+impact: ATO of heyOBI accounts incl. purchase/payment history. Severity: CRITICAL (unproven).
+testability: AUTH_HELPED
+
+[HYP] Cross-seller IDOR via trxId on mule-realm services
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice}-service
+confidence: 55
+reasoning: Dense trxId block 100000–100550 proven via /public/ 404-oracle; /public/ divergence unique to seller-data-hub implies per-service authz diverges from platform default; mule-realm may authorize by credential, not object ownership.
+evidence_needed: Valid seller clientId/clientSecret; foreign-trxId resource returning 200 vs 403/404.
+verify_steps: With authorized creds: compare own vs foreign seller resources across bounded trxId range. Creds-blocked today.
+impact: Cross-tenant order/invoice/financial extraction. Severity: HIGH (unproven).
+testability: AUTH_HELPED
+
+STEP 4 — SELF-CRITIQUE:
+[HYP] login-info POST state-coupling (40, AUTH) — dropped: floor confidence, field-set unenumerated, session-gated with no verify path; not actionable ahead of human session. PARKED.
+[FINAL] 1. Seller Data Hub /public/ (92, MISCONFIG, HUMAN_ONLY) — report file now materialized; keep on hold for human submission, do NOT re-probe.
+[FINAL] 2. JWT alg-confusion (70, AUTH, creds-blocked) — waiting for session JWT from HUMAN.
+[FINAL] 3. Cross-seller IDOR (55, IDOR, creds-blocked) — trxId space bounded; needs seller creds.
+
+STEP 5 — NEXT ACTION:
+[NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` via bugs.olivermaicher.eu (report + PoC + contact + payment per scope.yml). Materialization blocker is resolved; submission is now the only step before the finding can go out.
+
+STEP 6 — LEARNING:
+[LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: REPORT FILE NOW ON DISK (112 lines, 8453 B) — prior blocker (accepted 3× in KB, missing on disk) resolved 2026-09-07 23:46 UTC. Evidence chain complete, no PII values, repro steps + gate-divergence proof + CORS ACAC chain + remediation included.
+[LEARN] ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding is MEDIUM, report-ready. (Confirms prior tail.)
+[LEARN] ACCEPTED ENDPOINT-MAP @ www.obi.de: rotated frontend chunks contain zero new endpoint strings — frontend surface closed beyond login-info.
+[LEARN] ACCEPTED AUTH @ api.obi.com: seller bundle fetches /public/ with mode:cors + credentials:include from assets.obi.de; base api.obi.com CORS:* — cross-origin session-bearing calls part of portal design (no additional flaw beyond ACAC reflection already reported).
+
+STEP 7 — RISK:
+[RISK] obi: 30/100 — down from 35: sole materialization blocker resolved (report file on disk), no live probes this cycle, all remaining hypotheses creds-blocked, ≤1 rps read-only GET history throughout, no mutation/auth-bypass/PII capture. Sub-threshold for further active testing until submission or new in-scope surface.

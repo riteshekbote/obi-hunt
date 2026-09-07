@@ -218,3 +218,10 @@ www.obi.de
 - NEW Report materialization gap: `reports/report-seller-data-hub-public.md` accepted 3× in knowledge base (09-06, 09-07×2) but **file does not exist on disk** — blocking submission to bugs.olivermaicher.eu
 - CHANGED `hypotheses-bigpickle.txt` truncated to 1 line (only timestamp) — prior analysis state lost
 - CHANGED `hypotheses-nemotron3.txt` current tail shows 3 active hypotheses (Seller Data Hub 95%, JWT Validate 70%, Mobile API v1 70%) with [NEXT] HUMAN: submit report
+
+## 2026-09-07 23:47:38 UTC
+- NEW `reports/report-seller-data-hub-public.md` — materialized on disk (112 lines, 8453 B) from KB evidence chain: repro steps, gate-divergence proof (7 siblings + own /api/v1 mirror = 401 mule-realm), ACA
+- NEW Report materialization gap persists: `reports/report-seller-data-hub-public.md` accepted 3× in knowledge base (09-06, 09-07×2) but **file does not exist on disk** — blocking submission to bugs.oliverm
+- CHANGED No new live probes since 2026-09-07 06:13 UTC; all knowledge base entries are historical confirmations
+- CHANGED `hypotheses-bigpickle.txt` truncated (1 line timestamp only) — prior analysis state lost
+- CHANGED `hypotheses-nemotron3.txt` current tail shows 3 active hypotheses with [NEXT] HUMAN: submit report
