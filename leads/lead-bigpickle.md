@@ -1282,3 +1282,4 @@ testability: AUTH_HELPED
 [LEARN] ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding is MEDIUM, report-ready.
 [LEARN] ACCEPTED ENDPOINT-MAP @ www.obi.de: rotated frontend chunks contain zero new endpoint strings — frontend surface closed beyond login-info.
 [RISK] obi: 35/100 — 0 live probes this cycle. Report submission is sole blocking action. All open hypotheses are creds-blocked. No mutation, no auth-bypass, no new PII volume, ≤1 rps read-only compliant throughout. Risk unchanged/declining.
+## 2026-09-07 18:09:17 UTC [target] (model bigpickle)
