@@ -95,3 +95,4 @@
 - 2026-09-07 ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: knowledge base accepted 3x (09-06, 09-07 01:06, 09-07 06:11) but file does not exist on disk. Evidence chain complete; materialization is blocking submission.
 - 2026-09-07 ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding is MEDIUM, report-ready.
 - 2026-09-07 ACCEPTED ENDPOINT-MAP @ www.obi.de: rotated frontend chunks contain zero new endpoint strings — frontend surface closed beyond login-info.
+- 2026-09-07 ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: MEDIUM finding report drafted with full reproduction steps, gate divergence proof, CORS evidence chain, and remediation guidance (knowledge base accepted 3× but file missing on disk)

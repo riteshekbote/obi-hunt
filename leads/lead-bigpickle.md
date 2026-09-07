@@ -1283,3 +1283,31 @@ testability: AUTH_HELPED
 [LEARN] ACCEPTED ENDPOINT-MAP @ www.obi.de: rotated frontend chunks contain zero new endpoint strings — frontend surface closed beyond login-info.
 [RISK] obi: 35/100 — 0 live probes this cycle. Report submission is sole blocking action. All open hypotheses are creds-blocked. No mutation, no auth-bypass, no new PII volume, ≤1 rps read-only compliant throughout. Risk unchanged/declining.
 ## 2026-09-07 18:09:17 UTC [target] (model bigpickle)
+## 2026-09-07 21:37:54 UTC [target] (model bigpickle)
+[HYP] JWT alg/key confusion on production account validator
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: Anonymous SSI fragment /regi/auth/ssi/regi-hey-obi-login bootstraps account-csrf + obi-auth + jwt/validate in one edge call; GET/HEAD 200 clears obi-auth; POST no-session 405; validator consumes the same token the account backend trusts. No verify path without a real session.
+evidence_needed: Authenticated obi-auth JWT; 200/2xx for alg:none or RS256→HS256 crafted token vs 4xx rejection baseline.
+verify_steps: With authorized session: POST baseline JWT → baseline; POST alg:none artifact → compare. No persistence; do not attempt on third-party accounts.
+impact: ATO of heyOBI accounts incl. purchase/payment history. Severity: CRITICAL (unproven).
+testability: AUTH_HELPED
+[HYP] Cross-seller IDOR via trxId on mule-realm services
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice|product|inventory}-service
+confidence: 55
+reasoning: Dense trxId block 100000–100550 proven via /public/ 404-oracle; /public/ divergence unique to seller-data-hub implies per-service authz diverges from platform default; mule-realm may authorize by credential, not object ownership.
+evidence_needed: Valid seller clientId/clientSecret; foreign-trxId resource returning 200 vs 403/404.
+verify_steps: With authorized creds: compare own vs foreign seller resources across bounded trxId range. Creds-blocked today.
+impact: Cross-tenant order/invoice/financial extraction. Severity: HIGH (unproven).
+testability: AUTH_HELPED
+[HYP] login-info POST state-coupling on account subsystem
+class: AUTH
+asset: www.obi.de/regi/auth/api/fe/hey-obi/login-info
+confidence: 40
+reasoning: GET+POST 403 session-gated (panel-controllers route map); bound field-set unenumerated; same edge cookie family as jwt/validate.
+evidence_needed: Authorized session; accepted POST body field-set causing 200/state change.
+verify_steps: With authorized session: GET baseline, then POST empty + candidate field-sets; document 200-vs-403 deltas.
+impact: Account-type/state manipulation. Severity: TBD.
+testability: AUTH_HELPED
