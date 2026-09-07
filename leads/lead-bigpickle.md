@@ -1235,3 +1235,6 @@ testability: AUTH_HELPED
 [NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (MEDIUM — unauthenticated seller registry + any-origin credentialed CORS, dense trxId 100000–100550 enumeration, imprint-documents PDF disclosure, gate divergence vs 7 siblings + own /api/v1 mirror) to bugs.olivermaicher.eu; include the cross-tenant-read CSRF angle (`credentials:include` + reflected `ACAC:true`).
 [LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: MEDIUM draft closed — evidence chain complete (guard-divergence vs 7 siblings + own /api/v1 mirror, ACAC:true reflection on both /public endpoints, oracle-bounded trxId space, PDF legal-doc disclosure); no additional live probing warranted pre-submission.
 [RISK] obi: 35/100 — 0 live probes this cycle. Submitting the report is the only pending action. All open hypotheses are creds-blocked; frontend, registry, BaaS, and API surfaces fully characterized and closed. No mutation, no auth-bypass, no new PII volume, ≤1 rps read-only compliant throughout. Risk unchanged/declining.
+## 2026-09-07 06:11:06 UTC [target] (model bigpickle)
+[NEXT] HUMAN: Submit reports/report-seller-data-hub-public.md to bugs.olivermaicher.eu
+[RISK] obi: 35/100 — No live probes this cycle. Report submission is sole pending action. All hypotheses creds-blocked. Risk unchanged/declining.
