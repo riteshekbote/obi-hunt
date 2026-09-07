@@ -1,14 +1,8 @@
-## 2026-09-06 23:10:54 UTC [target] (model nemotron3)
-[NEW] www.obi.de/regi/auth/ssi/regi-hey-obi-login → 200 text/html 776B anonymous SSI fragment bootstrapping account-csrf + jwt/validate + 5 modulepreload chunks — auth subsystem is server-side include, unauth-readable (09-06)
-[NEW] assets.obi.de/seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js.map → 404; root + ?list-type=2 serve identical 39B default HTML — no bucket listing through CloudFront (09-06)
-[NEW] www.obi.de rotated chunks (regi-chunk-lib.BXy1zykA, HeyObiSidePaneFragment.Dr8_3eZQ, rolldown-runtime.hePW80VL) contain zero new endpoint strings — frontend surface closed beyond login-info (09-06)
-[CHANGED] /explore/recommendations/api/internal/v6/recommendations 500 invariant across count/userId/trxId — not a params oracle; passive-fuzz avenue dead (09-06)
-[CHANGED] seller-data-hub registry boundaries confirmed: trxId 0/99999999/200001 → 404 JSON oracle, 100551 → 200 — dense block ≈100000–100550, sparse beyond; registry fully characterized (09-06)
-[PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/,9.70,attack_surface=10,business_value=9,tech_exposure=10,gate_ease=10,cloud_surface=9,freshness=10
-[PRIO] www.obi.de/account/api/public/jwt/validate,8.55,attack_surface=9,business_value=10,tech_exposure=9,gate_ease=6,cloud_surface=8,freshness=9
-[PRIO] api.live.app.obi.de/v1/,8.35,attack_surface=9,business_value=9,tech_exposure=8,gate_ease=7,cloud_surface=7,freshness=9
+## 2026-09-07 01:11:58 UTC [target] (model nemotron3)
+[PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/,9.55,attack_surface=10,business_value=10,tech_exposure=10,gate_ease=10,cloud_surface=9,freshness=9
 [PRIO] www.obi.de/regi/auth/api/fe/hey-obi/login-info,7.80,attack_surface=8,business_value=9,tech_exposure=8,gate_ease=6,cloud_surface=7,freshness=9
 [PRIO] www.obi.de/regi/auth/ssi/regi-hey-obi-login,7.20,attack_surface=7,business_value=8,tech_exposure=8,gate_ease=10,cloud_surface=6,freshness=9
+[PRIO] api.live.app.obi.de/v1/,8.35,attack_surface=9,business_value=9,tech_exposure=8,gate_ease=7,cloud_surface=7,freshness=9
 [PRIO] assets.obi.de/seller-onboarding/seller-side-panel/resources/index-BUGS3Fny.js,7.05,attack_surface=6,business_value=6,tech_exposure=7,gate_ease=10,cloud_surface=6,freshness=8
 [HYP] Seller Data Hub Public API — Unauthenticated Seller Registry Enumeration & PII Exposure
 class: MISCONFIG
