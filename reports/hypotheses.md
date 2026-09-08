@@ -553,3 +553,18 @@
 - LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asse
 - LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing throug
 - LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: MEDIUM finding report drafted with full reproduction steps, gate divergence proof, CORS evidence cha
+
+## RANKED HYPOTHESES 2026-09-08 03:43:46 UTC
+- [95] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/: Seller Data Hub Public API — Unauthenticated Seller Registry Enumeration & PII Exposure (from art/lead_nemotron3.txt)
+- [95] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/: Seller Data Hub /public/ gate-divergence registry — SUBMISSION-READY (from art/lead_bigpickle.txt)
+- NEXT(hypotheses-bigpickle.txt): HUMAN: Submit reports/report-seller-data-hub-public.md (153 lines, 9545 B) via bugs.olivermaicher.eu.
+- NEXT(hypotheses-nemotron3.txt): HUMAN: Submit `reports/report-seller-data-hub-public.md` via bugs.olivermaicher.eu (report + PoC + contact + payment per scope.yml). Report materialized, eviden
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File NOW actually materialized on disk (153 lines, 9545 B, sha256 fd7c4b4f…). Prior KB rows acceptin
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding MEDIU
+- LEARN: REJECTED PROCESS @ knowledge-base: accepted "materialized" claims without disk verification recurred 3× (09-06, 09-07×2) and 1 patent false-positive (23:46 UTC)
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding is ME
+- LEARN: ACCEPTED ENDPOINT-MAP @ www.obi.de: rotated frontend chunks contain zero new endpoint strings — frontend surface closed beyond login-info.
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: REPORT FILE NOW ON DISK (112 lines, 8453 B) — prior blocker (accepted 3× in KB, missing on disk) res
+- LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth
+- LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asse
+- LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing throug
