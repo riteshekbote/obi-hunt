@@ -213,3 +213,10 @@ https://api.live.app.obi.de/v1/auth/login -> HTTP 401
 
 ## 2026-09-08 19:57:54 UTC
 
+
+## 2026-09-08 22:31:00 UTC
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+https://www.obi.de/explore/recommendations/api/internal/v6/ -> HTTP 404
+https://assets.obi.de/seller-side-panel/resources/ -> HTTP 404
+https://assets.obi.de/seller-side-panel/ -> HTTP 404
+https://assets.obi.de/ -> 200 len=39

@@ -250,3 +250,17 @@ www.obi.de
 ## 2026-09-08 19:57:54 UTC
 - CHANGED `reports/report-seller-data-hub-public.md` materialized and verified on disk this cycle (180 lines, sha256 `1224b8db8f47d20c4481543f7c65375cfa53984744381434bd8f248e0e771256`) — prior 5 KB acceptances 
 - CHANGED No new live probes since 2026-09-07 06:13 UTC; all surface knowledge is historical confirmation only
+
+## 2026-09-08 22:30:51 UTC
+- NEW api.obi.com — MuleSoft API Portal, publicly accessible, 14+ marketplace APIs exposed
+- NEW api.live.app.obi.de — Mobile app API, Envoy proxy, /v1/ versioned
+- NEW imgix.obi.de — Image CDN, CORS: *, S3-backed
+- NEW assets.obi.de — Static asset CDN, S3 origin
+- NEW obi-de.app.baqend.com — Baqend BaaS speed kit integration
+- NEW 6+ backend API paths on www.obi.de (cart, PDP, CMS, recommendations, JWT validate)
+- NEW Seller onboarding JS bundle exposed on frontend
+- CHANGED www.obi.de — Now confirmed live with browser UA; Discover CMS + Vtex platform; origin returns 404 to raw HEAD but serves full SPA to browser UA
+- CHANGED api.obi.com: Portal returns full JSON catalog of 4+ marketplace APIs with S3 signed download URLs, org IDs, contact emails, version info — previously only confirmed as HTTP 200, now confirmed as full 
+- CHANGED api.obi.com: Full JSON API catalog extracted from SPA HTML body — 4 marketplace APIs with complete metadata (names, descriptions, versions, S3 signed download URLs, org IDs, contact emails). Portal se
+- CHANGED api.obi.com: MuleSoft Anypoint org `trx-fulfillmentsellersteering` (ID `e9d97593-77e2-4c1d-983c-b4593b3393ed`), parent org `f970166b-9dae-4e62-976d-cfccd05e93ff`, domain `obi-smart-technologies-gmbh`
+- CHANGED api.obi.com: S3 signed download URLs for API spec files (OAS/RAML/ZIP) point to `exchange2-asset-manager-kprod-eu.s3.eu-central-1.amazonaws.com` with temp AWS credentials embedded in query strings
