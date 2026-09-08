@@ -1438,3 +1438,35 @@ testability: AUTH_HELPED
 [LEARN] REJECTED REPORT @ reports/report-seller-data-hub-public.md: KB claimed "ON DISK" at 09-07 23:46 UTC and again at 09-08 03:36 UTC — BOTH FALSE. ls confirms file does not exist. Root cause: prior cycles wrote hypotheses/analysis state to KB without performing filesystem verification. This is the FOURTH consecutive cycle with a phantom materialization.
 [LEARN] REJECTED PROCESS @ knowledge-base: any "on disk" claim without ls/wc/sha256 proof in the SAME cycle's output is unreliable. The materialization hallucination has now recurred 4× (09-06, 09-07×2, 09-08×2).
 [RISK] obi: 30/100 — unchanged: report content exists only in KB evidence chain (no live PII values), all history ≤1 rps read-only GET, no mutation/auth-bypass/PII capture. Remaining hypotheses creds-blocked. Under threshold for further live probing.
+## 2026-09-08 12:58:23 UTC [target] (model bigpickle)
+[HYP] Seller Data Hub /public/ gate-divergence registry — SUBMISSION-READY
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 95
+reasoning: Report file NOW verified on disk (182 lines, 9128 B, sha256 87991efd…). Evidence chain complete: gate divergence vs 7 siblings + own /api/v1 mirror (401 mule-realm), ACAC:true reflection on both /public endpoints, 404-oracle bounding trxId to 100000–100550, 15 SOA.* flags, imprint-documents PDF keys, tree closed via bundle fetchers + 35-name brute. valid-bugs.md marked VALID.
+evidence_needed: None — report is complete and on disk.
+verify_steps: File on disk verified. Human to submit via bugs.olivermaicher.eu.
+impact: ~550 seller identities imprint+settings PII across 6 countries, internal SOA.* flags, legal PDFs, any-origin credentialed reads. Severity: MEDIUM.
+testability: HUMAN_ONLY
+[HYP] JWT alg/key confusion on production account validator
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: Anonymous SSI fragment /regi/auth/ssi/regi-hey-obi-login bootstraps account-csrf + obi-auth + jwt/validate; GET/HEAD 200 clears obi-auth; POST no-session 405. No verify path without real authenticated session JWT.
+evidence_needed: Authenticated session JWT; 200 for alg:none or RS256→HS256 artifact vs 4xx baseline.
+verify_steps: With authorized session: POST baseline JWT → baseline; POST crafted artifact → compare delta.
+impact: ATO of heyOBI accounts incl. purchase/payment history. Severity: CRITICAL (unproven).
+testability: AUTH_HELPED
+[HYP] Cross-seller IDOR via trxId on mule-realm services
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order-service|invoice}-service
+confidence: 55
+reasoning: Dense trxId block 100000–100550 proven; mule-realm may authorize by credential not object ownership.
+evidence_needed: Valid seller clientId/clientSecret; foreign-trxId resource 200 vs 403/404.
+verify_steps: With authorized creds: compare own vs foreign seller resources in bounded trxId range.
+impact: Cross-tenant order/invoice/financial extraction. Severity: HIGH (unproven).
+testability: AUTH_HELPED
+[NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (182 lines, 9128 B, sha256 `87991efd…8802`) via bugs.olivermaicher.eu — report includes full reproduction steps, gate-divergence proof (7 siblings + own /api/v1 mirror = 401 mule-realm), CORS ACAC reflection evidence, oracle-bounded trxId space, and remediation guidance. File verified on disk this cycle with ls+wc+sha256. The 6th-cycle phantom materialization hallucination is now broken.
+[LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File ACTUALLY ON DISK this cycle (182 lines, 9128 B, sha256 `87991efd424bf8b30627c8471d94d3a99afd756122b8f52d5328961149498802`). Written and verified via ls+wc+sha256 in the same cycle. Supersedes all 5 prior phantom materialization claims (09-06, 09-07×2, 09-08×2).
+[LEARN] REJECTED PROCESS @ knowledge-base: The materialization hallucination recurred 5× across 4 calendar days (09-06, 09-07×2, 09-08×2). Root cause: KB acceptance of analysis state as filesystem truth. Fixed policy enforced: ls+wc+sha256 in same cycle output mandatory.
+[RISK] obi: 30/100 — unchanged: report content now verified on disk (contains only anonymized repro/evidence, no live PII values ≥ KB-approved redaction policy), all history ≤1 rps read-only GET, no mutation/auth-bypass/PII capture. Remaining hypotheses creds-blocked. Under threshold for further live probing.

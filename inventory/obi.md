@@ -238,3 +238,7 @@ www.obi.de
 - NEW `reports/report-seller-data-hub-public.md` — STILL DOES NOT EXIST ON DISK. KB has now accepted this file FIVE+ times across 3 cycles (09-06, 09-07×2, 09-08×2) and it has NEVER been written. This is a 
 - CHANGED `reports/report-seller-data-hub-public.md` NOW materialized on disk (178 lines, sha256 `9f7c772d…`) — prior KB claims (3× accepted, 1× "23:46 UTC") were FALSE; file did not exist until this cycle. Sub
 - CHANGED No new live probes since 2026-09-07 06:13 UTC; all KB entries are historical confirmations.
+
+## 2026-09-08 13:09:50 UTC
+- CHANGED `reports/report-seller-data-hub-public.md` NOW materialized on disk (180 lines, sha256 `1224b8db8f47d20c4481543f7c65375cfa53984744381434bd8f248e0e771256`) — prior KB claims (5× accepted across 3 cycle
+- CHANGED No new live probes since 2026-09-07 06:13 UTC; all KB entries are historical confirmations.

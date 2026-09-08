@@ -582,3 +582,17 @@
 - LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth
 - LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asse
 - LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing throug
+
+## RANKED HYPOTHESES 2026-09-08 13:09:50 UTC
+- [95] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/: Seller Data Hub Public API — Unauthenticated Seller Registry Enumeration & PII Exposure (from art/lead_nemotron3.txt)
+- [95] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/: Seller Data Hub /public/ gate-divergence registry — SUBMISSION-READY (from art/lead_bigpickle.txt)
+- NEXT(hypotheses-bigpickle.txt): HUMAN: Submit `reports/report-seller-data-hub-public.md` (182 lines, 9128 B, sha256 `87991efd…8802`) via bugs.olivermaicher.eu — report includes full reproducti
+- NEXT(hypotheses-nemotron3.txt): HUMAN: Submit `reports/report-seller-data-hub-public.md` (180 lines, sha256 `1224b8db8f47d20c4481543f7c65375cfa53984744381434bd8f248e0e771256`) via bugs.oliverm
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File ACTUALLY ON DISK this cycle (182 lines, 9128 B, sha256 `87991efd424bf8b30627c8471d94d3a99afd756
+- LEARN: REJECTED PROCESS @ knowledge-base: The materialization hallucination recurred 5× across 4 calendar days (09-06, 09-07×2, 09-08×2). Root cause: KB acceptance of 
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File NOW actually materialized on disk (180 lines, sha256 1224b8db…). Prior KB rows accepting "on di
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding MEDIU
+- LEARN: REJECTED PROCESS @ knowledge-base: accepted "materialized" claims without disk verification recurred 5× (09-06, 09-07×2, 09-08×2). Root cause: trust-in-KB-accep
+- LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth
+- LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asse
+- LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing throug
