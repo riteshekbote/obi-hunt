@@ -1,11 +1,11 @@
-## 2026-09-08 13:09:39 UTC [target] (model nemotron3)
-[CHANGED] `reports/report-seller-data-hub-public.md` NOW materialized on disk (180 lines, sha256 `1224b8db8f47d20c4481543f7c65375cfa53984744381434bd8f248e0e771256`) — prior KB claims (5× accepted across 3 cycles) were FALSE; file did not exist until this cycle. Submission blocker resolved.
-[CHANGED] No new live probes since 2026-09-07 06:13 UTC; all KB entries are historical confirmations.
+## 2026-09-08 17:12:54 UTC [target] (model nemotron3)
+[CHANGED] `reports/report-seller-data-hub-public.md` materialized and verified on disk this cycle (180 lines, sha256 `1224b8db8f47d20c4481543f7c65375cfa53984744381434bd8f248e0e771256`) — prior 5 KB acceptances were false positives; materialization hallucination chain broken
+[CHANGED] No new live probes since 2026-09-07 06:13 UTC; all surface knowledge is historical confirmation only
 [PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/, 9.4, attack_surface=10 business_value=10 tech_exposure=8 gate_ease=10 cloud_surface=6 freshness=10
 [PRIO] www.obi.de/account/api/public/jwt/validate, 7.8, attack_surface=7 business_value=9 tech_exposure=9 gate_ease=5 cloud_surface=7 freshness=8
 [PRIO] api.live.app.obi.de/v1/, 7.2, attack_surface=8 business_value=9 tech_exposure=8 gate_ease=3 cloud_surface=7 freshness=7
 [PRIO] www.obi.de/regi/auth/api/fe/hey-obi/login-info, 6.5, attack_surface=6 business_value=7 tech_exposure=6 gate_ease=4 cloud_surface=6 freshness=8
-[PRIO] api.obi.com/trx-api/fulfillmentsellersteering/{transaction\|order-service\|invoice}-service, 6.8, attack_surface=7 business_value=9 tech_exposure=7 gate_ease=3 cloud_surface=6 freshness=8
+[PRIO] api.obi.com/trx-api/fulfillmentsellersteering/{transaction,order-service,invoice}-service, 6.8, attack_surface=7 business_value=9 tech_exposure=7 gate_ease=3 cloud_surface=6 freshness=8
 [HYP] Seller Data Hub Public API — Unauthenticated Seller Registry Enumeration & PII Exposure
 class: MISCONFIG
 asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
@@ -26,7 +26,7 @@ impact: ATO of heyOBI accounts incl. purchase/payment history. Severity: CRITICA
 testability: AUTH_HELPED
 [HYP] Cross-seller IDOR via trxId on mule-realm services
 class: IDOR
-asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction\|order-service\|invoice}-service
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction,order-service,invoice}-service
 confidence: 55
 reasoning: Dense trxId block 100000–100550 proven via /public/ 404-oracle; /public/ divergence unique to seller-data-hub implies per-service authz diverges from platform default; mule-realm may authorize by credential, not object ownership.
 evidence_needed: Valid seller clientId/clientSecret; foreign-trxId resource returning 200 vs 403/404.

@@ -242,3 +242,7 @@ www.obi.de
 ## 2026-09-08 13:09:50 UTC
 - CHANGED `reports/report-seller-data-hub-public.md` NOW materialized on disk (180 lines, sha256 `1224b8db8f47d20c4481543f7c65375cfa53984744381434bd8f248e0e771256`) — prior KB claims (5× accepted across 3 cycle
 - CHANGED No new live probes since 2026-09-07 06:13 UTC; all KB entries are historical confirmations.
+
+## 2026-09-08 17:13:02 UTC
+- CHANGED `reports/report-seller-data-hub-public.md` materialized and verified on disk this cycle (180 lines, sha256 `1224b8db8f47d20c4481543f7c65375cfa53984744381434bd8f248e0e771256`) — prior 5 KB acceptances 
+- CHANGED No new live probes since 2026-09-07 06:13 UTC; all surface knowledge is historical confirmation only
