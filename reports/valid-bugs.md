@@ -8,3 +8,8 @@
 - 2 lead(s) marked VALID at 2026-09-06 12:49:07 UTC
   - **Verdict: VALID**
   - | seller-data-hub `/public/` + CORS ACAC | **VALID** | Unauthenticated seller PII registry, 6-country enumeration, any-origin credentialed reads |
+
+- 3 lead(s) marked VALID at 2026-09-08 20:19:09 UTC
+  - **Verdict: VALID**
+  - | Q4 Provable | NO — Requires valid seller clientId/clientSecret. Cannot prove without credentials. |
+  - | 1. Seller Data Hub Public Registry + CORS ACAC | **VALID** | 5.3 MEDIUM | Submit to bugs.olivermaicher.eu |
