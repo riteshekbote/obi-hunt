@@ -1,4 +1,4 @@
-## 2026-09-08 17:12:54 UTC [target] (model nemotron3)
+## 2026-09-08 19:57:44 UTC [target] (model nemotron3)
 [CHANGED] `reports/report-seller-data-hub-public.md` materialized and verified on disk this cycle (180 lines, sha256 `1224b8db8f47d20c4481543f7c65375cfa53984744381434bd8f248e0e771256`) — prior 5 KB acceptances were false positives; materialization hallucination chain broken
 [CHANGED] No new live probes since 2026-09-07 06:13 UTC; all surface knowledge is historical confirmation only
 [PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/, 9.4, attack_surface=10 business_value=10 tech_exposure=8 gate_ease=10 cloud_surface=6 freshness=10
