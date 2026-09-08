@@ -138,3 +138,9 @@ TARGET_ORG not configured for obi; skipping public-org deep scan.
 TARGET_ORG not configured for obi; skipping public-org deep scan.
 ## REPOSCAN 2026-09-08 17:30:55 UTC
 TARGET_ORG not configured for obi; skipping public-org deep scan.
+## REPOSCAN 2026-09-08 20:19:19 UTC
+confidence: 100
+reasoning: GitHub API search across multiple query variants returned zero public repositories owned by OBI Group or subsidiaries. The org either has no public repos or uses a non-discoverable GitHub org name.
+impact: N/A
+verify_steps: None needed - no source code to audit.
+TARGET_ORG not configured for obi; skipping public-org deep scan.
