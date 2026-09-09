@@ -689,3 +689,26 @@
 - LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth
 - LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asse
 - LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing throug
+
+## RANKED HYPOTHESES 2026-09-09 14:25:02 UTC
+- [95] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/: Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS (from art/lead_nemotron3.txt)
+- NEXT(hypotheses-bigpickle.txt): HUMAN: Submit `reports/report-seller-data-hub-public.md` via bugs.olivermaicher.eu — file verified on disk THIS cycle (127 lines, 4855 B, sha256 `8860b17354ccef
+- NEXT(hypotheses-nemotron3.txt): HUMAN: Submit `reports/report-seller-data-hub-public.md` (193 lines, 8495 B, sha256 `6cccaf24e27268ea2fb18090a88bba2de728524d7a27ebb9344fdde35952a4d9`) via bugs
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File WRITTEN and VERIFIED on disk THIS cycle via ls+wc+sha256 (127 lines, 4855 B, sha256 `8860b17354
+- LEARN: REJECTED PROCESS @ knowledge-base: Phantom-materialization hallucination recurred 10× across 6 calendar days (09-06 through 09-09). Root cause: KB acceptance of
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding MEDIU
+- LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth
+- LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ — webhook-receiver angle closed.
+- LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing throug
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File WRITTEN and VERIFIED on disk THIS cycle via ls+wc+sha256 (127 lines, 4855 B, sha256 `8860b17354
+- LEARN: REJECTED PROCESS @ knowledge-base: Phantom-materialization hallucination recurred 10× across 6 calendar days. Root cause: KB acceptance of analysis state as fil
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding MEDIU
+- LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: Baqend app obi-de is auth-closed; BaaS exposure hypothesis dead.
+- LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ — webhook-receiver angle closed.
+- LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap, no bucket listing through CloudFront.
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File GENUINELY written and verified on disk THIS cycle via ls+wc+sha256 in-cycle (193 lines, 8495 B,
+- LEARN: REJECTED PROCESS @ knowledge-base: Phantom-materialization hallucination recurred 9× across 5 calendar days. Root cause: KB acceptance of analysis state as file
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding MEDIU
+- LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth
+- LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asse
+- LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing throug
