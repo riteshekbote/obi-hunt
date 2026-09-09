@@ -647,3 +647,18 @@
 - LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth
 - LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asse
 - LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing throug
+
+## RANKED HYPOTHESES 2026-09-09 00:38:56 UTC
+- [95] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/: Seller Data Hub Public API — Unauthenticated Seller Registry Enumeration & PII Exposure (from art/lead_nemotron3.txt)
+- [65] www.obi.de/account/api/public/jwt/validate: JWT Algorithm Confusion on Session Validation Endpoint (from art/lead_bigpickle.txt)
+- NEXT(hypotheses-bigpickle.txt): PROBE: POST https://www.obi.de/account/api/public/jwt/validate with User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126.0.0.0, Content-Type: applic
+- NEXT(hypotheses-nemotron3.txt): HUMAN: Submit `reports/report-seller-data-hub-public.md` (180 lines, sha256 `1224b8db8f47d20c4481543f7c65375cfa53984744381434bd8f248e0e771256`) via bugs.oliverm
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: Full JSON API catalog of 4 marketplace APIs (Product, Price, Inventory, Order Invoice Management) extractable from portal HTML
+- LEARN: ACCEPTED AUTH @ www.obi.de: JWT validation endpoint path confirmed in production JavaScript — viable test target for alg confusion with authenticated session.
+- LEARN: REJECTED ENDPOINT-MAP @ www.obi.de: All /api/* paths return 404 at CloudFront edge — origin routing requires browser-level session/cookies.
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File NOW actually materialized on disk (180 lines, sha256 1224b8db…). Prior KB rows accepting "on di
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding MEDIU
+- LEARN: REJECTED PROCESS @ knowledge-base: accepted "materialized" claims without disk verification recurred 5× (09-06, 09-07×2, 09-08×2). Root cause: trust-in-KB-accep
+- LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth
+- LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asse
+- LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing throug

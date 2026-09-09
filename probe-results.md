@@ -220,3 +220,10 @@ https://www.obi.de/explore/recommendations/api/internal/v6/ -> HTTP 404
 https://assets.obi.de/seller-side-panel/resources/ -> HTTP 404
 https://assets.obi.de/seller-side-panel/ -> HTTP 404
 https://assets.obi.de/ -> 200 len=39
+
+## 2026-09-09 00:39:03 UTC
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+https://assets.obi.de/seller-side-panel/resources/ -> HTTP 404
+https://assets.obi.de/seller-side-panel/ -> HTTP 404
+https://assets.obi.de/ -> 200 len=39
+https://www.obi.de/explore/recommendations/api/internal/v6/ -> HTTP 404
