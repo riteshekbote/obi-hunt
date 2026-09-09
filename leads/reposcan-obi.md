@@ -150,3 +150,12 @@ TARGET_ORG not configured for obi; skipping public-org deep scan.
 TARGET_ORG not configured for obi; skipping public-org deep scan.
 ## REPOSCAN 2026-09-09 06:08:34 UTC
 TARGET_ORG not configured for obi; skipping public-org deep scan.
+## REPOSCAN 2026-09-09 11:34:59 UTC
+[HYP] No OBI-owned public GitHub repositories exist to audit
+class: OTHER
+asset: N/A
+confidence: 100
+reasoning: >
+impact: N/A — no code to audit
+verify_steps: >
+TARGET_ORG not configured for obi; skipping public-org deep scan.
