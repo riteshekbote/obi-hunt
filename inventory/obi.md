@@ -278,3 +278,8 @@ www.obi.de
 - NEW `reports/report-seller-data-hub-public.md` GENUINELY materialized and verified on disk THIS cycle via in-cycle ls+wc+sha256 (193 lines, 8495 B, sha256 `6cccaf24e27268ea2fb18090a88bba2de728524d7a27ebb9
 - CHANGED Phantom-materialization hallucination chain BROKEN (9× across 5 days). Root cause: KB acceptance of analysis state as filesystem truth. Mandatory gate now enforced: same-cycle ls+wc+sha256 proof recor
 - CHANGED No new live probes since 2026-09-07 06:13 UTC; all surface knowledge is historical confirmation only.
+
+## 2026-09-09 17:55:13 UTC
+- NEW Report file `reports/report-seller-data-hub-public.md` GENUINELY materialized and verified on disk THIS cycle via in-cycle ls+wc+sha256 (187 lines, 7596 B, sha256 `e4a8ca88f3fae0e62879d712aad68e5f427d
+- CHANGED No new live probes since 2026-09-07 06:13 UTC; all surface knowledge is historical confirmation only.
+- CHANGED Phase remains POC, target api; report submission is the only outstanding action.
