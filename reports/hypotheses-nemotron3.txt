@@ -1,18 +1,8 @@
-## 2026-09-09 00:36:47 UTC [target] (model nemotron3)
+## 2026-09-09 05:15:56 UTC [target] (model nemotron3)
 [PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/, 9.4, attack_surface=10 business_value=10 tech_exposure=8 gate_ease=10 cloud_surface=6 freshness=10
 [PRIO] www.obi.de/account/api/public/jwt/validate, 7.8, attack_surface=7 business_value=9 tech_exposure=9 gate_ease=5 cloud_surface=7 freshness=8
 [PRIO] api.live.app.obi.de/v1/, 7.2, attack_surface=8 business_value=9 tech_exposure=8 gate_ease=3 cloud_surface=7 freshness=7
 [PRIO] www.obi.de/regi/auth/api/fe/hey-obi/login-info, 6.5, attack_surface=6 business_value=7 tech_exposure=6 gate_ease=4 cloud_surface=6 freshness=8
-[PRIO] api.obi.com/trx-api/fulfillmentsellersteering/{transaction,order-service,invoice}-service, 6.8, attack_surface=7 business_value=9 tech_exposure=7 gate_ease=3 cloud_surface=6 freshness=8
-[HYP] Seller Data Hub Public API — Unauthenticated Seller Registry Enumeration & PII Exposure
-class: MISCONFIG
-asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
-confidence: 95
-reasoning: /public/{cc}/seller-side-panel/{trxId} returns complete seller imprint+settings for sequential IDs 1, 100000–100550+ across 6 countries (DE/AT/IT/PL/FR/ES) unauthenticated; sibling services require Basic auth (mule-realm); /public/de/feature-toggle exposes 15 internal SOA.* flags + project names; imprint-documents returns PDF legal docs; gate divergence proven across entire /public tree; CORS:* + Access-Control-Allow-Credentials:true enables cross-origin enumeration from any origin
-evidence_needed: None — evidence chain complete, report file verified on disk
-verify_steps: None — no further live probing pre-submission (program rule: no re-probe of validated finding)
-impact: Attacker enumerates complete seller registry (550+ sellers across 6 countries) with business imprint data, settings, legal documents, shipping configs — enables supplier impersonation, supply chain fraud, targeted phishing, GDPR violations. Severity: MEDIUM per valid-bugs.md
-testability: HUMAN_ONLY
 [HYP] JWT Validation Endpoint — Algorithm Confusion / Session Boundary Probe
 class: AUTH
 asset: www.obi.de/account/api/public/jwt/validate
@@ -31,6 +21,15 @@ evidence_needed: Valid seller clientId/clientSecret; foreign-trxId resource retu
 verify_steps: With authorized creds: compare own vs foreign seller resources across bounded trxId range. Creds-blocked today.
 impact: Cross-tenant order/invoice/financial extraction. Severity: HIGH (unproven)
 testability: AUTH_HELPED
+[HYP] Seller Data Hub Public API — Unauthenticated Seller Registry Enumeration & PII Exposure
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 95
+reasoning: /public/{cc}/seller-side-panel/{trxId} returns complete seller imprint+settings for sequential IDs 1, 100000–100550+ across 6 countries (DE/AT/IT/PL/FR/ES) unauthenticated; sibling services require Basic auth (mule-realm); /public/de/feature-toggle exposes 15 internal SOA.* flags + project names; imprint-documents returns PDF legal docs; gate divergence proven across entire /public tree; CORS:* + Access-Control-Allow-Credentials:true enables cross-origin enumeration from any origin
+evidence_needed: None — evidence chain complete, report file verified on disk
+verify_steps: None — no further live probing pre-submission (program rule: no re-probe of validated finding)
+impact: Attacker enumerates complete seller registry (550+ sellers across 6 countries) with business imprint data, settings, legal documents, shipping configs — enables supplier impersonation, supply chain fraud, targeted phishing, GDPR violations. Severity: MEDIUM per valid-bugs.md
+testability: HUMAN_ONLY
 [PARKED] Cross-seller IDOR via trxId on mule-realm services: confidence 55 < 60 threshold for active pursuit without credentials; requires valid seller clientId/clientSecret which are unavailable in POC phase.
 [FINAL] 1) Seller Data Hub Public API — Unauthenticated Seller Registry Enumeration & PII Exposure (95) — HUMAN_ONLY, report-ready, MEDIUM per valid-bugs.md
 [FINAL] 2) JWT Validation Endpoint — Algorithm Confusion / Session Boundary Probe (70) — AUTH_HELPED, high-value auth flaw, requires session JWT

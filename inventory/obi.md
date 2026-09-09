@@ -266,3 +266,5 @@ www.obi.de
 - CHANGED api.obi.com: S3 signed download URLs for API spec files (OAS/RAML/ZIP) point to `exchange2-asset-manager-kprod-eu.s3.eu-central-1.amazonaws.com` with temp AWS credentials embedded in query strings
 
 ## 2026-09-09 00:38:56 UTC
+
+## 2026-09-09 05:17:00 UTC
