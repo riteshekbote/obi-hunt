@@ -2111,3 +2111,58 @@ evidence_needed: valid seller clientId/clientSecret; foreign-seller object compa
 verify_steps: GET transaction-api/v1/transactions/{foreignId} → 403 authorized vs 200/leak
 impact: Cross-tenant order/invoice/financial extraction. HIGH (unproven)
 testability: AUTH_HELPED
+## 2026-09-09 22:46:58 UTC [target] (model bigpickle)
+[HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 95
+reasoning: /public/{cc}/seller-side-panel/{trxId} enumerates full seller imprint+settings across 6 countries unauth; own /api/v1/ mirror + 7 sibling /v1/public/ all 401 mule-realm (gate divergence); Origin reflection + ACAC:true on both handlers
+evidence_needed: none — chain complete; report on disk verified THIS cycle (121 lines, 5337 B, sha `5f240a2a`)
+verify_steps: (already executed historically) GET /public/de/feature-toggle → 200; GET /public/de/seller-side-panel/100000 → 200; Origin:evil → ACAO+ACAC:true
+impact: 550+ seller registrations, internal SOA flags, legal PDFs, cross-origin credentialed reads → supplier impersonation/supply-chain fraud. MEDIUM 5.3
+testability: HUMAN_ONLY
+[HYP] JWT Validation Endpoint — Algorithm Confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: Live with browser UA (GET/HEAD 200 clears obi-auth; POST no-session 405); bootstrapped via /regi/auth/ssi/regi-hey-obi-login
+evidence_needed: authenticated obi-auth JWT; baseline vs alg:none/HS256-crafted POST
+verify_steps: POST valid session JWT → baseline; POST alg:none → 400/401 safe vs 200 vuln; POST HS256(public-key) → 401 safe vs 200 vuln
+impact: ATO of heyOBI accounts. CRITICAL
+testability: AUTH_HELPED
+[HYP] Cross-Seller IDOR via Unscoped Object Endpoints
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order|invoice}-api/v1/
+confidence: 55
+reasoning: 3 live service bases 401 (not 404); OAS defines unscoped GETs (/v1/transactions/{id}, /v1/orders/{id}, /v1/invoices/{id}); Client-ID Enforcement may gate access not ownership
+evidence_needed: valid seller clientId/clientSecret; foreign-seller object compare
+verify_steps: GET transaction-api/v1/transactions/{foreignId} → 403 authorized vs 200/leak
+impact: Cross-tenant order/invoice/financial extraction. HIGH (unproven)
+testability: AUTH_HELPED
+[HYP] Seller Data Hub /public/ — Unauthenticated Registry + ACAC CORS
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 95
+reasoning: /public/{cc}/seller-side-panel/{trxId} enumerates sequential ids (1, 100000–100550+) across 6 countries unauth; own /api/v1/ mirror + 7 siblings = 401 mule-realm (gate divergence); Origin reflection + ACAC:true on both handlers
+evidence_needed: none — chain closed; report on disk this cycle, sha `a28d578d…`
+verify_steps: (executed historically) GET /public/de/seller-side-panel/1 → 200; Origin:attacker → ACAO+ACAC:true
+impact: ~550 seller registrations + internal SOA flags + legal PDFs, scriptable cross-origin exfil → supplier impersonation/supply-chain fraud. MEDIUM 5.3
+testability: HUMAN_ONLY
+[HYP] JWT Validation Endpoint — Algorithm Confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: Live with browser UA (GET/HEAD 200 clears obi-auth; POST no-session 405); bootstrapped via /regi/auth/ssi/regi-hey-obi-login
+evidence_needed: authenticated obi-auth JWT; baseline valid POST vs alg:none/HS256-crafted POST
+verify_steps: POST valid session JWT → baseline; POST alg:none → 400/401 safe vs 200 vuln; POST HS256(public-key) → 401 safe vs 200 vuln
+impact: ATO of heyOBI accounts incl. purchase/payment history. CRITICAL
+testability: AUTH_HELPED
+[HYP] Cross-Seller IDOR via Unscoped Object Endpoints
+class: IDOR
+asset: api.obi.com/trx-api/fulfillmentsellersteering/{transaction|order|invoice}-api/v1/
+confidence: 55
+reasoning: 3 service bases 401 (not 404); OAS defines unscoped GETs (/v1/transactions/{id}, /v1/orders/{id}, /v1/invoices/{id}); Client-ID Enforcement may gate access not ownership
+evidence_needed: valid seller clientId/clientSecret; foreign-seller object compare
+verify_steps: GET transaction-api/v1/transactions/{foreignId} → 403 authorized vs 200/leak
+impact: Cross-tenant order/invoice/financial extraction. HIGH (unproven)
+testability: AUTH_HELPED

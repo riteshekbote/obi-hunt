@@ -2067,3 +2067,4 @@ testability: AUTH_HELPED
 [LEARN] REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asset not on this gateway) — webhook-receiver angle closed.
 [LEARN] REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing through CloudFront.
 [RISK] obi: 30/100 — Report content now real but contains only anonymized repro/evidence (no live PII values ≥ KB-approved redaction policy), all history ≤1 rps read-only GET, no mutation/auth-bypass/PII capture. Remaining hypotheses creds-blocked. Under threshold for further live probing until submission or new in-scope surface.
+## 2026-09-09 23:05:44 UTC [target] (model nemotron3)
