@@ -245,3 +245,6 @@ https://www.obi.de/explore/recommendations/api/internal/v6/ -> HTTP 404
 
 ## 2026-09-09 23:05:55 UTC
 
+
+## 2026-09-10 00:57:16 UTC
+https://www.obi.de/ -> HTTP 404

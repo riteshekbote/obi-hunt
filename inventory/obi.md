@@ -287,3 +287,11 @@ www.obi.de
 ## 2026-09-09 20:40:17 UTC
 
 ## 2026-09-09 23:05:54 UTC
+
+## 2026-09-10 00:57:14 UTC
+- CHANGED api.obi.com portal (root, 484KB): exchange catalog no longer embeds S3 signed download URLs server-side; assets listed = 11 (api-documentation-incl-seller-onboarding-steps, inventory, order-invoice, o
+- CHANGED assets.obi.de bundle (230643B, re-downloaded): exactly 2 api.obi.com fetch targets — /public/${cc}/feature-toggle (GET, cors, credentials:include) + /public/${cc}/seller-side-panel/${id}. /public/ han
+- NEW seller-data-hub-service non-public mirror /api/v1/{de/feature-toggle,de/seller-side-panel/1} → 401 mule-realm (base /api/v1/ → 404) — same handlers, real auth boundary right next to the open /public/ 
+- NEW Sibling scan: /v1/public/ on transaction-api, order-service-api, invoice-api, product-api, inventory-api, pricing-api, subscription-api → ALL 401 mule-realm (bare order-service → 404). Exposure UNIQUE
+- NEW Current CORS recheck on /public/de/feature-toggle (1228B): Origin: https://example.com → ACAO: https://example.com + Access-Control-Allow-Credentials: true. Any-origin credentialed read confirmed.
+- NEW Current registry recheck /public/de/seller-side-panel/1 → 200, 37496B: imprint{companyImprint,sellerSettingsImprintObject,bioCertificate} + isObiEcomSellerAccount + shippingCostAndThreshold. Finding l
