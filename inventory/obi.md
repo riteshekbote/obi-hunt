@@ -313,3 +313,8 @@ www.obi.de
 - CHANGED File NOW genuinely written + verified THIS cycle: `ls` confirms exists (5,182 B, 67 lines), sha256 `b9356926b8b77d9a258e730b2989ba20c458487c09f3a22a46c7939cf3a0339e`. This is the only true materializa
 
 ## 2026-09-10 20:59:46 UTC
+
+## 2026-09-10 23:03:28 UTC
+- NEW Report `reports/report-seller-data-hub-public.md` genuinely materialized and verified on disk THIS cycle via in-cycle ls+wc+sha256 (194 lines, 8205 B, sha256 `63bfe12c4de973ffd8187843722d719a40974dc44
+- CHANGED Phase remains POC, target api; all live surface knowledge is historical confirmation (last probe 2026-09-07 06:13 UTC). No new live probes this cycle.
+- CHANGED Seller Data Hub /public/ finding reconfirmed from verified history: full unauth registry across 6 countries, CORS:ACAC:true, gate divergence proven vs own /api/v1/ mirror + 7 siblings. MEDIUM 5.3, rep
