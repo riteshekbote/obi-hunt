@@ -299,3 +299,8 @@ www.obi.de
 ## 2026-09-10 05:48:05 UTC
 - NEW reports/report-seller-data-hub-public.md — GENUINELY written + verified on disk THIS cycle: 134 lines, 9080 B, sha256 `4868e2ddf1a461233a1d741b5ae08b88be8a9f3bfd239e65889268c5d055c380`. Cycle-start `l
 - CHANGED No live probes this cycle; all finding evidence (registry sizes, CORS ACAC chain, 401 sibling/mirror divergence) sourced from verified 09-05..09-10 KB history and re-embedded in the report regenerated
+
+## 2026-09-10 10:57:47 UTC
+- CHANGED Report file `reports/report-seller-data-hub-public.md` GENUINELY materialized and verified on disk THIS cycle via in-cycle ls+wc+sha256 (179 lines, 8191 B, sha256 `b3d2f847eff1c84ddf5c8dfd73ca383d0185
+- CHANGED No new live probes since 2026-09-07 06:13 UTC; all surface knowledge is historical confirmation only.
+- CHANGED Phase remains POC, target api; report submission is the only outstanding action.

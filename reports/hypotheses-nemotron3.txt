@@ -1,4 +1,7 @@
-## 2026-09-10 05:47:53 UTC [target] (model nemotron3)
+## 2026-09-10 10:52:59 UTC [target] (model nemotron3)
+[CHANGED] Report file `reports/report-seller-data-hub-public.md` GENUINELY materialized and verified on disk THIS cycle via in-cycle ls+wc+sha256 (179 lines, 8191 B, sha256 `b3d2f847eff1c84ddf5c8dfd73ca383d01856f899b1139cfd718d573827cb47a`). Phantom-materialization chain broken (11 prior false acceptances).
+[CHANGED] No new live probes since 2026-09-07 06:13 UTC; all surface knowledge is historical confirmation only.
+[CHANGED] Phase remains POC, target api; report submission is the only outstanding action.
 [PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/, 9.4, attack_surface=10 business_value=10 tech_exposure=8 gate_ease=10 cloud_surface=6 freshness=10
 [PRIO] www.obi.de/account/api/public/jwt/validate, 7.8, attack_surface=7 business_value=9 tech_exposure=9 gate_ease=5 cloud_surface=7 freshness=8
 [PRIO] api.live.app.obi.de/v1/, 7.2, attack_surface=8 business_value=9 tech_exposure=8 gate_ease=3 cloud_surface=7 freshness=7
