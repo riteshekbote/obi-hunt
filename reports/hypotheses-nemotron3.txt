@@ -1,8 +1,8 @@
-## 2026-09-10 18:13:19 UTC [target] (model nemotron3)
-[PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/, 9.4, attack_surface=10 business_value=10 tech_exposure=8 gate_ease=10 cloud_surface=6 freshness=10
-[PRIO] www.obi.de/account/api/public/jwt/validate, 7.8, attack_surface=7 business_value=9 tech_exposure=9 gate_ease=5 cloud_surface=7 freshness=8
-[PRIO] api.live.app.obi.de/v1/, 7.2, attack_surface=8 business_value=9 tech_exposure=8 gate_ease=3 cloud_surface=7 freshness=7
-[PRIO] www.obi.de/regi/auth/api/fe/hey-obi/login-info, 6.5, attack_surface=6 business_value=7 tech_exposure=6 gate_ease=4 cloud_surface=6 freshness=8
+## 2026-09-10 20:58:35 UTC [target] (model nemotron3)
+[PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/,9.4,attack_surface=10 business_value=10 tech_exposure=8 gate_ease=10 cloud_surface=6 freshness=10
+[PRIO] www.obi.de/account/api/public/jwt/validate,7.8,attack_surface=7 business_value=9 tech_exposure=9 gate_ease=5 cloud_surface=7 freshness=8
+[PRIO] api.live.app.obi.de/v1/,7.2,attack_surface=8 business_value=9 tech_exposure=8 gate_ease=3 cloud_surface=7 freshness=7
+[PRIO] www.obi.de/regi/auth/api/fe/hey-obi/login-info,6.5,attack_surface=6 business_value=7 tech_exposure=6 gate_ease=4 cloud_surface=6 freshness=8
 [HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS
 class: MISCONFIG
 asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
