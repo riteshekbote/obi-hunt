@@ -295,3 +295,7 @@ www.obi.de
 - NEW Sibling scan: /v1/public/ on transaction-api, order-service-api, invoice-api, product-api, inventory-api, pricing-api, subscription-api → ALL 401 mule-realm (bare order-service → 404). Exposure UNIQUE
 - NEW Current CORS recheck on /public/de/feature-toggle (1228B): Origin: https://example.com → ACAO: https://example.com + Access-Control-Allow-Credentials: true. Any-origin credentialed read confirmed.
 - NEW Current registry recheck /public/de/seller-side-panel/1 → 200, 37496B: imprint{companyImprint,sellerSettingsImprintObject,bioCertificate} + isObiEcomSellerAccount + shippingCostAndThreshold. Finding l
+
+## 2026-09-10 05:48:05 UTC
+- NEW reports/report-seller-data-hub-public.md — GENUINELY written + verified on disk THIS cycle: 134 lines, 9080 B, sha256 `4868e2ddf1a461233a1d741b5ae08b88be8a9f3bfd239e65889268c5d055c380`. Cycle-start `l
+- CHANGED No live probes this cycle; all finding evidence (registry sizes, CORS ACAC chain, 401 sibling/mirror divergence) sourced from verified 09-05..09-10 KB history and re-embedded in the report regenerated
