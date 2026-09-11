@@ -2773,3 +2773,6 @@ testability: AUTH_HELPED
 [LEARN] REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service — webhook-receiver angle closed.
 [LEARN] REJECTED MISCONFIG @ assets.obi.de: no sourcemap, no bucket listing through CloudFront.
 [RISK] obi: 25/100 — Report content validated but NOT on disk. History ≤1 rps read-only GET. Remaining hypotheses creds-blocked. Under threshold for further live probing.
+## 2026-09-11 18:39:12 UTC [target] (model bigpickle)
+[NEXT] HUMAN: Write the report file with the evidence chain, verify via `ls` + `wc` + `sha256`, then submit via the bug bounty portal.
+[RISK] obi: 25/100 — report content real and anonymized (no live PII), all history ≤1 rps read-only GET, no mutation/auth-bypass. Submission is the only outstanding action.

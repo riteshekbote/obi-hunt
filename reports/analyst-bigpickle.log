@@ -15159,3 +15159,31 @@ a33a0cacf61be9eb562bd02459c1edd0a51c32d04d092b62642e6d6eb45a6fba
 **[NEXT] HUMAN:** Submit `reports/report-seller-data-hub-public.md` (102 lines, 5732 B, sha256 `a33a0cacf61be9eb562bd02459c1edd0a51c32d04d092b62642e6d6eb45a6fba`) via bugs.olivermaicher.eu with:
 - Report content (curl PoC repro steps, gate-divergence proof, CORS ACAC chain, remediation)
 - Contact info + payment details per scope.yml
+===== ANALYST bigpickle 2026-09-11 18:40:24 UTC =====
+[0m
+> build · big-pickle
+[0m
+Looking at the state, I see the primary blocker is the missing report file `reports/report-seller-data-hub-public.md`. The finding is validated (MEDIUM 5.3, 95% confidence) but cannot be submitted until the file exists on disk. The other hypotheses (JWT alg confusion, Mobile API v1) require authentication and are parked.
+
+**Plan:**
+
+1. **Materialize the report file** with the evidence chain from the knowledge base:
+   - Gate-divergence proof: own `/api/v1/` mirror + 7 siblings = 401 mule-realm, while `/public/` is open
+   - Any-origin credentialed CORS (ACAC:true) on both `/public/` endpoints
+   - Registry enumeration across 6 countries (DE/AT/IT/PL/FR/ES) with sequential trxId
+   - Internal SOA.* feature flags and legal PDF exposure
+   - Remediation guidance
+
+2. **Verify the file** with `ls`, `wc`, `sha256` in the same cycle to prevent phantom-materialization.
+
+3. **Submit** via `bugs.olivermaicher.eu` with the report, curl PoC, anonymized evidence, and contact/payment per scope.yml.
+
+The other hypotheses remain blocked:
+- JWT Validate endpoint: needs authenticated session (AUTH_HELPED)
+- Mobile API v1: needs mobile session JWT (AUTH_HELPED)
+
+**Next Action:**
+[NEXT] HUMAN: Write the report file with the evidence chain, verify via `ls` + `wc` + `sha256`, then submit via the bug bounty portal.
+
+**Risk:**
+[RISK] obi: 25/100 — report content real and anonymized (no live PII), all history ≤1 rps read-only GET, no mutation/auth-bypass. Submission is the only outstanding action.
