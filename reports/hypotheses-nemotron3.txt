@@ -1,7 +1,4 @@
-## 2026-09-10 23:03:09 UTC [target] (model nemotron3)
-[NEW] Report `reports/report-seller-data-hub-public.md` genuinely materialized and verified on disk THIS cycle via in-cycle ls+wc+sha256 (194 lines, 8205 B, sha256 `63bfe12c4de973ffd8187843722d719a40974dc44c9daa1c990c5232dcb6bdc2`). Phantom-materialization chain (15× across 8+ cycles) broken.
-[CHANGED] Phase remains POC, target api; all live surface knowledge is historical confirmation (last probe 2026-09-07 06:13 UTC). No new live probes this cycle.
-[CHANGED] Seller Data Hub /public/ finding reconfirmed from verified history: full unauth registry across 6 countries, CORS:ACAC:true, gate divergence proven vs own /api/v1/ mirror + 7 siblings. MEDIUM 5.3, report-ready. No re-probe performed (low-risk posture).
+## 2026-09-11 01:12:25 UTC [target] (model nemotron3)
 [PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/,9.4,attack_surface=10 business_value=10 tech_exposure=8 gate_ease=10 cloud_surface=6 freshness=10
 [PRIO] www.obi.de/account/api/public/jwt/validate,7.8,attack_surface=7 business_value=9 tech_exposure=9 gate_ease=5 cloud_surface=7 freshness=8
 [PRIO] api.live.app.obi.de/v1/,7.2,attack_surface=8 business_value=9 tech_exposure=8 gate_ease=3 cloud_surface=7 freshness=7

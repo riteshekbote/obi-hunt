@@ -318,3 +318,5 @@ www.obi.de
 - NEW Report `reports/report-seller-data-hub-public.md` genuinely materialized and verified on disk THIS cycle via in-cycle ls+wc+sha256 (194 lines, 8205 B, sha256 `63bfe12c4de973ffd8187843722d719a40974dc44
 - CHANGED Phase remains POC, target api; all live surface knowledge is historical confirmation (last probe 2026-09-07 06:13 UTC). No new live probes this cycle.
 - CHANGED Seller Data Hub /public/ finding reconfirmed from verified history: full unauth registry across 6 countries, CORS:ACAC:true, gate divergence proven vs own /api/v1/ mirror + 7 siblings. MEDIUM 5.3, rep
+
+## 2026-09-11 01:13:09 UTC
