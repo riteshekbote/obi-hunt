@@ -320,3 +320,5 @@ www.obi.de
 - CHANGED Seller Data Hub /public/ finding reconfirmed from verified history: full unauth registry across 6 countries, CORS:ACAC:true, gate divergence proven vs own /api/v1/ mirror + 7 siblings. MEDIUM 5.3, rep
 
 ## 2026-09-11 01:13:09 UTC
+
+## 2026-09-11 06:13:59 UTC

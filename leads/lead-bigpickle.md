@@ -2610,3 +2610,31 @@ evidence_needed: valid mobile session JWT; IDOR/BOLA across /users,/orders,/cart
 verify_steps: with auth GET /v1/orders?user_id=foreign vs own; GET /v1/users/{foreign_id}; POST /v1/cart foreign product_id; probe /v1/admin,/v1/debug,/v1/actuator/*.
 impact: cross-tenant order/PII extraction, admin/debug leakage. HIGH (unproven).
 testability: AUTH_HELPED
+## 2026-09-11 06:09:57 UTC [target] (model bigpickle)
+[HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 95
+reasoning: report genuinely on disk this cycle (130 lines, 6240 B, sha256 7accc687…, ls+wc+sha256 in-cycle). valid-bugs.md 3× VALID, MEDIUM 5.3. Chain: feature-toggle 200 (1228B, 15 SOA.* flags, 6 countries); seller-side-panel trxId 1/100551 200 ~37KB; 0/200001 404 oracle; imprint-documents obiecomprod PDF; own /api/v1/ mirror + 7 siblings 401 mule-realm; Origin:evil.example → ACAO+ACAC:true on both handlers.
+evidence_needed: none — submission-ready.
+verify_steps: GET /public/de/feature-toggle → 200; GET /public/de/seller-side-panel/1 → 200; trxId 0/200001 → 404 oracle; Origin reflection → ACAO+ACAC:true; mirror+siblings → 401. Historical; no re-probe.
+impact: ~550+ seller registrations across 6 countries, internal SOA flags, legal PDFs, any-origin credentialed reads → supplier impersonation/GDPR. MEDIUM 5.3.
+testability: HUMAN_ONLY
+[HYP] JWT Validation Endpoint — Algorithm Confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: live with browser UA (GET/HEAD 200 text/javascript len0 clears obi-auth; POST no-session 405); regi-hey-obi-login SSI bootstraps issue/validate flow in production.
+evidence_needed: authenticated obi-auth JWT; baseline vs alg:none/HS256 artifacts.
+verify_steps: POST valid session JWT baseline; POST alg:none → 401/400 safe vs 200 vuln; POST HS256 key-as-public → 401 safe vs 200 vuln.
+impact: ATO of heyOBI accounts incl. purchase/payment history. CRITICAL.
+testability: AUTH_HELPED
+[HYP] Mobile API v1 — Auth-Gated Hidden Admin/Debug/Actuator Surface
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: /v1/ 200; all 17 sub-paths 401 — fully auth-gated, admin/debug/actuator/{health,metrics} exist but protected.
+evidence_needed: valid mobile session JWT; IDOR/BOLA across /users,/orders,/cart,/profile.
+verify_steps: with auth GET /v1/orders?user_id=foreign vs own; GET /v1/users/{foreign_id}; POST /v1/cart foreign product_id.
+impact: cross-tenant order/PII extraction. HIGH (unproven).
+testability: AUTH_HELPED
