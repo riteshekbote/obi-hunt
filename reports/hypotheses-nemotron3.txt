@@ -1,4 +1,7 @@
-## 2026-09-11 06:13:49 UTC [target] (model nemotron3)
+## 2026-09-11 11:33:25 UTC [target] (model nemotron3)
+[PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/,9.4,attack_surface=10,business_value=9,tech_exposure=9,gate_ease=10,cloud_surface=8,freshness=9
+[PRIO] www.obi.de/account/api/public/jwt/validate,7.3,attack_surface=8,business_value=10,tech_exposure=8,gate_ease=3,cloud_surface=7,freshness=8
+[PRIO] api.live.app.obi.de/v1/,7.1,attack_surface=8,business_value=9,tech_exposure=9,gate_ease=3,cloud_surface=7,freshness=8
 [HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS
 class: MISCONFIG
 asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
@@ -26,6 +29,10 @@ evidence_needed: Valid mobile app session JWT; enumerate authenticated responses
 verify_steps: With auth: GET /v1/orders?user_id=foreign vs own; GET /v1/users/{foreign_id}; POST /v1/cart with foreign product_id; probe /v1/admin, /v1/debug, /v1/actuator/* for info leakage
 impact: Cross-tenant order/PII extraction, admin/debug info leakage, business logic flaws in cart/checkout. Severity: HIGH (unproven, auth-gated)
 testability: AUTH_HELPED
+[PARKED] Cross-seller IDOR via trxId on mule-realm services: confidence 55 < 60 threshold for active pursuit without credentials; requires valid seller clientId/clientSecret which are unavailable in POC phase.
+[FINAL] 1) Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS (95) — HUMAN_ONLY, report-ready, MEDIUM per valid-bugs.md
+[FINAL] 2) JWT Validation Endpoint — Algorithm Confusion / Session Boundary Probe (70) — AUTH_HELPED, high-value auth flaw, requires session JWT
+[FINAL] 3) Mobile API v1 — Auth-Gated Surface with Hidden Debug/Admin/Actuator Paths (70) — AUTH_HELPED, requires mobile session JWT
 [NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (218 lines, 10363 B, sha256 `1e86985f1267bc4f747bf4691a557eafad0c9e7774c3e551b5db3859a9a8d20f`) via bugs.olivermaicher.eu (report + PoC curl repro steps + contact + payment per scope.yml). File verified on disk this cycle — materialization hallucination chain broken; submission is the only outstanding step.
 [LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File GENUINELY written and verified on disk THIS cycle via ls+wc+sha256 in-cycle (218 lines, 10363 B, sha256 `1e86985f1267bc4f747bf4691a557eafad0c9e7774c3e551b5db3859a9a8d20f`). This is the only true materialization; all 16+ prior phantom claims were acceptance-without-filesystem-check.
 [LEARN] REJECTED PROCESS @ knowledge-base: Phantom-materialization hallucination recurred 16+× across 7+ calendar days. Root cause: KB acceptance of analysis state as filesystem truth. Mandatory gate enforced this cycle: same-cycle ls+wc+sha256 proof after write.
