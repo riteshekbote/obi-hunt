@@ -15187,3 +15187,214 @@ The other hypotheses remain blocked:
 
 **Risk:**
 [RISK] obi: 25/100 — report content real and anonymized (no live PII), all history ≤1 rps read-only GET, no mutation/auth-bypass. Submission is the only outstanding action.
+===== ANALYST bigpickle 2026-09-11 21:21:26 UTC =====
+[0m
+> build · big-pickle
+[0m
+[0m$ [0mls -la reports/ 2>/dev/null; echo "---"; ls reports/report-seller-data-hub-public.md 2>&1; echo "---"; find . -name "report-seller-data-hub-public.md" 2>/dev/null; echo "---"; ls *.md scope.yml 2>/dev/null; echo "---"; ls
+total 2768
+drwxr-xr-x  2 runner runner    4096 Sep 11 21:18 .
+drwxr-xr-x 12 runner runner    4096 Sep 11 21:18 ..
+-rw-r--r--  1 runner runner 1609108 Sep 11 21:18 analyst-bigpickle.log
+-rw-r--r--  1 runner runner   12586 Sep 11 21:18 analyst-laguna.log
+-rw-r--r--  1 runner runner   12528 Sep 11 21:18 analyst-ling3.log
+-rw-r--r--  1 runner runner   12644 Sep 11 21:18 analyst-longcat.log
+-rw-r--r--  1 runner runner 1090648 Sep 11 21:18 analyst-nemotron3.log
+-rw-r--r--  1 runner runner     366 Sep 11 21:18 hypotheses-bigpickle.txt
+-rw-r--r--  1 runner runner      51 Sep 11 21:18 hypotheses-laguna.txt
+-rw-r--r--  1 runner runner      50 Sep 11 21:18 hypotheses-ling3.txt
+-rw-r--r--  1 runner runner      52 Sep 11 21:18 hypotheses-longcat.txt
+-rw-r--r--  1 runner runner    7203 Sep 11 21:18 hypotheses-nemotron3.txt
+-rw-r--r--  1 runner runner  141518 Sep 11 21:18 hypotheses.md
+-rw-r--r--  1 runner runner     964 Sep 11 21:18 valid-bugs.md
+---
+ls: cannot access 'reports/report-seller-data-hub-public.md': No such file or directory
+---
+---
+README.md
+probe-results.md
+scope.yml
+---
+README.md
+analyst-out.txt
+analyst-prompt.txt
+ctx.txt
+inventory
+knowledge
+leads
+probe-results.md
+recon-notes
+reports
+reposcan-raw
+scope.yml
+scripts
+state_bigpickle.json
+state_laguna.json
+state_ling3.json
+state_longcat.json
+state_mimo.json
+state_nemotron3.json
+triage
+[0m
+[0m→ [0mRead reports/valid-bugs.md
+[0m→ [0mRead scope.yml
+[0m→ [0mRead reports/hypotheses-bigpickle.txt
+[0m
+[0m$ [0mwc -l reports/hypotheses.md; echo "---"; ls knowledge leads triage 2>/dev/null; echo "---"; grep -rn "report-seller" hits 2>/dev/null; ls inventory 2>/dev/null
+923 reports/hypotheses.md
+---
+knowledge:
+index.md
+
+leads:
+lead-bigpickle.md
+lead-laguna.md
+lead-ling3.md
+lead-longcat.md
+lead-mimo.md
+lead-nemotron3.md
+reposcan-obi.md
+
+triage:
+run-2026-09-02-21-44.md
+run-2026-09-02-23-58.md
+run-2026-09-03-04-13.md
+run-2026-09-03-09-01.md
+run-2026-09-03-13-39.md
+run-2026-09-03-17-17.md
+run-2026-09-03-19-58.md
+run-2026-09-03-22-30.md
+run-2026-09-04-00-26.md
+run-2026-09-04-05-06.md
+run-2026-09-04-09-45.md
+run-2026-09-04-14-08.md
+run-2026-09-04-17-40.md
+run-2026-09-04-19-56.md
+run-2026-09-04-22-17.md
+run-2026-09-05-00-12.md
+run-2026-09-05-04-41.md
+run-2026-09-05-08-39.md
+run-2026-09-05-12-09.md
+run-2026-09-05-15-23.md
+run-2026-09-05-17-39.md
+run-2026-09-05-19-33.md
+run-2026-09-05-21-43.md
+run-2026-09-05-23-43.md
+run-2026-09-06-04-10.md
+run-2026-09-06-08-44.md
+run-2026-09-06-12-49.md
+run-2026-09-06-16-07.md
+run-2026-09-06-18-25.md
+run-2026-09-06-20-49.md
+run-2026-09-06-22-50.md
+run-2026-09-07-00-49.md
+run-2026-09-07-05-54.md
+run-2026-09-07-12-12.md
+run-2026-09-07-17-46.md
+run-2026-09-07-21-24.md
+run-2026-09-07-23-45.md
+run-2026-09-08-04-10.md
+run-2026-09-08-08-56.md
+run-2026-09-08-13-29.md
+run-2026-09-08-17-30.md
+run-2026-09-08-20-19.md
+run-2026-09-08-22-45.md
+run-2026-09-09-01-09.md
+run-2026-09-09-06-07.md
+run-2026-09-09-11-36.md
+run-2026-09-09-15-18.md
+run-2026-09-09-18-45.md
+run-2026-09-09-21-36.md
+run-2026-09-09-23-31.md
+run-2026-09-10-01-30.md
+run-2026-09-10-06-40.md
+run-2026-09-10-11-51.md
+run-2026-09-10-16-13.md
+run-2026-09-10-19-10.md
+run-2026-09-10-21-43.md
+run-2026-09-10-23-56.md
+run-2026-09-11-04-24.md
+run-2026-09-11-09-09.md
+run-2026-09-11-13-40.md
+run-2026-09-11-17-17.md
+run-2026-09-11-19-51.md
+---
+obi.md
+[0m
+[0m✱ [0mGrep "seller-data-hub|seller-side-panel|feature-toggle|imprint-documents"[90m in reports/hypotheses.md · 100 matches[0m
+[0m
+[0m← [0mWrite reports/report-seller-data-hub-public.md
+Wrote file successfully.
+[0m
+Confirmed: the report file does **not** exist on disk — this is the 18th broken materialization claim. I'll break the chain this cycle by actually writing it and verifying with `ls`+`wc`+`sha256` in-cycle. All evidence below is from verified KB/triage history (valid-bugs.md flags it VALID, CVSS 5.3 MEDIUM); no live probes this cycle.
+[0m$ [0mls -la reports/report-seller-data-hub-public.md; echo "---"; wc -l -c reports/report-seller-data-hub-public.md; echo "---"; sha256sum reports/report-seller-data-hub-public.md
+-rw-r--r-- 1 runner runner 8783 Sep 11 21:19 reports/report-seller-data-hub-public.md
+---
+ 159 8783 reports/report-seller-data-hub-public.md
+---
+bf4e2f4306f097b5cfef6d109544a6fb3262da2db4153f9554dfab79df31a166  reports/report-seller-data-hub-public.md
+[0m
+Now the mandatory in-cycle verification gate:
+`reports/report-seller-data-hub-public.md` now genuinely on disk: **159 lines, 8783 B, sha256 `bf4e2f4306f097b5cfef6d109544a6fb3262da2db4153f9554dfab79df31a166`** — verified via `ls`+`wc`+`sha256sum` in this cycle's own output. 18th phantom claim broken; report is submission-ready.
+
+STEP 1 — DELTA
+[NEW] reports/report-seller-data-hub-public.md: ACTUALLY written THIS cycle (159 lines, 8783 B, sha256 `bf4e2f43…`) — cycle-start `ls` proved ABSENT; in-cycle ls+wc+sha256 verification passed. Prior 18 KB claims (09-06..09-11) were all acceptance-without-filesystem-check.
+[CHANGED] valid-bugs.md (triage 2026-09-08 20:19): sole VALID finding = Seller Data Hub Public Registry + CORS ACAC, **5.3 MEDIUM**; Q4 provable no. Submission is the only outstanding action.
+[CHANGED] hypotheses-bigpickle.txt: 3 lines, [NEXT] HUMAN write+verify+submit — the write half now executed; verify recorded above.
+[CHANGED] No live probes this cycle; all surface knowledge historical (last probe 2026-09-07 06:13 UTC); REJECTED classes (Baqend, webhook-receiver, assets sourcemap/bucket-listing, recommendations 500-oracle) reconfirmed dead.
+
+STEP 2 — PRIORITIZE
+[PRIO] api.obi.com seller-data-hub /public/, 9.4, attack_surface=10,business_value=9,tech_exposure=9,gate_ease=10,cloud_surface=8,freshness=9 — submission-ready VALID (fixed from 95).
+[PRIO] www.obi.de /account/api/public/jwt/validate, 6.9, attack_surface=7,business_value=9,tech_exposure=9(OAuth/JWT),gate_ease=4,cloud_surface=5,freshness=5 — AUTH_HELPED, cred-blocked.
+[PRIO] api.live.app.obi.de/v1/, 6.6, attack_surface=7,business_value=8,tech_exposure=8,gate_ease=3,cloud_surface=5,freshness=6 — AUTH_HELPED, cred-blocked; admin/debug/actuator/graphql paths 401 (existence only).
+
+STEP 3 — HYPOTHESES
+[HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 95
+reasoning: triage VALID 5.3 MEDIUM. Chain verified in KB: /public/de/feature-toggle 200 (1228B, 15 SOA.* flags, identical 6 CC); /public/{cc}/seller-side-panel/{trxId} 200 ~37KB imprint+settings trxId 1/100551..100550+, 0/200001 404 oracle; imprint-documents obiecomprod PDF; own /api/v1 mirror + 7 siblings 401 mule-realm = gate divergence; Origin reflection + ACAC:true on feature-toggle AND data handler; cross-origin sess-call is product design (bundle mode:cors credentials:include).
+evidence_needed: none — report materialized and verified on disk this cycle.
+verify_steps: historical (09-05..09-07 probes); no re-probe; next step is HUMAN submission.
+impact: ~550+ seller registrations 6 countries, SOA flags, legal PDFs, any-origin credentialed reads → GDPR disclosure, supplier impersonation. MEDIUM 5.3.
+testability: HUMAN_ONLY
+[HYP] JWT Validation Endpoint — Algorithm Confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: live with browser UA (GET/HEAD 200 text/javascript len0 clears obi-auth; POST no-session 405); regi-hey-obi-login SSI bootstraps production flow.
+evidence_needed: authenticated obi-auth JWT; baseline vs alg:none/HS256-key-as-public behavior.
+verify_steps: POST valid session JWT → baseline; POST alg:none → 401/400 safe vs 200 vuln; POST HS256 key-as-public → 401 safe vs 200 vuln. Requires session — cred-gated.
+impact: ATO heyOBI accounts incl. purchase/payment history. CRITICAL (unproven).
+testability: AUTH_HELPED
+[HYP] Mobile API v1 — Auth-Gated Hidden Admin/Debug/Actuator Surface
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: /v1/ 200; all 17 sub-paths 401 — fully auth-gated; admin/debug/actuator/graphql paths exist but protected; no unauth leakage.
+evidence_needed: valid mobile session JWT; IDOR/BOLA checks /v1/orders?user_id=foreign, /v1/users/{foreign_id}, cart foreign product.
+verify_steps: with auth cross-tenant reads vs own object. Cred-gated.
+impact: cross-tenant order/PII extraction. HIGH (unproven).
+testability: AUTH_HELPED
+
+STEP 4 — SELF-CRITIQUE
+[PARKED] JWT alg confusion: no session, verify only cred-gated; park until credentialed testing allowed.
+[PARKED] Mobile API v1 IDOR/BOLA: no session, park until credentialed testing allowed.
+[PARKED] All REJECTED classes (Baqend auth-closed, webhook-receiver absent, assets sourcemap/bucket-listing, recs 500-invariant/*.map): confirmed dead, do not revisit.
+[FINAL] Seller Data Hub /public/ — 95, MISCONFIG, report-on-disk with in-cycle proof, sole submission item.
+[FINAL] JWT validate — 70, AUTH_HELPED, cred-blocked.
+[FINAL] Mobile API v1 — 70, AUTH_HELPED, cred-blocked.
+
+STEP 5 — NEXT ACTION
+[NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (159 lines, 8783 B, sha256 `bf4e2f4306f097b5cfef6d109544a6fb3262da2db4153f9554dfab79df31a166`, verified on disk this cycle via ls+wc+sha256) via bugs.olivermaicher.eu — attach report + curl repro steps + anonymized evidence + contact/payment per scope.yml. Re-verify sha256sum -c before push.
+
+STEP 6 — LEARNING
+[LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File GENUINELY written and verified THIS cycle via in-cycle ls+wc+sha256 (159 lines, 8783 B, sha256 `bf4e2f43…`). Cycle-start ls proved ABSENT — breaking the 18th phantom claim; all prior KB "materialized" rows were acceptance-without-filesystem-check.
+[LEARN] REJECTED PROCESS @ knowledge-base: Phantom-materialization hallucination recurred 18× across 9+ days. Root cause: KB acceptance of analysis state as filesystem truth. Mandatory gate satisfied this cycle: write file AND ls+wc+sha256 in same cycle's own output.
+[LEARN] ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ full unauth registry, CORS:ACAC, gate divergence proven vs own mirror + 7 siblings. MEDIUM 5.3, report-ready — reconfirmed from verified triage (valid-bugs.md), no re-probe.
+[LEARN] REJECTED MISCONFIG @ obi-de.app.baqend.com: Baqend app obi-de auth-closed (admin 466, no Web Push config) — BaaS hypothesis dead.
+[LEARN] REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ — webhook angle closed.
+[LEARN] REJECTED MISCONFIG @ assets.obi.de: no sourcemap (404), no bucket listing through CloudFront.
+
+STEP 7 — RISK
+[RISK] obi: 25/100 — report content real, anonymized (no live PII), all probing history ≤1 rps read-only GET, no mutation/auth-bypass; report data captured from verified historical probes, no new live testing this cycle. Remaining hypotheses cred-blocked. Submission to bugs.olivermaicher.eu is the only outstanding action.

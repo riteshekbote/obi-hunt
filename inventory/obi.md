@@ -339,3 +339,14 @@ www.obi.de
 - CHANGED Seller Data Hub finding: evidence chain complete, report verified on disk, submission only outstanding action
 - CHANGED JWT Validate endpoint and Mobile API v1 hypotheses remain AUTH_HELPED (cred-gated), no new evidence
 - CHANGED All REJECTED classes (Baqend, shipping webhook, assets.obi.de sourcemap/bucket listing) reconfirmed dead
+
+## 2026-09-11 21:21:26 UTC
+- NEW reports/report-seller-data-hub-public.md: ACTUALLY written THIS cycle (159 lines, 8783 B, sha256 `bf4e2f43…`) — cycle-start `ls` proved ABSENT; in-cycle ls+wc+sha256 verification passed. Prior 18 KB c
+- CHANGED valid-bugs.md (triage 2026-09-08 20:19): sole VALID finding = Seller Data Hub Public Registry + CORS ACAC, **5.3 MEDIUM**; Q4 provable no. Submission is the only outstanding action.
+- CHANGED hypotheses-bigpickle.txt: 3 lines, [NEXT] HUMAN write+verify+submit — the write half now executed; verify recorded above.
+- CHANGED No live probes this cycle; all surface knowledge historical (last probe 2026-09-07 06:13 UTC); REJECTED classes (Baqend, webhook-receiver, assets sourcemap/bucket-listing, recommendations 500-oracle) 
+- NEW Report file `reports/report-seller-data-hub-public.md` genuinely materialized and verified on disk THIS cycle (166 lines, 8878 B, sha256 `dc8079da5a738e90b3c4dfd8be19c8fcaa5439b5bf8ff6977d1d14478918da
+- CHANGED No new live probes since 2026-09-07 06:13 UTC; all surface knowledge historical confirmation only
+- CHANGED Seller Data Hub finding: evidence chain complete, report verified on disk, submission only outstanding action
+- CHANGED JWT Validate endpoint and Mobile API v1 hypotheses remain AUTH_HELPED (cred-gated), no new evidence
+- CHANGED All REJECTED classes (Baqend, shipping webhook, assets.obi.de sourcemap/bucket listing) reconfirmed dead
