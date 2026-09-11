@@ -2825,3 +2825,31 @@ testability: AUTH_HELPED
 [LEARN] REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ — webhook angle closed.
 [LEARN] REJECTED MISCONFIG @ assets.obi.de: no sourcemap (404), no bucket listing through CloudFront.
 [RISK] obi: 25/100 — report content real, anonymized (no live PII), all probing history ≤1 rps read-only GET, no mutation/auth-bypass; report data captured from verified historical probes, no new live testing this cycle. Remaining hypotheses cred-blocked. Submission to bugs.olivermaicher.eu is the only outstanding action.
+## 2026-09-11 23:23:33 UTC [target] (model bigpickle)
+[HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 95
+reasoning: /public/{cc}/feature-toggle 200 ~1228B (15 SOA.* flags, identical 6 CC); /public/{cc}/seller-side-panel/{trxId} 200 ~37KB imprint+settings trxId 1/100551/100000–100550+, 404 oracle 0/99999999/200001; imprint-documents obiecomprod PDF, traversal 403; own /api/v1 mirror + 7 siblings 401 mule-realm = gate divergence unique to this service; Origin reflection + ACAC:true on both /public handlers; bundle (assets.obi.de) fetches mode:cors credentials:include → cross-origin session-bearing reads by design.
+evidence_needed: none — report on disk verified in-cycle this cycle (130ln, 7575B, sha256 `42f694a89c027c4f000516b0118e75e82be556d7ffa7d3737131aa7c7ade5bac`).
+verify_steps: historical 09-05..09-07 probes; no re-probe (low-risk posture); next step is HUMAN submission.
+impact: ~550+ seller registrations 6 countries, SOA flags, legal PDFs, any-origin credentialed reads → GDPR disclosure, supplier impersonation/supply-chain phishing. MEDIUM 5.3.
+testability: HUMAN_ONLY
+[HYP] JWT Validation Endpoint — Algorithm Confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: live with browser UA (GET/HEAD 200 text/javascript len0 clears obi-auth; POST no-session 405); SSI bootstrap regi-hey-obi-login issues account-csrf + obi-auth cookie family.
+evidence_needed: authenticated obi-auth JWT; baseline vs alg:none / HS256-key-as-public POST behavior.
+verify_steps: (cred-gated) POST valid session JWT → baseline; POST alg:none → 401/400 safe vs 200 vuln; POST HS256 key-as-public → 401 safe vs 200 vuln.
+impact: ATO heyOBI accounts incl. purchase/payment history. CRITICAL (unproven).
+testability: AUTH_HELPED
+[HYP] Mobile API v1 — Auth-Gated Hidden Admin/Debug/Actuator Surface
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: /v1/ 200; all 17 sub-paths 401 — fully auth-gated; admin/debug/actuator/graphql paths exist but protected; no unauth leakage.
+evidence_needed: valid mobile session JWT; IDOR/BOLA across /orders, /users, /cart, /profile.
+verify_steps: (cred-gated) with auth: GET /v1/orders?user_id=foreign vs own; /v1/users/{foreign_id}; POST /v1/cart foreign product_id vs own.
+impact: cross-tenant order/PII extraction, admin/debug info leakage. HIGH (unproven).
+testability: AUTH_HELPED
