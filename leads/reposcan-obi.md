@@ -189,3 +189,12 @@ TARGET_ORG not configured for obi; skipping public-org deep scan.
 TARGET_ORG not configured for obi; skipping public-org deep scan.
 ## REPOSCAN 2026-09-11 17:15:13 UTC
 TARGET_ORG not configured for obi; skipping public-org deep scan.
+## REPOSCAN 2026-09-11 19:51:01 UTC
+[HYP] NO_CANDIDATES
+class: OTHER
+asset: N/A
+confidence: 100
+reasoning: The provided candidate list explicitly states "no org candidates"
+impact: None
+verify_steps: N/A - no repositories to audit
+TARGET_ORG not configured for obi; skipping public-org deep scan.
