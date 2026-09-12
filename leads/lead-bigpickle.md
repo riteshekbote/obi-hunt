@@ -3159,3 +3159,31 @@ testability: HUMAN_ONLY
 [LEARN] ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ full unauth registry (6 CC) + CORS ACAC:true reflection + gate divergence vs own /api/v1 mirror + 7 siblings — MEDIUM 5.3, VALID per triage run-2026-09-08-20-19, report now genuinely on disk for submission.
 [LEARN] REJECTED class @ obi-de.app.baqend.com / api.obi.com webhook / assets.obi.de sourcemap+listing / recommendations-500: reconfirmed closed from on-disk triage/KB — no new evidence, not re-emitted.
 [RISK] obi: 15/100 — zero live probes this cycle (local file write only); report (102 ln) contains no seller names or PII values (structural ranges + trxIds only); no mutation, no auth bypass. No live traffic generated since 09-07. Outstanding action remains HUMAN submission with in-cycle `sha256sum -c` gate.
+## 2026-09-12 23:24:31 UTC [target] (model bigpickle)
+[HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 97
+reasoning: gate divergence proven (own /api/v1 mirror + 7 siblings = 401 mule-realm, /public = 200 unauth); trxId registry 1 + 100000–100550+ across DE/AT/IT/PL/FR/ES; 15 SOA.* flags; imprint-documents PDFs; ACAO-reflection + ACAC:true on both data handlers; triage run-2026-09-08-20-19 = VALID 5.3.
+evidence_needed: NONE — deliverable now GENUINELY on disk (82 ln, 6055 B, sha256 `a0819e53aee946bbbb6ebd8f39a3f07797fbbcf603df02bac13f53f57513db61`, in-cycle raw bash proof).
+verify_steps: `sha256sum -c` pre-send; neutral-Origin GET on /public/de/feature-toggle for liveness; no seller-side-panel re-read (partner PII).
+impact: ~550 seller registrations (imprint/settings/bio-certs) enumerable without auth; any-origin credentialed exfil via ACAC:true; internal flags. MEDIUM 5.3
+testability: HUMAN_ONLY
+[HYP] JWT Validation Endpoint — Algorithm/Key Confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: live with browser UA (GET/HEAD 200 text/javascript len0 clears obi-auth; POST no-session 405); regi-hey-obi-login SSI issues account-csrf + obi-auth.
+evidence_needed: authenticated obi-auth JWT; baseline vs alg:none / HS256-key-as-public behavior.
+verify_steps: (cred-gated) GET /account/api/public/jwt/validate + POST valid session JWT baseline vs alg:none artifact (200=vuln) vs HS256-signed-with-public-key (200=vuln).
+impact: ATO heyOBI accounts incl. purchase/payment history. CRITICAL (unproven)
+testability: AUTH_HELPED
+[HYP] Mobile API v1 — Auth-Gated Admin/Debug/Actuator Surface
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: /v1/ 200; 17 sub-paths (users/orders/cart/admin/debug/swagger/graphql/metrics/actuator) all 401 — no unauth leakage, protected surface exists.
+evidence_needed: valid mobile session JWT; IDOR/BOLA across /orders /users /cart /profile.
+verify_steps: (cred-gated) /v1/orders?user_id=foreign vs own; /v1/users/{foreign_id}; POST /v1/cart foreign product_id.
+impact: cross-tenant order/PII extraction, admin/debug leakage. HIGH (unproven)
+testability: AUTH_HELPED
