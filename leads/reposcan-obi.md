@@ -284,3 +284,12 @@ TARGET_ORG not configured for obi; skipping public-org deep scan.
 TARGET_ORG not configured for obi; skipping public-org deep scan.
 ## REPOSCAN 2026-09-12 21:21:07 UTC
 TARGET_ORG not configured for obi; skipping public-org deep scan.
+## REPOSCAN 2026-09-12 23:23:45 UTC
+[HYP] NO_CANDIDATES
+class: OTHER
+asset: N/A
+confidence: 100
+reasoning: >
+impact: N/A — source-code audit surface is empty
+verify_steps: >
+TARGET_ORG not configured for obi; skipping public-org deep scan.
