@@ -278,3 +278,5 @@ reasoning: The client detail page at `/dashboard/clients/[clientCode]` uses the 
 impact: Low — RLS appears correctly configured, but the architecture creates a fragile single point of failure; any RLS migration mistake exposes all client data
 verify_steps: 1. Check the RLS policies on the clients, projects, and project_assignments tables via the Supabase dashboard. 2. Confirm that `clients_select_authorized` policy correctly restricts non-privileged users.
 TARGET_ORG not configured for obi; skipping public-org deep scan.
+## REPOSCAN 2026-09-12 16:24:49 UTC
+TARGET_ORG not configured for obi; skipping public-org deep scan.
