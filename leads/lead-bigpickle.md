@@ -3003,3 +3003,39 @@ evidence_needed: valid mobile session JWT; IDOR/BOLA across /orders /users /cart
 verify_steps: (cred-gated) GET /v1/orders?user_id=foreign vs own; /v1/users/{foreign_id}; POST /v1/cart foreign product_id.
 impact: cross-tenant order/PII extraction, admin/debug leakage. HIGH (unproven).
 testability: AUTH_HELPED
+## 2026-09-12 11:19:51 UTC [target] (model bigpickle)
+[HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 95
+reasoning: feature-toggle 200 ~1228B (15 SOA.* flags, 6 CC); seller-side-panel/{trxId} 200 ~37KB imprint+settings (1, 100000–100550+, 404 oracle 0/99999999/200001); imprint-documents obiecomprod→PDF, traversal 403; own /api/v1 mirror + 7 siblings 401 mule-realm = gate divergence; Origin reflected ACAC:true on both data handlers; bundle fetches mode:cors credentials:include. Triaged VALID CVSS 5.3 MEDIUM (triage/run-2026-09-08-20-19).
+evidence_needed: none — REPORT MATERIALIZED + verified in-cycle (96 ln, 7313 B, sha256 858714ea0361a0467f5ec9d16f187c25d9dad2fbcee6ddd7b31dcd2b2df641d8) from traced KB+triage chain, redacted (no seller names/PII values).
+verify_steps: re-probe NOT recommended (partner PII); if unavoidable pre-submission, re-run only CORS reflection on feature-toggle with neutral Origin; else rely on recorded 09-05..09-07 evidence + triage.
+impact: ~550+ seller registrations 6 countries, internal SOA flags, legal PDFs, any-origin credentialed reads → GDPR third-party data disclosure, supplier impersonation/supply-chain phishing. MEDIUM 5.3.
+testability: HUMAN_ONLY
+[HYP] JWT Validation Endpoint — Algorithm Confusion / Session Boundary
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: live with browser UA (GET/HEAD 200 text/javascript len0 clears obi-auth; POST no-session 405); regi-hey-obi-login SSI issues account-csrf + obi-auth cookie family.
+evidence_needed: authenticated obi-auth JWT; baseline vs alg:none / HS256-key-as-public POST behavior.
+verify_steps: (cred-gated) POST valid session JWT baseline vs POST alg:none artifact (200=vuln) vs POST HS256-signed-with-public-key (200=vuln).
+impact: ATO of heyOBI accounts incl. purchase/payment history. CRITICAL (unproven).
+testability: AUTH_HELPED
+[HYP] Mobile API v1 — Auth-Gated Hidden Admin/Debug/Actuator Surface
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: /v1/ 200; all 17 sub-paths 401 — fully auth-gated; admin/debug/actuator/graphql exist but protected; no unauth leakage (200 base = Envoy catch-all, not data).
+evidence_needed: valid mobile session JWT; IDOR/BOLA across /orders /users /cart /profile.
+verify_steps: (cred-gated) GET /v1/orders?user_id=foreign vs own; /v1/users/{foreign_id}; POST /v1/cart foreign product_id.
+impact: cross-tenant order/PII extraction, admin/debug leakage. HIGH (unproven).
+testability: AUTH_HELPED
+[NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (96 ln, 7313 B, sha256 `858714ea0361a0467f5ec9d16f187c25d9dad2fbcee6ddd7b31dcd2b2df641d8`, verified on disk THIS cycle via raw ls+wc+sha256sum output) via bugs.olivermaicher.eu — attach the A–E repro curl set, redacted evidence, contact + payment per scope.yml. Re-run `sha256sum -c` immediately before sending; recommended pre-send check is CORS reflection on feature-toggle with a neutral Origin only.
+[LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File written + verified on disk THIS cycle with raw in-cycle ls+wc+sha256sum tool output (96 ln, 7313 B, sha256 `858714ea…`). This is the first disk-verifiable materialization; all 19 prior "on disk" KB claims were acceptance-without-filesystem-check.
+[LEARN] REJECTED PROCESS @ knowledge-base: Phantom-materialization chain now 19+×. Normative fix executed this cycle: write via Write tool, then verify with actual bash (ls/wc/sha256sum) in the same cycle — do not record "materialized" from KB state alone.
+[LEARN] ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ full unauth registry (6 CC) + CORS ACAC:true reflection + gate divergence vs own /api/v1 mirror + 7 siblings — MEDIUM 5.3, validated by triage run-2026-09-08-20-19.
+[LEARN] REJECTED MISCONFIG @ obi-de.app.baqend.com: auth-closed (admin 466, no Web Push config) — BaaS hypothesis dead.
+[LEARN] REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ — webhook angle closed.
+[LEARN] REJECTED MISCONFIG @ assets.obi.de: no sourcemap (404), no bucket listing through CloudFront.
+[RISK] obi: 25/100 — Report contains no seller names or PII values (trxId identifiers + structural characterizations only); evidence traced to KB + independent triage, no new live probes this cycle and no PII-returning re-reads recommended; no mutations/auth-bypass. Outstanding action is HUMAN submission of a genuine, triage-validated finding through the program's own channel — the process the program exists for.

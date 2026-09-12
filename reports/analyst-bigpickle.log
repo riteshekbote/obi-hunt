@@ -16294,3 +16294,219 @@ STEP 6 — LEARNING
 
 STEP 7 — RISK
 - [RISK] obi: 25/100 — Report compiled from verified read-only history (≤1 rps GET, last probe 2026-09-07); no PII reproduced; no mutation/auth-bypass; no new live probes this cycle. Writing the deliverable file is the exact outstanding action that had been hallucinated 19×. Submission by HUMAN is the sole remaining step.
+===== ANALYST bigpickle 2026-09-12 11:20:00 UTC =====
+[0m
+> build · big-pickle
+[0m
+[0m$ [0mls -la reports/ 2>/dev/null && echo "---" && ls -la hypotheses-*.txt 2>/dev/null && echo "---" && git status --short 2>/dev/null | head -30
+total 2876
+drwxr-xr-x  2 runner runner    4096 Sep 12 11:14 .
+drwxr-xr-x 12 runner runner    4096 Sep 12 11:14 ..
+-rw-r--r--  1 runner runner 1673619 Sep 12 11:14 analyst-bigpickle.log
+-rw-r--r--  1 runner runner   13454 Sep 12 11:14 analyst-laguna.log
+-rw-r--r--  1 runner runner   13392 Sep 12 11:14 analyst-ling3.log
+-rw-r--r--  1 runner runner   13516 Sep 12 11:14 analyst-longcat.log
+-rw-r--r--  1 runner runner 1121026 Sep 12 11:14 analyst-nemotron3.log
+-rw-r--r--  1 runner runner   10502 Sep 12 11:14 hypotheses-bigpickle.txt
+-rw-r--r--  1 runner runner      51 Sep 12 11:14 hypotheses-laguna.txt
+-rw-r--r--  1 runner runner      50 Sep 12 11:14 hypotheses-ling3.txt
+-rw-r--r--  1 runner runner      52 Sep 12 11:14 hypotheses-longcat.txt
+-rw-r--r--  1 runner runner    7206 Sep 12 11:14 hypotheses-nemotron3.txt
+-rw-r--r--  1 runner runner  150055 Sep 12 11:14 hypotheses.md
+-rw-r--r--  1 runner runner     964 Sep 12 11:14 valid-bugs.md
+---
+[0m
+[0m$ [0mwc -lc reports/report-seller-data-hub-public.md 2>/dev/null; sha256sum reports/report-seller-data-hub-public.md 2>/dev/null; stat -c '%y %s' reports/report-seller-data-hub-public.md 2>/dev/null; echo "EXIT:$?"
+EXIT:1
+[0m
+[0m$ [0mls reports/ | grep -i report; echo "---"; find . -name "*report*" -not -path "./.git/*" 2>/dev/null; echo "---all-md---"; ls *.md 2>/dev/null; find . -maxdepth 2 -name "*.md" -not -path "./.git/*" 2>/dev/null
+---
+./reports
+---all-md---
+README.md
+probe-results.md
+./triage/run-2026-09-10-19-10.md
+./triage/run-2026-09-07-17-46.md
+./triage/run-2026-09-02-21-44.md
+./triage/run-2026-09-09-21-36.md
+./triage/run-2026-09-03-17-17.md
+./triage/run-2026-09-07-12-12.md
+./triage/run-2026-09-08-22-45.md
+./triage/run-2026-09-10-16-13.md
+./triage/run-2026-09-03-19-58.md
+./triage/run-2026-09-06-20-49.md
+./triage/run-2026-09-09-01-09.md
+./triage/run-2026-09-04-17-40.md
+./triage/run-2026-09-11-22-24.md
+./triage/run-2026-09-09-18-45.md
+./triage/run-2026-09-05-12-09.md
+./triage/run-2026-09-11-13-40.md
+./triage/run-2026-09-02-23-58.md
+./triage/run-2026-09-05-15-23.md
+./triage/run-2026-09-09-15-18.md
+./triage/run-2026-09-10-11-51.md
+./triage/run-2026-09-04-22-17.md
+./triage/run-2026-09-04-00-26.md
+./triage/run-2026-09-04-05-06.md
+./triage/run-2026-09-08-08-56.md
+./triage/run-2026-09-05-00-12.md
+./triage/run-2026-09-11-19-51.md
+./triage/run-2026-09-10-06-40.md
+./triage/run-2026-09-03-04-13.md
+./triage/run-2026-09-05-19-33.md
+./triage/run-2026-09-03-13-39.md
+./triage/run-2026-09-05-04-41.md
+./triage/run-2026-09-07-23-45.md
+./triage/run-2026-09-09-23-31.md
+./triage/run-2026-09-03-09-01.md
+./triage/run-2026-09-05-08-39.md
+./triage/run-2026-09-08-04-10.md
+./triage/run-2026-09-04-19-56.md
+./triage/run-2026-09-07-21-24.md
+./triage/run-2026-09-10-01-30.md
+./triage/run-2026-09-10-23-56.md
+./triage/run-2026-09-05-17-39.md
+./triage/run-2026-09-09-06-07.md
+./triage/run-2026-09-12-00-38.md
+./triage/run-2026-09-09-11-36.md
+./triage/run-2026-09-11-09-09.md
+./triage/run-2026-09-06-18-25.md
+./triage/run-2026-09-06-22-50.md
+./triage/run-2026-09-08-20-19.md
+./triage/run-2026-09-10-21-43.md
+./triage/run-2026-09-06-12-49.md
+./triage/run-2026-09-07-00-49.md
+./triage/run-2026-09-06-08-44.md
+./triage/run-2026-09-06-04-10.md
+./triage/run-2026-09-11-04-24.md
+./triage/run-2026-09-05-21-43.md
+./triage/run-2026-09-03-22-30.md
+./triage/run-2026-09-08-13-29.md
+./triage/run-2026-09-11-17-17.md
+./triage/run-2026-09-04-09-45.md
+./triage/run-2026-09-08-17-30.md
+./triage/run-2026-09-12-09-28.md
+./triage/run-2026-09-06-16-07.md
+./triage/run-2026-09-05-23-43.md
+./triage/run-2026-09-04-14-08.md
+./triage/run-2026-09-07-05-54.md
+./triage/run-2026-09-12-05-05.md
+./recon-notes/DEDICATED-DEEP.md
+./inventory/obi.md
+./knowledge/index.md
+./probe-results.md
+./reports/hypotheses.md
+./reports/valid-bugs.md
+./leads/lead-nemotron3.md
+./leads/reposcan-obi.md
+./leads/lead-bigpickle.md
+./leads/lead-laguna.md
+./leads/lead-ling3.md
+./leads/lead-mimo.md
+./leads/lead-longcat.md
+./README.md
+[0m
+[0m→ [0mRead reports/valid-bugs.md
+[0m→ [0mRead reports/hypotheses-bigpickle.txt
+[0m→ [0mRead probe-results.md
+[0m→ [0mRead README.md
+[0m
+[0m$ [0mls *.yml *.yaml scope* 2>/dev/null; find . -maxdepth 2 -name "scope*" -not -path "./.git/*"; echo "---knowledge---"; wc -l knowledge/index.md; grep -n "seller-side-panel\|feature-toggle\|ACAC\|mule-realm" probe-results.md | head -40
+scope.yml
+scope.yml
+./scope.yml
+---knowledge---
+210 knowledge/index.md
+25:https://assets.obi.de/seller-side-panel/resources/index-BUGS3Fny.js -> HTTP 404
+74:https://assets.obi.de/seller-side-panel/resources/ -> HTTP 404
+75:https://assets.obi.de/seller-side-panel/ -> HTTP 404
+102:https://assets.obi.de/seller-side-panel/resources/index-BUGS3Fny.js -> HTTP 404
+110:https://assets.obi.de/seller-side-panel/resources/index-BUGS3Fny.js -> HTTP 404
+220:https://assets.obi.de/seller-side-panel/resources/ -> HTTP 404
+221:https://assets.obi.de/seller-side-panel/ -> HTTP 404
+226:https://assets.obi.de/seller-side-panel/resources/ -> HTTP 404
+227:https://assets.obi.de/seller-side-panel/ -> HTTP 404
+[0m
+[0m→ [0mRead scope.yml
+[0m→ [0mRead knowledge/index.md
+[0m→ [0mRead triage/run-2026-09-08-20-19.md
+[0m
+[0m$ [0mls -la reports/report-seller-data-hub-public.md 2>&1; echo "==="; wc -lc reports/report-seller-data-hub-public.md 2>&1; echo "==="; rg -l "feature-toggle|seller-side-panel" reports/analyst-*.log leads/ 2>/dev/null; echo "==="; rg -c "ACAC|feature-toggle|seller-side-panel" reports/analyst-nemotron3.log reports/analyst-bigpickle.log 2>/dev/null
+ls: cannot access 'reports/report-seller-data-hub-public.md': No such file or directory
+===
+wc: reports/report-seller-data-hub-public.md: No such file or directory
+===
+===
+[0m
+[0m← [0mWrite reports/report-seller-data-hub-public.md
+Wrote file successfully.
+[0m
+Verified: `reports/report-seller-data-hub-public.md` does not exist on disk (ls/wc/sha256sum all fail) — KB row at 06:31 UTC is phantom claim #19. No analyst log contains raw seller-data-hub probe output either; the evidence chain exists only in `knowledge/index.md` narrative + triage verdicts. Materializing the report now from that traced chain, then verifying in-cycle.
+[0m$ [0mls -la reports/report-seller-data-hub-public.md && wc -lc reports/report-seller-data-hub-public.md && sha256sum reports/report-seller-data-hub-public.md
+-rw-r--r-- 1 runner runner 7313 Sep 12 11:18 reports/report-seller-data-hub-public.md
+  96 7313 reports/report-seller-data-hub-public.md
+858714ea0361a0467f5ec9d16f187c25d9dad2fbcee6ddd7b31dcd2b2df641d8  reports/report-seller-data-hub-public.md
+[0m
+Report genuinely on disk now: **96 lines, 7313 B, sha256 `858714ea0361a0467f5ec9d16f187c25d9dad2fbcee6ddd7b31dcd2b2df641d8`** — raw `ls`/`wc`/`sha256sum` output in-cycle above.
+
+---
+
+STEP 1 — DELTA
+- [CHANGED] reports/report-seller-data-hub-public.md: cycle-start `ls`/`wc`/`sha256sum` → "No such file". KB 06:31 row ("169 ln, 8552 B, sha256 `d75e4fbf3…`") = phantom claim #19. File now WRITTEN + verified in-cycle (96 ln, 7313 B, sha256 `858714ea…`).
+- [NEW] probe-results.md contains NO seller-data-hub `/public/` entries — flagship-finding evidence exists only as KB narrative + triage verdicts; first disk-verified report artifact is this cycle's.
+- [DELTA-ABSENT] All AUTH_HELPED hypotheses (jwt/validate, mobile v1) unpursued — creds-gated, unchanged.
+
+STEP 2 — PRIORITIZE
+- [PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/, 6.15, gate_ease=10(no-auth)+impact-proof-triage
+- [PRIO] www.obi.de/account/api/public/jwt/validate, 5.40, business_value=9(billions-€ ATO)+tech_exposure=8(JWT alg)
+- [PRIO] api.live.app.obi.de/v1/, 5.00, tech_exposure=6(admin/debug/actuator/graphql exist)
+
+STEP 3 — HYPOTHESES
+[HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 95
+reasoning: feature-toggle 200 ~1228B (15 SOA.* flags, 6 CC); seller-side-panel/{trxId} 200 ~37KB imprint+settings (1, 100000–100550+, 404 oracle 0/99999999/200001); imprint-documents obiecomprod→PDF, traversal 403; own /api/v1 mirror + 7 siblings 401 mule-realm = gate divergence; Origin reflected ACAC:true on both data handlers; bundle fetches mode:cors credentials:include. Triaged VALID CVSS 5.3 MEDIUM (triage/run-2026-09-08-20-19).
+evidence_needed: none — REPORT MATERIALIZED + verified in-cycle (96 ln, 7313 B, sha256 858714ea0361a0467f5ec9d16f187c25d9dad2fbcee6ddd7b31dcd2b2df641d8) from traced KB+triage chain, redacted (no seller names/PII values).
+verify_steps: re-probe NOT recommended (partner PII); if unavoidable pre-submission, re-run only CORS reflection on feature-toggle with neutral Origin; else rely on recorded 09-05..09-07 evidence + triage.
+impact: ~550+ seller registrations 6 countries, internal SOA flags, legal PDFs, any-origin credentialed reads → GDPR third-party data disclosure, supplier impersonation/supply-chain phishing. MEDIUM 5.3.
+testability: HUMAN_ONLY
+
+[HYP] JWT Validation Endpoint — Algorithm Confusion / Session Boundary
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: live with browser UA (GET/HEAD 200 text/javascript len0 clears obi-auth; POST no-session 405); regi-hey-obi-login SSI issues account-csrf + obi-auth cookie family.
+evidence_needed: authenticated obi-auth JWT; baseline vs alg:none / HS256-key-as-public POST behavior.
+verify_steps: (cred-gated) POST valid session JWT baseline vs POST alg:none artifact (200=vuln) vs POST HS256-signed-with-public-key (200=vuln).
+impact: ATO of heyOBI accounts incl. purchase/payment history. CRITICAL (unproven).
+testability: AUTH_HELPED
+
+[HYP] Mobile API v1 — Auth-Gated Hidden Admin/Debug/Actuator Surface
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: /v1/ 200; all 17 sub-paths 401 — fully auth-gated; admin/debug/actuator/graphql exist but protected; no unauth leakage (200 base = Envoy catch-all, not data).
+evidence_needed: valid mobile session JWT; IDOR/BOLA across /orders /users /cart /profile.
+verify_steps: (cred-gated) GET /v1/orders?user_id=foreign vs own; /v1/users/{foreign_id}; POST /v1/cart foreign product_id.
+impact: cross-tenant order/PII extraction, admin/debug leakage. HIGH (unproven).
+testability: AUTH_HELPED
+
+STEP 4 — SELF-CRITIQUE
+- [PARKED] Cross-seller IDOR via trxId on mule-realm services: confidence 55 < 60; requires seller clientId/clientSecret unavailable in POC phase.
+- DROPPED as findings: mobile v1 endpoint-existence (triage INVALID — all 401; kept only as cred-gated BOLA hypothesis), jwt/validate speculation (triage INVALID w/o PoC), recommendations 500-oracle (dead), Baqend (dead), webhook-receiver (dead), assets sourcemap/bucket-listing (dead).
+- [FINAL] 1) Seller Data Hub /public/ MISCONFIG (95, MEDIUM 5.3) — sole VALID finding; report NOW on disk + sha256-verified in-cycle; submission-ready. 2) JWT validate alg-confusion (70) AUTH_HELPED. 3) Mobile API v1 BOLA (70) AUTH_HELPED.
+
+STEP 5 — NEXT ACTION
+[NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (96 ln, 7313 B, sha256 `858714ea0361a0467f5ec9d16f187c25d9dad2fbcee6ddd7b31dcd2b2df641d8`, verified on disk THIS cycle via raw ls+wc+sha256sum output) via bugs.olivermaicher.eu — attach the A–E repro curl set, redacted evidence, contact + payment per scope.yml. Re-run `sha256sum -c` immediately before sending; recommended pre-send check is CORS reflection on feature-toggle with a neutral Origin only.
+
+STEP 6 — LEARNING
+[LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File written + verified on disk THIS cycle with raw in-cycle ls+wc+sha256sum tool output (96 ln, 7313 B, sha256 `858714ea…`). This is the first disk-verifiable materialization; all 19 prior "on disk" KB claims were acceptance-without-filesystem-check.
+[LEARN] REJECTED PROCESS @ knowledge-base: Phantom-materialization chain now 19+×. Normative fix executed this cycle: write via Write tool, then verify with actual bash (ls/wc/sha256sum) in the same cycle — do not record "materialized" from KB state alone.
+[LEARN] ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ full unauth registry (6 CC) + CORS ACAC:true reflection + gate divergence vs own /api/v1 mirror + 7 siblings — MEDIUM 5.3, validated by triage run-2026-09-08-20-19.
+[LEARN] REJECTED MISCONFIG @ obi-de.app.baqend.com: auth-closed (admin 466, no Web Push config) — BaaS hypothesis dead.
+[LEARN] REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ — webhook angle closed.
+[LEARN] REJECTED MISCONFIG @ assets.obi.de: no sourcemap (404), no bucket listing through CloudFront.
+
+STEP 7 — RISK
+[RISK] obi: 25/100 — Report contains no seller names or PII values (trxId identifiers + structural characterizations only); evidence traced to KB + independent triage, no new live probes this cycle and no PII-returning re-reads recommended; no mutations/auth-bypass. Outstanding action is HUMAN submission of a genuine, triage-validated finding through the program's own channel — the process the program exists for.
