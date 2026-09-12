@@ -204,3 +204,40 @@ TARGET_ORG not configured for obi; skipping public-org deep scan.
 TARGET_ORG not configured for obi; skipping public-org deep scan.
 ## REPOSCAN 2026-09-12 05:05:52 UTC
 TARGET_ORG not configured for obi; skipping public-org deep scan.
+## REPOSCAN 2026-09-12 09:33:33 UTC
+[HYP] Hardcoded admin identity in operations portal bootstrap
+class: OTHER
+asset: obi-services/obi-operations-portal/scripts/bootstrap-admin.ts:28
+confidence: 70
+reasoning: Hardcoded email michael.j@techguys.work and name "Michael J." in source code.
+impact: Low — aids targeted phishing/social engineering against this admin
+verify_steps: Confirm michael.j@techguys.work is an active OBI admin email
+[HYP] Supabase open signup without email verification
+class: MISCONFIG
+asset: obi-services/obi-operations-portal/supabase/config.toml:176,226
+confidence: 65
+reasoning: enable_signup=true, enable_confirmations=false allows anyone to create accounts
+impact: Medium — unauthorized account creation on operations portal
+verify_steps: Attempt to register a new account on the deployed portal
+[HYP] Weak password policy on operations portal
+class: MISCONFIG
+asset: obi-services/obi-operations-portal/supabase/config.toml:182-185
+confidence: 80
+reasoning: minimum_password_length=6, password_requirements="" (no complexity)
+impact: Low — weak passwords increase account compromise risk
+verify_steps: Attempt to set a weak password (e.g., "123456")
+[HYP] MFA disabled on operations portal
+class: MISCONFIG
+asset: obi-services/obi-operations-portal/supabase/config.toml:302-308
+confidence: 75
+reasoning: TOTP and phone MFA both disabled (enroll_enabled=false, verify_enabled=false)
+impact: Medium — privileged accounts lack MFA protection
+verify_steps: Check if MFA enrollment is available in UI
+[HYP] SSRF via x-forwarded-host in redirect builder
+class: SSRF
+asset: obi-services/obi-operations-portal/app/dashboard/clients/manage/route.ts:23-28
+confidence: 35
+reasoning: buildRedirectUrl uses request.headers.get("x-forwarded-host") without validation
+impact: Low — potential redirect to attacker-controlled site
+verify_steps: Test if x-forwarded-host header is trusted; attempt host injection
+TARGET_ORG not configured for obi; skipping public-org deep scan.
