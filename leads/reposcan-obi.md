@@ -241,3 +241,40 @@ reasoning: buildRedirectUrl uses request.headers.get("x-forwarded-host") without
 impact: Low — potential redirect to attacker-controlled site
 verify_steps: Test if x-forwarded-host header is trusted; attempt host injection
 TARGET_ORG not configured for obi; skipping public-org deep scan.
+## REPOSCAN 2026-09-12 13:15:32 UTC
+[HYP] Open Redirect in Email OTP Confirmation Route
+class: SSRF
+asset: obi-services/obi-operations-portal/app/auth/confirm/route.ts:10,21
+confidence: 85
+reasoning: The GET handler reads `next` from the query string (line 10: `const next = searchParams.get("next") ?? "/"`) and passes it directly to `redirect(next)` (line 21) with zero validation. No allowlist check, no origin check. An attacker can craft /auth/confirm?token_hash=<valid>&type=magiclink&next=https://evil.example.com and, after the OTP is verified (or even on the error path at line 24 which also uses `redirect(/auth/error?error=${error?.message})` — though that one is hardcoded), redirect the victim post-auth. The error path redirect at line 24 interpolates `error?.message` into the redirect URL without encoding, enabling a secondary open-redirect via error message manipulation on the `/auth/error` path.
+impact: High — post-authentication redirect to attacker-controlled domain can be chained with session token theft, phishing, or OAuth callback interception
+verify_steps: 1. Visit https://obi-operations-portal.vercel.app/auth/confirm?token_hash=anything&type=magiclink&next=https://evil.example.com 2. If OTP verification fails, observe whether the error redirect respects the `next` param. 3. Confirm with a valid magiclink token that the post-confirmation redirect follows the attacker URL.
+[HYP] x-forwarded-host Header Injection in Redirect Builders
+class: SSRF
+asset: obi-services/obi-operations-portal/app/dashboard/clients/manage/route.ts:19-36 (and 5 other route handlers)
+confidence: 60
+reasoning: The `buildRedirectUrl()` function in every management route handler reads `request.headers.get("x-forwarded-host")` and `request.headers.get("x-forwarded-proto")` to construct the redirect origin (e.g. line 23-28 of clients/manage/route.ts). If the Vercel edge or any upstream proxy passes untrusted x-forwarded-host through, an attacker can inject an arbitrary origin. The function falls back to `new URL(request.url).origin` only when host is null, but `x-forwarded-host` takes priority. This pattern is repeated in: clients/manage/route.ts, clients/projects/manage/route.ts, clients/assignments/manage/route.ts, users/status/route.ts, users/role/route.ts, users/invite/route.ts, users/invitation/route.ts.
+impact: Medium — depends on whether Vercel's edge strips/overwrites x-forwarded-host; if not, enables open redirect after any successful POST action
+verify_steps: 1. Send a POST to /dashboard/clients/manage with action=create and a valid session, setting header x-forwarded-host: evil.example.com. 2. Check if the 303 redirect Location header points to evil.example.com. 3. If Vercel strips it, this is mitigated.
+[HYP] Hardcoded Admin Bootstrap Email Address
+class: SECRET
+asset: obi-services/obi-operations-portal/scripts/bootstrap-admin.ts:28-29
+confidence: 90
+reasoning: The bootstrap script hardcodes `email = "michael.j@techguys.work"` and `fullName = "Michael J."` with role "admin". This is the intended first admin account for the portal. The email domain `techguys.work` reveals the operational contractor/vendor identity and the admin invite target. Combined with the Supabase project ID "obi-operations-portal" visible in supabase/config.toml:5, this gives an attacker a confirmed admin email for password reset or social engineering.
+impact: Medium — credential-stuffing/phishing target; not a direct vulnerability but significantly narrows attack surface for the bootstrap admin
+verify_steps: 1. Confirm the repo is public on github.com/obi-services/obi-operations-portal. 2. Verify the email is still committed (it is, on main branch). 3. Check if michael.j@techguys.work has an active Supabase Auth account on the Vercel deployment.
+[HYP] Weak Password Policy in Supabase Auth Configuration
+class: MISCONFIG
+asset: obi-services/obi-operations-portal/supabase/config.toml:182-185
+confidence: 70
+reasoning: The Supabase config sets `minimum_password_length = 6` and `password_requirements = ""` (empty string = no complexity requirements). While this is the local-dev config template, the fact that it ships committed to the public repo suggests it may mirror production defaults. Supabase Cloud projects inherit these settings unless explicitly overridden in the dashboard. A 6-character password with no complexity requirement is trivially brute-forceable.
+impact: Medium — weak password policy on a portal managing OBI client credits, assignments, and user accounts
+verify_steps: 1. Check the live Supabase project's Auth settings at the dashboard for minimum password length. 2. Attempt to sign up or change password with a 6-character all-lowercase password.
+[HYP] Client Detail Page Uses Session Client for Data Fetch (RLS-Dependent IDOR Protection)
+class: IDOR
+asset: obi-services/obi-operations-portal/app/dashboard/clients/[clientCode]/page.tsx:128-136
+confidence: 40
+reasoning: The client detail page at `/dashboard/clients/[clientCode]` uses the session-scoped Supabase client (not the admin client) for the main data queries (lines 128-136, 148-154, 163-169). The page does call `requirePrivilegedPortalProfile()` which verifies admin/supervisor role, and the RLS policies restrict data access. However, the authorization depends entirely on Supabase RLS being correctly configured — if any RLS policy has a bug or is accidentally dropped during migration, the `clientCode` path parameter becomes a direct IDOR vector. The client_code values are sequential-ish (e.g. CL-001) making enumeration trivial.
+impact: Low — RLS appears correctly configured, but the architecture creates a fragile single point of failure; any RLS migration mistake exposes all client data
+verify_steps: 1. Check the RLS policies on the clients, projects, and project_assignments tables via the Supabase dashboard. 2. Confirm that `clients_select_authorized` policy correctly restricts non-privileged users.
+TARGET_ORG not configured for obi; skipping public-org deep scan.
