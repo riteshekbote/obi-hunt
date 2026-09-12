@@ -382,3 +382,5 @@ www.obi.de
 - CHANGED probe-results.md — no live probes since 2026-09-07 06:18 UTC; all seller-data-hub evidence is recorded 09-05..09-07 history.
 
 ## 2026-09-12 19:29:42 UTC
+
+## 2026-09-12 21:39:36 UTC
