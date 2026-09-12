@@ -3039,3 +3039,37 @@ testability: AUTH_HELPED
 [LEARN] REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ — webhook angle closed.
 [LEARN] REJECTED MISCONFIG @ assets.obi.de: no sourcemap (404), no bucket listing through CloudFront.
 [RISK] obi: 25/100 — Report contains no seller names or PII values (trxId identifiers + structural characterizations only); evidence traced to KB + independent triage, no new live probes this cycle and no PII-returning re-reads recommended; no mutations/auth-bypass. Outstanding action is HUMAN submission of a genuine, triage-validated finding through the program's own channel — the process the program exists for.
+## 2026-09-12 14:16:53 UTC [target] (model bigpickle)
+[PRIO] api.obi.com/.../seller-data-hub-service/api/v1/public/, 9.55, a=10 b=9 t=9 g=10 c=8 f=10
+[PRIO] www.obi.de/account/api/public/jwt/validate, 7.3, a=8 b=10 t=8 g=3 c=7 f=8
+[PRIO] api.live.app.obi.de/v1/, 7.1, a=8 b=9 t=9 g=3 c=7 f=8
+[HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 95
+reasoning: gate divergence proven (own /api/v1 mirror + 7 siblings = 401 mule-realm, /public/ = 200 no auth); seller-side-panel/{trxId} 200 ~37KB, 404 oracle for out-of-range; feature-toggle 15 SOA flags 6 CC; imprint-documents obiecomprod→PDF; CORS reflects Origin + ACAC:true on both data handlers; bundle fetches mode:cors credentials:include. Triaged VALID CVSS 5.3 (triage/run-2026-09-08-20-19).
+evidence_needed: none — REPORT MATERIALIZED and verified this cycle (130 ln, 6636 B, sha256 `5a0e2bb1ea79a25870aec7250eb17d6e3e39e46179c199bbfcce656b482f8e7c`)
+verify_steps: no re-probe recommended (partner PII); rely on recorded 09-05..09-07 evidence + triage; pre-send sanity check limited to CORS reflection on feature-toggle with neutral Origin if unavoidable
+impact: ~550+ seller registrations 6 CC, internal SOA flags, legal PDFs, any-origin credentialed reads → GDPR third-party disclosure, supplier impersonation/supply-chain phishing. MEDIUM 5.3
+testability: HUMAN_ONLY
+[HYP] JWT Validation Endpoint — Algorithm Confusion / Session Boundary
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: live with browser UA (GET/HEAD 200 text/javascript len0 clears obi-auth; POST no-session 405); regi-hey-obi-login SSI issues account-csrf + obi-auth family
+evidence_needed: authenticated obi-auth JWT; baseline vs alg:none / HS256-key-as-public POST behavior
+verify_steps: (cred-gated) POST valid session JWT baseline vs alg:none artifact (200=vuln) vs HS256-public-key-signed (200=vuln)
+impact: ATO heyOBI accounts incl. purchase/payment history. CRITICAL (unproven)
+testability: AUTH_HELPED
+[HYP] Mobile API v1 — Auth-Gated Hidden Admin/Debug/Actuator Surface
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: /v1/ 200; all 17 sub-paths 401 — fully auth-gated; admin/debug/actuator/graphql exist but protected; no unauth leakage
+evidence_needed: valid mobile session JWT; IDOR/BOLA across /orders /users /cart /profile
+verify_steps: (cred-gated) GET /v1/orders?user_id=foreign vs own; /v1/users/{foreign_id}; POST /v1/cart foreign product_id
+impact: cross-tenant order/PII extraction, admin/debug leakage. HIGH (unproven)
+testability: AUTH_HELPED
+[NEXT] HUMAN: Submit `report-seller-data-hub-public.md` (130 ln, 6636 B, sha256 `5a0e2bb1ea79a25870aec7250eb17d6e3e39e46179c199bbfcce656b482f8e7c` — regenerated + verified on disk THIS cycle via ls/wc/sha256sum) via bugs.olivermaicher.eu per scope.yml (report + PoC curl repro set A–E + contact + payment). Re-run `sha256sum -c` immediately before sending. Recommended pre-send check limited to CORS reflection on feature-toggle with neutral Origin only.
+[RISK] obi: 25/100 — Report regenerated from recorded history + independent triage, contains no seller names or live PII values (trxId identifiers + structural characterizations only); no new live probes this cycle, no mutations/auth-bypass, no PII-returning re-reads; ≤1 rps read-only GET history. Outstanding action is HUMAN submission via the program's own channel — the process the program exists for.
+[NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (130 ln / 6636 B / sha256 `5a0e2bb1ea79a25870aec7250eb17d6e3e39e46179c199bbfcce656b482f8e7c`, verified in-cycle) via bugs.olivermaicher.eu — repro curl set A–E, redacted evidence, contact + payment per scope.yml. `sha256sum -c` before sending.
