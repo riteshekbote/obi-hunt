@@ -380,3 +380,5 @@ www.obi.de
 - NEW reports/report-seller-data-hub-public.md — cycle-start `ls` proved ABSENT (21st phantom claim broken); file now WRITTEN + VERIFIED on disk THIS cycle via raw ls+wc+sha256sum (95 ln, 7540 B, sha256 `cf
 - CHANGED triage/run-2026-09-08-20-19.md (241 ln) + reports/valid-bugs.md (15 ln) on disk confirm sole VALID finding = Seller Data Hub /public/ + CORS ACAC → 5.3 MEDIUM, action "Submit to bugs.olivermaicher.eu"
 - CHANGED probe-results.md — no live probes since 2026-09-07 06:18 UTC; all seller-data-hub evidence is recorded 09-05..09-07 history.
+
+## 2026-09-12 19:29:42 UTC
