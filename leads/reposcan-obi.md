@@ -280,3 +280,5 @@ verify_steps: 1. Check the RLS policies on the clients, projects, and project_as
 TARGET_ORG not configured for obi; skipping public-org deep scan.
 ## REPOSCAN 2026-09-12 16:24:49 UTC
 TARGET_ORG not configured for obi; skipping public-org deep scan.
+## REPOSCAN 2026-09-12 18:47:08 UTC
+TARGET_ORG not configured for obi; skipping public-org deep scan.
