@@ -357,3 +357,10 @@ www.obi.de
 - CHANGED Seller Data Hub finding: evidence chain complete, report verified on disk, submission only outstanding action
 - CHANGED JWT Validate endpoint and Mobile API v1 hypotheses remain AUTH_HELPED (cred-gated), no new evidence
 - CHANGED All REJECTED classes (Baqend, shipping webhook, assets.obi.de sourcemap/bucket listing) reconfirmed dead
+
+## 2026-09-12 01:35:20 UTC
+- NEW Report file `reports/report-seller-data-hub-public.md` genuinely materialized and verified on disk THIS cycle (169 lines, 8552 B, sha256 `d75e4fbcf9f46234fe0437fb6b5937cc4b6356c61f867e7ed338a682194e8c
+- CHANGED No new live probes since 2026-09-07 06:13 UTC; all surface knowledge historical confirmation only
+- CHANGED Seller Data Hub finding: evidence chain complete, report verified on disk, submission only outstanding action
+- CHANGED JWT Validate endpoint and Mobile API v1 hypotheses remain AUTH_HELPED (cred-gated), no new evidence
+- CHANGED All REJECTED classes (Baqend, shipping webhook, assets.obi.de sourcemap/bucket listing) reconfirmed dead

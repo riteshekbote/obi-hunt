@@ -1,4 +1,4 @@
-## 2026-09-11 23:23:33 UTC [target] (model bigpickle)
+## 2026-09-12 01:33:12 UTC [target] (model bigpickle)
 [HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS
 class: MISCONFIG
 asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
@@ -26,3 +26,32 @@ evidence_needed: valid mobile session JWT; IDOR/BOLA across /orders, /users, /ca
 verify_steps: (cred-gated) with auth: GET /v1/orders?user_id=foreign vs own; /v1/users/{foreign_id}; POST /v1/cart foreign product_id vs own.
 impact: cross-tenant order/PII extraction, admin/debug info leakage. HIGH (unproven).
 testability: AUTH_HELPED
+[HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 95
+reasoning: every /public/{cc} handler 200 unauth (feature-toggle ~1228B 15 SOA.* flags; seller-side-panel/{trxId} ~37KB imprint+settings trxId 1/100000–100550+ across DE/AT/IT/PL/FR/ES; imprint-documents obiecomprod→PDF, traversal 403); own /api/v1 mirror + all 7 siblings = 401 mule-realm; Origin reflected ACAC:true on both /public handlers; first-party bundle (assets.obi.de, mode:cors credentials:include) hits exactly these endpoints.
+evidence_needed: none — report genuinely on disk this cycle (105ln, 6726B, sha256 `31e04fb1…`, in-cycle ls+wc+sha256).
+verify_steps: historical 09-05..09-07 GET probes only; no re-probe (low-risk posture); next step is HUMAN submission with repro curl set + anonymized evidence.
+impact: ~550+ seller registrations 6 countries, SOA flags, legal PDFs, any-origin credentialed reads → GDPR disclosure, supplier impersonation/supply-chain phishing. MEDIUM 5.3.
+testability: HUMAN_ONLY
+[HYP] JWT Validation Endpoint — Algorithm Confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: live with browser UA (GET/HEAD 200 text/javascript len0 clears obi-auth; POST no-session 405); regi-hey-obi-login SSI issues account-csrf + obi-auth family.
+evidence_needed: authenticated obi-auth JWT; baseline vs alg:none / HS256-key-as-public POST behavior.
+verify_steps: (cred-gated) POST valid session JWT baseline; POST alg:none → 401/400 safe vs 200 vuln; POST HS256 key-as-public → 401 safe vs 200 vuln.
+impact: ATO heyOBI accounts incl. purchase/payment history. CRITICAL (unproven).
+testability: AUTH_HELPED
+[HYP] Mobile API v1 — Auth-Gated Hidden Admin/Debug/Actuator Surface
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: /v1/ 200; all 17 sub-paths 401 — fully auth-gated; admin/debug/actuator/graphql exist but protected.
+evidence_needed: valid mobile session JWT; IDOR/BOLA across /orders /users /cart /profile.
+verify_steps: (cred-gated) GET /v1/orders?user_id=foreign vs own; /v1/users/{foreign_id}; POST /v1/cart foreign product_id.
+impact: cross-tenant order/PII extraction, admin/debug leakage. HIGH (unproven).
+testability: AUTH_HELPED
+[NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (105 lines, 6726 B, sha256 `31e04fb154433c8d184b59243e61ec39f43bdea42be0d25d7dcc2d842bdc1d4b`, verified on disk THIS cycle via actual ls+wc+sha256 output) via bugs.olivermaicher.eu — attach repro curl set + anonymized evidence + contact/payment per scope.yml. Re-run `sha256sum -c` immediately before pushing.
+[RISK] obi: 25/100 — report content real and anonymized (no live PII reproduced), all exploration ≤1 rps read-only GET, verification history 09-05..09-07 captured in evidence table; no mutation/auth-bypass; no new live probes this cycle. Report now genuinely on disk and verified with in-cycle proof. Submission is the only outstanding action.
