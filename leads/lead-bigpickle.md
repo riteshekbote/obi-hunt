@@ -3242,3 +3242,31 @@ evidence_needed: valid mobile session JWT; IDOR/BOLA across /orders /users /cart
 verify_steps: (cred-gated) /v1/orders?user_id=foreign vs own; /v1/users/{foreign_id}; POST /v1/cart foreign product_id.
 impact: cross-tenant order/PII extraction, admin/debug leakage. HIGH (unproven)
 testability: AUTH_HELPED
+## 2026-09-13 06:46:35 UTC [target] (model bigpickle)
+[HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 98
+reasoning: gate divergence proven on disk (own /api/v1/ mirror + 7 siblings = 401 mule-realm, /public = 200); trxId registry 1 + 100000–100550+ across 6 CC; 15 SOA.* flags; imprint-documents PDFs; triage run-2026-09-08-20-19 = VALID 5.3; IN-CYCLE live confirmation 2026-09-13: feature-toggle 200 + ACAO/https://null.origin reflection + ACAC:true.
+evidence_needed: NONE — report on disk (82 ln, 5223 B, sha256 `95aeb5e6…`) + in-cycle liveness.
+verify_steps: `sha256sum -c` full hash `95aeb5e6a42fb6b722165abae8fbbc0fcdb682deb734e2afc495f4995659b235`; no seller-side-panel re-read (partner PII).
+impact: ~550+ seller registrations (imprint/settings/bio-certs) enumerable unauth; any-origin credentialed exfil via ACAC:true; internal flags. MEDIUM 5.3
+testability: HUMAN_ONLY
+[HYP] JWT Validation Endpoint — Algorithm/Key Confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 60
+reasoning: live with browser UA (GET/HEAD 200 text/javascript len0 clears obi-auth; POST no-session 405); triage Q4 = NO proof available; speculative without authenticated baseline.
+evidence_needed: authenticated obi-auth JWT; baseline vs alg:none / HS256-key-as-public.
+verify_steps: (cred-gated) GET baseline + POST valid session JWT vs alg:none artifact (200=vuln).
+impact: ATO heyOBI accounts incl. purchase/payment history. CRITICAL (unproven)
+testability: AUTH_HELPED
+[HYP] MuleSoft Exchange — S3 signed-URL temp credentials
+class: MISCONFIG
+asset: api.obi.com (root portal)
+confidence: 45
+reasoning: triage verdict HOLD — public-by-design portal; S3 temp creds in signed URLs borderline; needs program-owner scope ruling.
+evidence_needed: program acceptance that dev-portal internals ≠ out-of-scope "known public files".
+verify_steps: none passive — deferred to program judgment.
+impact: internal org naming + temp S3 creds exposure. LOW-MEDIUM
+testability: HUMAN_ONLY
