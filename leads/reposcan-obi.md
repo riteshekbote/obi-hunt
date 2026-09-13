@@ -303,3 +303,12 @@ TARGET_ORG not configured for obi; skipping public-org deep scan.
 TARGET_ORG not configured for obi; skipping public-org deep scan.
 ## REPOSCAN 2026-09-13 19:00:58 UTC
 TARGET_ORG not configured for obi; skipping public-org deep scan.
+## REPOSCAN 2026-09-13 21:29:49 UTC
+[HYP] No public repos for OBI Group Holding SE & Co. KGaA found
+class: OTHER
+asset: github.com/obi-home (0 repos)
+confidence: 0
+reasoning: Searched GitHub API for all organizations matching "obi-*", "obigroup", "obiorg", "obi-inc", "obi-services", "obidot". None are the German home improvement retailer (Wermelskirchen). The "obi-home" org exists but has 0 public repositories.
+impact: N/A
+verify_steps: Confirm the correct GitHub organization handle with the OBI IT security team; check if repos are private/internal-only
+TARGET_ORG not configured for obi; skipping public-org deep scan.
