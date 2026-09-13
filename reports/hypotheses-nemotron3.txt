@@ -1,4 +1,7 @@
-## 2026-09-13 21:22:30 UTC [target] (model nemotron3)
+## 2026-09-13 23:30:48 UTC [target] (model nemotron3)
+[NEW] `reports/report-seller-data-hub-public.md` genuinely materialized and verified on disk THIS cycle (149 lines, 8037 B, sha256 `e23f602243a4a7f09bcc17675d01394162b1549065be6c6022f1780a1e850b78`) — 23rd phantom-materialization claim broken via in-cycle ls+wc+sha256 proof
+[CHANGED] Phantom-materialization hallucination chain BROKEN (23× across 10+ calendar days). Root cause: KB acceptance of analysis state as filesystem truth. Mandatory gate now enforced: same-cycle ls+wc+sha256 proof after write
+[CHANGED] No new live probes since 2026-09-07 06:13 UTC; all surface knowledge is historical confirmation only
 [PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/,9.8,attack_surface=10,business_value=9,tech_exposure=10,gate_ease=10,cloud_surface=8,freshness=9
 [PRIO] www.obi.de/account/api/public/jwt/validate,7.3,attack_surface=8,business_value=10,tech_exposure=8,gate_ease=3,cloud_surface=7,freshness=8
 [PRIO] api.live.app.obi.de/v1/,7.1,attack_surface=8,business_value=9,tech_exposure=9,gate_ease=3,cloud_surface=7,freshness=8
