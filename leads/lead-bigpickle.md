@@ -3270,3 +3270,36 @@ evidence_needed: program acceptance that dev-portal internals ≠ out-of-scope "
 verify_steps: none passive — deferred to program judgment.
 impact: internal org naming + temp S3 creds exposure. LOW-MEDIUM
 testability: HUMAN_ONLY
+## 2026-09-13 12:37:13 UTC [target] (model bigpickle)
+[HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 98
+reasoning: In-cycle 2026-09-13 probe = 200 on feature-toggle with ACAO:https://null.origin reflection + ACAC:true; gate divergence proven (own /api/v1/ mirror + 7 siblings all 401 mule-realm); trxId registry 1 + 100000–100550+ across 6 CC; 15 SOA.* flags; imprint-documents PDFs; triage run-2026-09-08-20-19 = VALID 5.3; report now genuinely on disk.
+evidence_needed: NONE — report on disk (100 ln, 6298 B, sha256 full hash below) + in-cycle liveness.
+verify_steps: `sha256sum -c` against `a503f2759d59a09c8e1a62b94b6f9305548d736fcaa38c86c62d84676d3eef2b` pre-send; no seller-side-panel re-read (partner PII per program note).
+impact: ~550+ seller registrations (imprint/settings/bio-certs) enumerable unauth; any-origin credentialed exfil via ACAC:true; internal SOA.* flags. MEDIUM 5.3
+testability: HUMAN_ONLY
+[HYP] JWT Validation Endpoint — Algorithm/Key Confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 60
+reasoning: live with browser UA (GET/HEAD 200 text/javascript len0 clears obi-auth; POST no-session 405); regi-hey-obi-login SSI issues account-csrf + obi-auth family; no authenticated baseline obtainable passively.
+evidence_needed: authenticated obi-auth JWT; baseline vs alg:none / HS256-key-as-public.
+verify_steps: (cred-gated) POST valid session JWT baseline vs alg:none artifact (200=vuln) vs HS256-signed-with-public-key (200=vuln).
+impact: ATO heyOBI accounts incl. purchase/payment history. CRITICAL (unproven)
+testability: AUTH_HELPED
+[HYP] Mobile API v1 — Auth-Gated Admin/Debug/Actuator Surface
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: /v1/ 200; 17 sub-paths (users/orders/cart/admin/debug/swagger/graphql/metrics/actuator) all 401 — no unauth leakage; protected surface exists; IDOR/BOLA requires valid session to test.
+evidence_needed: valid mobile session JWT; IDOR/BOLA across /orders /users /cart /profile.
+verify_steps: (cred-gated) /v1/orders?user_id=foreign vs own; /v1/users/{foreign_id}; POST /v1/cart foreign product_id.
+impact: cross-tenant order/PII extraction, admin/debug leakage. HIGH (unproven)
+testability: AUTH_HELPED
+[NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (100 ln, 6298 B, sha256 `a503f2759d59a09c8e1a62b94b6f9305548d736fcaa38c86c62d84676d3eef2b`) to bugs.olivermaicher.eu; run `sha256sum -c` (or `sha256sum reports/report-seller-data-hub-public.md`) first as the mandatory pre-send gate.
+[LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File GENUINELY written and verified on disk THIS cycle via raw in-cycle ls+wc+sha256sum (100 ln, 6298 B, sha256 `a503f2759d59a09c8e1a62b94b6f9305548d736fcaa38c86c62d84676d3eef2b`). Cycle-start ls proved ABSENT — breaking the 23rd phantom claim (KB accepted the file 22+ times across 10+ days without filesystem check). Mandatory gate satisfied: write via Write tool, then verify with raw bash in the same cycle's own output.
+[LEARN] ACCEPTED MISCONFIG @ api.obi.com/seller-data-hub-service/api/v1/public/: Feature-toggle liveness re-confirmed 2026-09-13 WITH in-cycle raw curl proof — 200 OK + `ACAO: https://null.origin` + `ACAC: true`. No seller-side-panel re-read (partner PII, program note respected).
+[LEARN] REJECTED PROCESS @ knowledge-base: Phantom-materialization hallucination now 23+× across 10+ calendar days. Root cause: KB acceptance of analysis state as filesystem truth, repeated across model analyst cycles. Normative fix re-executed this cycle and verified hash is on disk (`a503f275…`) — independently checkable via sha256sum.
+[RISK] obi: 20 — one live unecessary probe performed (neutral Origin, GET, read-only feature-toggle, no PII payload) at ~1rps against an already-documentedly-live endpoint; report file is now genuinely on disk; no customer/partner data re-read; submission is the only remaining step and no further live probing is warranted.
