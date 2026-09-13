@@ -3498,3 +3498,23 @@ evidence_needed: valid mobile session JWT; IDOR/BOLA across /orders /users /cart
 verify_steps: (cred-gated) /v1/orders?user_id=foreign vs own; /v1/users/{foreign_id}; POST /v1/cart foreign product_id.
 impact: cross-tenant order/PII extraction, admin/debug leakage. HIGH (unproven)
 testability: AUTH_HELPED
+## 2026-09-13 21:22:31 UTC [target] (model bigpickle)
+[HYP] JWT Validation Endpoint — Algorithm/Key Confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 60
+reasoning: live with browser UA (GET/HEAD 200 text/javascript len0 clears obi-auth; POST no-session 405); regi-hey-obi-login SSI issues account-csrf+obi-auth family; triage = INVALID (speculative, no proof) — held only as cred-gated follow-up.
+evidence_needed: authenticated obi-auth JWT; baseline valid POST vs alg:none / HS256-key-as-public artifacts.
+verify_steps: (cred-gated) POST valid session JWT baseline vs alg:none artifact vs HS256-signed-with-public-key — 200 = vuln.
+impact: ATO heyOBI accounts incl. purchase/payment history. CRITICAL (unproven)
+testability: AUTH_HELPED
+[HYP] Mobile API v1 — Auth-Gated Surface / IDOR
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: /v1/ 200; 17 sub-paths (users/orders/cart/admin/debug/swagger/graphql/metrics/actuator) all 401 — properly gated, no unauth leakage; IDOR/BOLA requires valid session; triage = INVALID (endpoint existence behind auth is not a finding).
+evidence_needed: valid mobile session JWT; IDOR/BOLA across /orders /users /cart /profile.
+verify_steps: (cred-gated) /v1/orders?user_id=foreign vs own; /v1/users/{foreign_id}; POST /v1/cart foreign product_id.
+impact: cross-tenant order/PII extraction, admin/debug leakage. HIGH (unproven)
+testability: AUTH_HELPED
+[NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (135 ln, 5749 B, sha256 `cd72792c9170f74585a522001a024c4254b75e6695817af63c4c297c5a19593f`, verified on disk this cycle) via bugs.olivermaicher.eu with repro steps + gate-divergence proof + CORS ACAC chain + contact/payment per scope.yml. No further live probing warranted pre-submission.
