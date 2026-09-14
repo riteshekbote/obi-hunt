@@ -3584,3 +3584,22 @@ evidence_needed: valid mobile session JWT; cross-tenant reads on /orders /users 
 verify_steps: (cred-gated) /v1/orders?user_id=foreign vs own; /v1/users/{foreign_id}.
 impact: cross-tenant order/PII extraction. HIGH (unproven).
 testability: AUTH_HELPED
+## 2026-09-14 01:39:46 UTC [target] (model bigpickle)
+[HYP] JWT Validation Endpoint — Algorithm/Key Confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 60
+reasoning: live edge with browser UA (GET/HEAD 200 text/javascript len0 clears obi-auth; POST no-session 405); bootstrapped by 200 SSI fragment regi-hey-obi-login issuing account-csrf + obi-auth family; triage INVALID (run-2026-09-08-20-19.md: speculative, no PoC).
+evidence_needed: authenticated obi-auth JWT; baseline valid POST vs alg:none / HS256-key-as-public artifacts.
+verify_steps: (cred-gated) POST valid session JWT baseline, then alg:none artifact, then HS256-signed-with-public-key — 200 = vuln, 400/401 = safe.
+impact: ATO heyOBI accounts incl. purchase/payment history. CRITICAL (unproven)
+testability: AUTH_HELPED
+[HYP] Mobile API v1 — Auth-Gated Surface / IDOR
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: /v1/ 200, all 17 sub-paths /users /orders /cart /profile /admin /debug /swagger /graphql /metrics /actuator 401 — no unauth leakage; IDOR/BOLA requires valid session; triage INVALID (endpoint existence behind auth ≠ finding).
+evidence_needed: valid mobile session JWT; cross-tenant reads on /orders /users /cart /profile.
+verify_steps: (cred-gated) GET /v1/orders?user_id=foreign vs own; GET /v1/users/{foreign_id}; POST /v1/cart foreign product_id.
+impact: cross-tenant order/PII extraction, admin/debug leakage. HIGH (unproven)
+testability: AUTH_HELPED
