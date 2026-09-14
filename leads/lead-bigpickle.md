@@ -3701,3 +3701,33 @@ testability: AUTH_HELPED
 [LEARN] REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asset not on this gateway) — webhook-receiver angle closed.
 [LEARN] REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing through CloudFront.
 [RISK] obi: 25/100 — Report content now real but contains only anonymized repro/evidence (no live PII values ≥ KB-approved redaction policy), all history ≤1 rps read-only GET, no mutation/auth-bypass/PII capture. Remaining hypotheses creds-blocked. Under threshold for further live probing until submission or new in-scope surface.
+## 2026-09-14 19:30:42 UTC [target] (model bigpickle)
+[HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS (report artifact, VERIFIED on disk 2026-09-14)
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 98
+reasoning: triage run-2026-09-08-20-19 Lead 1 VALID (5.3 MEDIUM, CVSS AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N). Unauthenticated seller registry (trxId 1, 100000–100550+ across DE/AT/IT/PL/FR/ES) at /public/{cc}/seller-side-panel/{trxId}; boundary oracle (0/99999999/200001 → 404 JSON, 100551 → 200); feature-toggle exposes 15 SOA.* flags; imprint-documents returns PDFs. Gate divergence proven: own /api/v1/ mirror + 7 siblings = 401 mule-realm. CORS ACAC:true with arbitrary-Origin reflection on both /public/ endpoints (incl. data handler 100551). Discovered from buyer-session bundle fetch targets (mode:cors, credentials:include).
+evidence_needed: None — evidence chain complete; report on disk (sha256 `53de9e532919d6e082fc5c9478533d02af7155b86027ea06a23ae57ab631a186`)
+verify_steps: None — program rule: no re-probe of validated finding pre-submission
+impact: 550+ seller registry enumeration (imprint/settings/legal docs) → supplier impersonation, supply-chain phishing, GDPR exposure; drive-by any-origin credentialed reads. MEDIUM 5.3.
+testability: HUMAN_ONLY
+[HYP] JWT Validation Endpoint — Algorithm/Key Confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 60
+reasoning: live edge with browser UA (GET/HEAD 200 text/javascript len0 clears obi-auth; POST w/o session 405); bootstrapped by 200 SSI fragment regi-hey-obi-login issuing account-csrf + obi-auth. Triage INVALID as-is (speculative, cred-gated).
+evidence_needed: authenticated obi-auth JWT; baseline valid POST vs alg:none / HS256-key-as-public artifacts.
+verify_steps: (cred-gated) POST valid session JWT baseline, then alg:none, then HS256-with-public-key — 200=vuln, 400/401=safe.
+impact: ATO heyOBI accounts incl. purchase/payment history. CRITICAL (unproven).
+testability: AUTH_HELPED
+[HYP] Mobile API v1 — Auth-Gated Surface / IDOR
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: /v1/ 200; all 17 sub-paths 401 — no unauth leakage. Triage INVALID (endpoint existence behind auth ≠ finding).
+evidence_needed: valid mobile session JWT; cross-tenant reads on /orders /users /cart /profile.
+verify_steps: (cred-gated) GET /v1/orders?user_id=foreign vs own; GET /v1/users/{foreign_id}; POST /v1/cart foreign product_id.
+impact: cross-tenant order/PII extraction, admin/debug leakage. HIGH (unproven).
+testability: AUTH_HELPED
+[NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (106 lines, 7263 B, sha256 `53de9e532919d6e082fc5c9478533d02af7155b86027ea06a23ae57ab631a186` — NOT the previously claimed 141-line/`2b9302b6` artifact, which never existed) via bugs.olivermaicher.eu with repro steps + anonymized PoC + contact + payment. File genuinely on disk — cycle-start ls proved ABSENT, written this cycle, verified in-cycle.
+[RISK] obi: 25/100 — Report content anonymized (status codes + boundary oracle only, no live PII), all history ≤1 rps read-only GET, no mutation/auth-bypass/PII capture. No live probing performed this cycle. Under threshold for further probing until submission; remaining hypotheses cred-gated.

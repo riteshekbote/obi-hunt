@@ -1,4 +1,4 @@
-## 2026-09-14 14:19:08 UTC [target] (model nemotron3)
+## 2026-09-14 19:32:16 UTC [target] (model nemotron3)
 [PRIO] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/,9.8,attack_surface=10,business_value=9,tech_exposure=10,gate_ease=10,cloud_surface=8,freshness=9
 [PRIO] www.obi.de/account/api/public/jwt/validate,7.3,attack_surface=8,business_value=10,tech_exposure=8,gate_ease=3,cloud_surface=7,freshness=8
 [PRIO] api.live.app.obi.de/v1/,7.1,attack_surface=8,business_value=9,tech_exposure=9,gate_ease=3,cloud_surface=7,freshness=8
