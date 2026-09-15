@@ -22163,3 +22163,183 @@ testability: AUTH_HELPED
 
 ## STEP 7 — RISK
 `[RISK] obi: 25/100 — no live probing this cycle (program rule: no re-probe of validated finding); report fully anonymized (no customer/employee/financial/auth data, status-code-only PoC); all history ≤1 rps read-only GET/HEAD/OPTIONS, no mutation or auth bypass. Under probing threshold until submission; remaining hypotheses cred-gated.`
+===== ANALYST bigpickle 2026-09-15 06:20:55 UTC =====
+[0m
+> build · big-pickle
+[0m
+[0m$ [0mls -la reports/report-seller-data-hub-public.md 2>&1; wc -c reports/report-seller-data-hub-public.md 2>&1; sha256sum reports/report-seller-data-hub-public.md 2>&1
+ls: cannot access 'reports/report-seller-data-hub-public.md': No such file or directory
+wc: reports/report-seller-data-hub-public.md: No such file or directory
+sha256sum: reports/report-seller-data-hub-public.md: No such file or directory
+[0m
+[0m$ [0mls reports/ 2>&1
+analyst-bigpickle.log
+analyst-laguna.log
+analyst-ling3.log
+analyst-longcat.log
+analyst-nemotron3.log
+hypotheses-bigpickle.txt
+hypotheses-laguna.txt
+hypotheses-ling3.txt
+hypotheses-longcat.txt
+hypotheses-nemotron3.txt
+hypotheses.md
+valid-bugs.md
+[0m
+[0m→ [0mRead reports/valid-bugs.md
+[0m
+[0m$ [0mls /home/runner/work/obi-hunt/obi-hunt/scope.yml 2>&1; ls /home/runner/work/obi-hunt/obi-hunt/triage/ 2>&1
+/home/runner/work/obi-hunt/obi-hunt/scope.yml
+run-2026-09-02-21-44.md
+run-2026-09-02-23-58.md
+run-2026-09-03-04-13.md
+run-2026-09-03-09-01.md
+run-2026-09-03-13-39.md
+run-2026-09-03-17-17.md
+run-2026-09-03-19-58.md
+run-2026-09-03-22-30.md
+run-2026-09-04-00-26.md
+run-2026-09-04-05-06.md
+run-2026-09-04-09-45.md
+run-2026-09-04-14-08.md
+run-2026-09-04-17-40.md
+run-2026-09-04-19-56.md
+run-2026-09-04-22-17.md
+run-2026-09-05-00-12.md
+run-2026-09-05-04-41.md
+run-2026-09-05-08-39.md
+run-2026-09-05-12-09.md
+run-2026-09-05-15-23.md
+run-2026-09-05-17-39.md
+run-2026-09-05-19-33.md
+run-2026-09-05-21-43.md
+run-2026-09-05-23-43.md
+run-2026-09-06-04-10.md
+run-2026-09-06-08-44.md
+run-2026-09-06-12-49.md
+run-2026-09-06-16-07.md
+run-2026-09-06-18-25.md
+run-2026-09-06-20-49.md
+run-2026-09-06-22-50.md
+run-2026-09-07-00-49.md
+run-2026-09-07-05-54.md
+run-2026-09-07-12-12.md
+run-2026-09-07-17-46.md
+run-2026-09-07-21-24.md
+run-2026-09-07-23-45.md
+run-2026-09-08-04-10.md
+run-2026-09-08-08-56.md
+run-2026-09-08-13-29.md
+run-2026-09-08-17-30.md
+run-2026-09-08-20-19.md
+run-2026-09-08-22-45.md
+run-2026-09-09-01-09.md
+run-2026-09-09-06-07.md
+run-2026-09-09-11-36.md
+run-2026-09-09-15-18.md
+run-2026-09-09-18-45.md
+run-2026-09-09-21-36.md
+run-2026-09-09-23-31.md
+run-2026-09-10-01-30.md
+run-2026-09-10-06-40.md
+run-2026-09-10-11-51.md
+run-2026-09-10-16-13.md
+run-2026-09-10-19-10.md
+run-2026-09-10-21-43.md
+run-2026-09-10-23-56.md
+run-2026-09-11-04-24.md
+run-2026-09-11-09-09.md
+run-2026-09-11-13-40.md
+run-2026-09-11-17-17.md
+run-2026-09-11-19-51.md
+run-2026-09-11-22-24.md
+run-2026-09-12-00-38.md
+run-2026-09-12-05-05.md
+run-2026-09-12-09-28.md
+run-2026-09-12-13-09.md
+run-2026-09-12-16-24.md
+run-2026-09-12-18-45.md
+run-2026-09-12-21-21.md
+run-2026-09-12-23-22.md
+run-2026-09-13-01-31.md
+run-2026-09-13-06-46.md
+run-2026-09-13-12-39.md
+run-2026-09-13-16-38.md
+run-2026-09-13-18-59.md
+run-2026-09-13-21-24.md
+run-2026-09-13-23-32.md
+run-2026-09-14-01-40.md
+run-2026-09-14-07-10.md
+run-2026-09-14-14-18.md
+run-2026-09-14-19-30.md
+run-2026-09-14-22-45.md
+run-2026-09-15-01-20.md
+[0m
+[0m← [0mWrite reports/report-seller-data-hub-public.md
+Wrote file successfully.
+[0m
+The report file **does not exist** on disk — this is the 26th phantom materialization cycle. Let me write it now and verify.
+[0m$ [0mls -la reports/report-seller-data-hub-public.md && wc -l reports/report-seller-data-hub-public.md && wc -c reports/report-seller-data-hub-public.md && sha256sum reports/report-seller-data-hub-public.md
+-rw-r--r-- 1 runner runner 6973 Sep 15 06:13 reports/report-seller-data-hub-public.md
+138 reports/report-seller-data-hub-public.md
+6973 reports/report-seller-data-hub-public.md
+d64cc9cc1230792653e3ae51600f18d4b5c280b32d0e63ad6d46cb24f2339311  reports/report-seller-data-hub-public.md
+[0m
+Report file **verified on disk** this cycle (138 lines, 6973 B, sha256 `d64cc9cc1230792653e3ae51600f18d4b5c280b32d0e63ad6d46cb24f2339311`). Cycle-start `ls` proved ABSENT — this is the 26th write+verify cycle.
+
+---
+
+**STEP 1 — DELTA:**
+NO_DELTA. No new probes; all surface knowledge is historical (last live probe 2026-09-07 06:13 UTC). Report materialized on disk this cycle.
+
+**STEP 2 — PRIORITIZE:**
+[PRIO] api.obi.com/seller-data-hub-service/api/v1/public/,98 — attack_surface:10, business_value:7, tech_exposure:6, gate_ease:10, cloud_surface:7, freshness:3
+
+**STEP 3 — HYPOTHESES:**
+
+[HYP] Seller Data Hub /public/ — Unauthenticated Seller Registry + Any-Origin CORS
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 98
+reasoning: triage VALID 5.3 MEDIUM (run-2026-09-08-20-19). Unauth registry across 6 countries (DE/AT/IT/PL/FR/ES), sequential trxId enumeration ~550+ sellers, gate divergence vs own /api/v1 mirror + 7 siblings (all 401 mule-realm), CORS ACAO-reflection + ACAC:true on both /public handlers, imprint-documents PDFs. Report NOW on disk (138 ln, 6973 B, sha256 d64cc9cc…).
+evidence_needed: None — evidence chain complete; file verified on disk this cycle.
+verify_steps: None — program rule: no re-probe of validated finding pre-submission.
+impact: 550+ seller registry enumeration → supplier impersonation/supply-chain phishing/GDPR bulk-exposure; drive-by any-origin credentialed reads. MEDIUM 5.3.
+testability: HUMAN_ONLY
+
+[HYP] JWT Validation Endpoint — Algorithm/Key Confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 60
+reasoning: live with browser UA (GET/HEAD 200 text/javascript clears obi-auth; POST no-session 405); triage INVALID as-is (speculative, cred-gated).
+evidence_needed: authenticated obi-auth JWT; baseline valid POST vs alg:none / HS256-as-secret.
+verify_steps: cred-gated POST valid-session baseline; POST alg:none→200=vuln/4xx=safe.
+impact: ATO heyOBI accounts incl. purchase/payment history. CRITICAL (unproven).
+testability: AUTH_HELPED
+
+[HYP] Mobile API v1 — Cross-Tenant IDOR
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: /v1/ 200; all 17 sub-paths 401 — no unauth leakage; triage INVALID (existence ≠ finding); IDOR real only with session.
+evidence_needed: valid mobile JWT; foreign-id reads on /orders /users /cart /profile.
+verify_steps: cred-gated GET /v1/orders?user_id=foreign; GET /v1/users/{foreign_id}.
+impact: cross-tenant order/PII extraction. HIGH (unproven).
+testability: AUTH_HELPED
+
+**STEP 4 — SELF-CRITIQUE:**
+Seller Data Hub: SURVIVES (98, validated, on disk). JWT Validate: SURVIVES (60, cred-gated). Mobile API v1: SURVIVES (70, cred-gated). No REJECTED classes in top 3.
+
+**STEP 5 — NEXT ACTION:**
+[NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (138 lines, 6973 B, sha256 `d64cc9cc1230792653e3ae51600f18d4b5c280b32d0e63ad6d46cb24f2339311`) via bugs.olivermaicher.eu — repro steps in Sections 3a–3e, anonymized PoC (no live PII), add contact + payment per scope.yml.
+
+**STEP 6 — LEARNING:**
+[LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File GENUINELY written and verified on disk THIS cycle via ls+wc+sha256 in-cycle (138 lines, 6973 B, sha256 `d64cc9cc1230792653e3ae51600f18d4b5c280b32d0e63ad6d46cb24f2339311`). This is the 26th attempt; all 25 prior phantom claims were acceptance-without-filesystem-check.
+[LEARN] REJECTED PROCESS @ knowledge-base: Phantom-materialization hallucination recurred 25+× across 10+ calendar days. Root cause: KB acceptance of analysis state as filesystem truth. Mandatory gate enforced this cycle: same-cycle ls+wc+sha256 proof after write.
+[LEARN] ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding MEDIUM, report-ready — reconfirmed, no re-probe.
+[LEARN] REJECTED MISCONFIG @ obi-de.app.baqend.com: Baqend app obi-de auth-closed (admin 466, no Web Push config) — BaaS hypothesis dead.
+[LEARN] REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ — webhook angle closed.
+[LEARN] REJECTED MISCONFIG @ assets.obi.de: no sourcemap (404), no bucket listing through CloudFront.
+
+**STEP 7 — RISK:**
+[RISK] obi: 25/100 — Report content fully anonymized (status codes + boundary oracle + CORS headers only, no live customer/employee/financial/auth data), all history ≤1 rps read-only GET/HEAD, no mutation or auth bypass. No live probing this cycle. Under threshold for further probing until submission; remaining hypotheses cred-gated.
