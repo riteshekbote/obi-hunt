@@ -332,3 +332,5 @@ reasoning: OBI Group Holding SE & Co. KGaA has no publicly visible GitHub organi
 impact: N/A — no source to audit
 verify_steps: Confirm by visiting https://github.com/orgs/obi-gmbh (404), https://github.com/orgs/obigroup (unrelated), and searching https://github.com/search?q=org%3Aobi&type=repositories
 TARGET_ORG not configured for obi; skipping public-org deep scan.
+## REPOSCAN 2026-09-15 06:16:16 UTC
+TARGET_ORG not configured for obi; skipping public-org deep scan.
