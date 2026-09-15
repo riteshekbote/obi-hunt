@@ -22343,3 +22343,202 @@ Seller Data Hub: SURVIVES (98, validated, on disk). JWT Validate: SURVIVES (60, 
 
 **STEP 7 — RISK:**
 [RISK] obi: 25/100 — Report content fully anonymized (status codes + boundary oracle + CORS headers only, no live customer/employee/financial/auth data), all history ≤1 rps read-only GET/HEAD, no mutation or auth bypass. No live probing this cycle. Under threshold for further probing until submission; remaining hypotheses cred-gated.
+===== ANALYST bigpickle 2026-09-15 11:56:31 UTC =====
+[0m
+> build · big-pickle
+[0m
+[0m$ [0mls -la /home/runner/work/obi-hunt/obi-hunt/reports/ 2>/dev/null || echo "reports dir not found"
+total 3544
+drwxr-xr-x  2 runner runner    4096 Sep 15 11:52 .
+drwxr-xr-x 12 runner runner    4096 Sep 15 11:52 ..
+-rw-r--r--  1 runner runner 2156067 Sep 15 11:52 analyst-bigpickle.log
+-rw-r--r--  1 runner runner   17794 Sep 15 11:52 analyst-laguna.log
+-rw-r--r--  1 runner runner   17712 Sep 15 11:52 analyst-ling3.log
+-rw-r--r--  1 runner runner   17876 Sep 15 11:52 analyst-longcat.log
+-rw-r--r--  1 runner runner 1270868 Sep 15 11:52 analyst-nemotron3.log
+-rw-r--r--  1 runner runner    4059 Sep 15 11:52 hypotheses-bigpickle.txt
+-rw-r--r--  1 runner runner      51 Sep 15 11:52 hypotheses-laguna.txt
+-rw-r--r--  1 runner runner      50 Sep 15 11:52 hypotheses-ling3.txt
+-rw-r--r--  1 runner runner      52 Sep 15 11:52 hypotheses-longcat.txt
+-rw-r--r--  1 runner runner    6917 Sep 15 11:52 hypotheses-nemotron3.txt
+-rw-r--r--  1 runner runner  189640 Sep 15 11:52 hypotheses.md
+-rw-r--r--  1 runner runner     964 Sep 15 11:52 valid-bugs.md
+[0m
+[0m$ [0mls -la /home/runner/work/obi-hunt/obi-hunt/triage/ 2>/dev/null || echo "triage dir not found"
+total 372
+drwxr-xr-x  2 runner runner  4096 Sep 15 11:52 .
+drwxr-xr-x 12 runner runner  4096 Sep 15 11:52 ..
+-rw-r--r--  1 runner runner     0 Sep 15 11:52 .gitkeep
+-rw-r--r--  1 runner runner   200 Sep 15 11:52 run-2026-09-02-21-44.md
+-rw-r--r--  1 runner runner   303 Sep 15 11:52 run-2026-09-02-23-58.md
+-rw-r--r--  1 runner runner   228 Sep 15 11:52 run-2026-09-03-04-13.md
+-rw-r--r--  1 runner runner   268 Sep 15 11:52 run-2026-09-03-09-01.md
+-rw-r--r--  1 runner runner   455 Sep 15 11:52 run-2026-09-03-13-39.md
+-rw-r--r--  1 runner runner   264 Sep 15 11:52 run-2026-09-03-17-17.md
+-rw-r--r--  1 runner runner   207 Sep 15 11:52 run-2026-09-03-19-58.md
+-rw-r--r--  1 runner runner   154 Sep 15 11:52 run-2026-09-03-22-30.md
+-rw-r--r--  1 runner runner   184 Sep 15 11:52 run-2026-09-04-00-26.md
+-rw-r--r--  1 runner runner   209 Sep 15 11:52 run-2026-09-04-05-06.md
+-rw-r--r--  1 runner runner   286 Sep 15 11:52 run-2026-09-04-09-45.md
+-rw-r--r--  1 runner runner   178 Sep 15 11:52 run-2026-09-04-14-08.md
+-rw-r--r--  1 runner runner   213 Sep 15 11:52 run-2026-09-04-17-40.md
+-rw-r--r--  1 runner runner   167 Sep 15 11:52 run-2026-09-04-19-56.md
+-rw-r--r--  1 runner runner   897 Sep 15 11:52 run-2026-09-04-22-17.md
+-rw-r--r--  1 runner runner   155 Sep 15 11:52 run-2026-09-05-00-12.md
+-rw-r--r--  1 runner runner   223 Sep 15 11:52 run-2026-09-05-04-41.md
+-rw-r--r--  1 runner runner   250 Sep 15 11:52 run-2026-09-05-08-39.md
+-rw-r--r--  1 runner runner   238 Sep 15 11:52 run-2026-09-05-12-09.md
+-rw-r--r--  1 runner runner   145 Sep 15 11:52 run-2026-09-05-15-23.md
+-rw-r--r--  1 runner runner   317 Sep 15 11:52 run-2026-09-05-17-39.md
+-rw-r--r--  1 runner runner   152 Sep 15 11:52 run-2026-09-05-19-33.md
+-rw-r--r--  1 runner runner   152 Sep 15 11:52 run-2026-09-05-21-43.md
+-rw-r--r--  1 runner runner   244 Sep 15 11:52 run-2026-09-05-23-43.md
+-rw-r--r--  1 runner runner  8188 Sep 15 11:52 run-2026-09-06-04-10.md
+-rw-r--r--  1 runner runner   148 Sep 15 11:52 run-2026-09-06-08-44.md
+-rw-r--r--  1 runner runner  8324 Sep 15 11:52 run-2026-09-06-12-49.md
+-rw-r--r--  1 runner runner   244 Sep 15 11:52 run-2026-09-06-16-07.md
+-rw-r--r--  1 runner runner   171 Sep 15 11:52 run-2026-09-06-18-25.md
+-rw-r--r--  1 runner runner   272 Sep 15 11:52 run-2026-09-06-20-49.md
+-rw-r--r--  1 runner runner   144 Sep 15 11:52 run-2026-09-06-22-50.md
+-rw-r--r--  1 runner runner   270 Sep 15 11:52 run-2026-09-07-00-49.md
+-rw-r--r--  1 runner runner   235 Sep 15 11:52 run-2026-09-07-05-54.md
+-rw-r--r--  1 runner runner   230 Sep 15 11:52 run-2026-09-07-12-12.md
+-rw-r--r--  1 runner runner   200 Sep 15 11:52 run-2026-09-07-17-46.md
+-rw-r--r--  1 runner runner  1236 Sep 15 11:52 run-2026-09-07-21-24.md
+-rw-r--r--  1 runner runner   146 Sep 15 11:52 run-2026-09-07-23-45.md
+-rw-r--r--  1 runner runner   148 Sep 15 11:52 run-2026-09-08-04-10.md
+-rw-r--r--  1 runner runner   263 Sep 15 11:52 run-2026-09-08-08-56.md
+-rw-r--r--  1 runner runner   184 Sep 15 11:52 run-2026-09-08-13-29.md
+-rw-r--r--  1 runner runner   303 Sep 15 11:52 run-2026-09-08-17-30.md
+-rw-r--r--  1 runner runner 13674 Sep 15 11:52 run-2026-09-08-20-19.md
+-rw-r--r--  1 runner runner   226 Sep 15 11:52 run-2026-09-08-22-45.md
+-rw-r--r--  1 runner runner   156 Sep 15 11:52 run-2026-09-09-01-09.md
+-rw-r--r--  1 runner runner   368 Sep 15 11:52 run-2026-09-09-06-07.md
+-rw-r--r--  1 runner runner   160 Sep 15 11:52 run-2026-09-09-11-36.md
+-rw-r--r--  1 runner runner   274 Sep 15 11:52 run-2026-09-09-15-18.md
+-rw-r--r--  1 runner runner   189 Sep 15 11:52 run-2026-09-09-18-45.md
+-rw-r--r--  1 runner runner   284 Sep 15 11:52 run-2026-09-09-21-36.md
+-rw-r--r--  1 runner runner   214 Sep 15 11:52 run-2026-09-09-23-31.md
+-rw-r--r--  1 runner runner   202 Sep 15 11:52 run-2026-09-10-01-30.md
+-rw-r--r--  1 runner runner   286 Sep 15 11:52 run-2026-09-10-06-40.md
+-rw-r--r--  1 runner runner   173 Sep 15 11:52 run-2026-09-10-11-51.md
+-rw-r--r--  1 runner runner   211 Sep 15 11:52 run-2026-09-10-16-13.md
+-rw-r--r--  1 runner runner   183 Sep 15 11:52 run-2026-09-10-19-10.md
+-rw-r--r--  1 runner runner   307 Sep 15 11:52 run-2026-09-10-21-43.md
+-rw-r--r--  1 runner runner   230 Sep 15 11:52 run-2026-09-10-23-56.md
+-rw-r--r--  1 runner runner   211 Sep 15 11:52 run-2026-09-11-04-24.md
+-rw-r--r--  1 runner runner  1169 Sep 15 11:52 run-2026-09-11-09-09.md
+-rw-r--r--  1 runner runner   441 Sep 15 11:52 run-2026-09-11-13-40.md
+-rw-r--r--  1 runner runner   208 Sep 15 11:52 run-2026-09-11-17-17.md
+-rw-r--r--  1 runner runner   186 Sep 15 11:52 run-2026-09-11-19-51.md
+-rw-r--r--  1 runner runner   225 Sep 15 11:52 run-2026-09-11-22-24.md
+-rw-r--r--  1 runner runner   207 Sep 15 11:52 run-2026-09-12-00-38.md
+-rw-r--r--  1 runner runner   250 Sep 15 11:52 run-2026-09-12-05-05.md
+-rw-r--r--  1 runner runner   155 Sep 15 11:52 run-2026-09-12-09-28.md
+-rw-r--r--  1 runner runner   477 Sep 15 11:52 run-2026-09-12-13-09.md
+-rw-r--r--  1 runner runner   189 Sep 15 11:52 run-2026-09-12-16-24.md
+-rw-r--r--  1 runner runner   148 Sep 15 11:52 run-2026-09-12-18-45.md
+-rw-r--r--  1 runner runner   166 Sep 15 11:52 run-2026-09-12-21-21.md
+-rw-r--r--  1 runner runner   187 Sep 15 11:52 run-2026-09-12-23-22.md
+-rw-r--r--  1 runner runner   161 Sep 15 11:52 run-2026-09-13-01-31.md
+-rw-r--r--  1 runner runner   157 Sep 15 11:52 run-2026-09-13-06-46.md
+-rw-r--r--  1 runner runner   203 Sep 15 11:52 run-2026-09-13-12-39.md
+-rw-r--r--  1 runner runner   166 Sep 15 11:52 run-2026-09-13-16-38.md
+-rw-r--r--  1 runner runner   241 Sep 15 11:52 run-2026-09-13-18-59.md
+-rw-r--r--  1 runner runner   194 Sep 15 11:52 run-2026-09-13-21-24.md
+-rw-r--r--  1 runner runner   146 Sep 15 11:52 run-2026-09-13-23-32.md
+-rw-r--r--  1 runner runner   244 Sep 15 11:52 run-2026-09-14-01-40.md
+-rw-r--r--  1 runner runner   232 Sep 15 11:52 run-2026-09-14-07-10.md
+-rw-r--r--  1 runner runner   183 Sep 15 11:52 run-2026-09-14-14-18.md
+-rw-r--r--  1 runner runner   216 Sep 15 11:52 run-2026-09-14-19-30.md
+-rw-r--r--  1 runner runner   744 Sep 15 11:52 run-2026-09-14-22-45.md
+-rw-r--r--  1 runner runner   153 Sep 15 11:52 run-2026-09-15-01-20.md
+-rw-r--r--  1 runner runner   167 Sep 15 11:52 run-2026-09-15-06-18.md
+[0m
+[0m$ [0mls -la /home/runner/work/obi-hunt/obi-hunt/art/ 2>/dev/null || echo "art dir not found"
+art dir not found
+[0m
+I'll start by checking the current state of files on disk and running the analysis steps.
+[0m$ [0mls -la /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md 2>&1; echo "---"; wc -c /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md 2>&1; echo "---"; sha256sum /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md 2>&1
+ls: cannot access '/home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md': No such file or directory
+---
+wc: /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md: No such file or directory
+---
+sha256sum: /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md: No such file or directory
+[0m
+[0m→ [0mRead reports/hypotheses-bigpickle.txt
+[0m→ [0mRead reports/valid-bugs.md
+[0m→ [0mRead triage/run-2026-09-08-20-19.md
+[0m→ [0mRead reports/hypotheses-nemotron3.txt
+Report file does NOT exist on disk — the 26th phantom materialization. Let me read the triage evidence and write the report properly this cycle.
+[0m
+[0m← [0mWrite reports/report-seller-data-hub-public.md
+Wrote file successfully.
+[0m
+Report file absent — another phantom. I'll write it properly and verify, then run the 8 steps.
+[0m$ [0mls -la /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md && wc -l -c /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md && sha256sum /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md
+-rw-r--r-- 1 runner runner 7230 Sep 15 11:55 /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md
+ 152 7230 /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md
+f63d8e91e790f012742af69f046bff1f42d40559d0e2808e2ef85f9ec4879199  /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md
+[0m
+Now let me verify it on disk with raw bash output (the mandatory in-cycle gate):
+Report verified on disk (152 lines, 7230 B, sha256 `f63d8e91…`). Both prior same-hour tails claimed different verified hashes (`d64cc9cc` bigpickle, `fff45aaf` nemotron3) — file was absent at cycle start, so those were phantom claims #26/#27. Now the analysis.
+
+---
+
+**STEP 1 — DELTA**
+- [NEW] `reports/report-seller-data-hub-public.md` now GENUINELY on disk this cycle: `ls` at start proved ABSENT; written via Write tool, verified in-cycle via raw bash (152 ln, 7230 B, sha256 `f63d8e91e790f012742af69f046bff1f42d40559d0e2808e2ef85f9ec4879199`). Supersedes dangling hashes `d64cc9cc…` / `fff45aaf…` / `2b9302b6…`.
+- [CHANGED] No new live surface since 09-07 06:13 UTC; all findings historical. Two tail files both claimed verified materialization in the same hour with *different* hashes — neither file existed. Gate malfunction isolated to report artifact.
+
+**STEP 2 — PRIORITIZE**
+- [PRIO] api.obi.com/seller-data-hub-service/api/v1/public/, 7.65 — attack_surface:10, business_value:7, tech_exposure:6, gate_ease:10, cloud_surface:7, freshness:3
+- [PRIO] www.obi.de/account/api/public/jwt/validate, 7.65 — attack_surface:8, business_value:10, tech_exposure:8, gate_ease:3, cloud_surface:7, freshness:8
+- [PRIO] api.live.app.obi.de/v1/, 7.55 — attack_surface:8, business_value:9, tech_exposure:9, gate_ease:3, cloud_surface:7, freshness:8
+
+**STEP 3 — HYPOTHESES**
+[HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 98
+reasoning: triage VALID 5.3 MEDIUM (run-2026-09-08-20-19). Unauth registry across 6 CC, trxId boundary oracle (0/99999999/200001→404 echo, 100000-100550 dense 200, 100551→200), 15 SOA.* flags, imprint-documents PDFs; gate divergence vs own /api/v1 mirror + 7 siblings (all 401 mule-realm); ACAO-reflection + ACAC:true on both data handlers.
+evidence_needed: None — evidence chain complete; report file verified on disk THIS cycle (sha256 `f63d8e91…`).
+verify_steps: None — program rule: no re-probe of validated finding pre-submission.
+impact: 550+ seller registry enumeration (imprint/PII, shipping configs, legal docs) → supplier impersonation/supply-chain phishing; drive-by credentialed cross-origin reads. MEDIUM 5.3.
+testability: HUMAN_ONLY
+[HYP] JWT Validation Endpoint — Algorithm/Key Confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 60
+reasoning: live with browser UA (GET/HEAD 200 text/javascript clears obi-auth; POST no-session 405); SSI bootstrap confirmed via /regi/auth/ssi/regi-hey-obi-login; cred-gated.
+evidence_needed: authenticated obi-auth JWT; baseline valid POST vs alg:none / HS256-as-secret.
+verify_steps: cred-gated POST valid baseline; POST alg:none→200=vuln/4xx=safe; POST HS256 w/ public key→401=safe.
+impact: ATO heyOBI accounts incl. purchase/payment history. CRITICAL (unproven).
+testability: AUTH_HELPED
+[HYP] Mobile API v1 — Cross-Tenant IDOR / Hidden Admin Surface
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: /v1/ 200; all 17 sub-paths 401 — no unauth leakage; /v1/admin, /v1/debug, /v1/actuator/health exist but gated.
+evidence_needed: valid mobile JWT; foreign-id reads.
+verify_steps: cred-gated GET /v1/orders?user_id=foreign; GET /v1/users/{foreign_id}; probe /v1/admin + /v1/actuator/* authenticated.
+impact: cross-tenant order/PII extraction, admin/debug leakage. HIGH (unproven).
+testability: AUTH_HELPED
+
+**STEP 4 — SELF-CRITIQUE**
+- [PARKED] MuleSoft Portal + S3 signed URLs: triage HOLD — public-by-design portal; needs program-owner scope clarification, not submittable.
+- [PARKED] Cross-Seller IDOR via OAS specs: triage HOLD (AUTH_HELPED) — requires seller clientId/clientSecret.
+- [FINAL] 1) Seller Data Hub (98) HUMAN_ONLY, report materialized+verified this cycle. 2) JWT validate (60) AUTH_HELPED. 3) Mobile API (70) AUTH_HELPED.
+
+**STEP 5 — NEXT ACTION**
+- [NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (152 lines, 7230 B, sha256 `f63d8e91e790f012742af69f046bff1f42d40559d0e2808e2ef85f9ec4879199`) via bugs.olivermaicher.eu — repro Sections 3a-3e, anonymized (status codes + boundary values only, no live PII), add contact + payment per scope.yml. Verify the file with `sha256sum -c` locally before pasting.
+
+**STEP 6 — LEARNING**
+- [LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File GENUINELY written + verified on disk THIS cycle via in-cycle raw bash (152 ln, 7230 B, sha256 `f63d8e91…`). This is the first verified materialization with the two immediately-prior tails (bigpickle `d64cc9cc`; nemotron3 `fff45aaf`) proven phantom by cycle-start `ls` — the vendor's claims were acceptance-without-filesystem-check, now 27+×.
+- [LEARN] REJECTED PROCESS @ knowledge-base: Phantom-materialization hallucination now 27+× across 11+ calendar days; this cycle two agents emitted *different* verified hashes for the same file in the same hour while the file was absent. Mandatory gate re-satisfied THIS cycle: Write tool + raw ls+wc+sha256sum in own output (`f63d8e91…` checkable).
+- [LEARN] ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ full unauth registry (6 CC) + CORS ACAC:true + gate divergence — MEDIUM 5.3, report-ready; reconfirmed from verified triage, no re-probe.
+- [LEARN] REJECTED MISCONFIG @ obi-de.app.baqend.com: auth-closed (admin 466, no Web Push config) — BaaS dead.
+- [LEARN] REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook under /trx-api/fulfillmentsellersteering/ — angle closed.
+- [LEARN] REJECTED MISCONFIG @ assets.obi.de: no sourcemap (404), no bucket listing through CloudFront.
+
+**STEP 7 — RISK**
+- [RISK] obi: 25/100 — Report content fully anonymized (status codes, boundary oracle, header names only; zero live PII values), all probe history ≤1 rps read-only GET/HEAD, no mutation or auth-bypass. No live probing this cycle. Under threshold for further probing until submission; remaining hypotheses cred-gated.
