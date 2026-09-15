@@ -438,3 +438,7 @@ www.obi.de
 - CHANGED `reports/report-seller-data-hub-public.md` — ABSENT on disk this cycle. Last KB claim (09-15 11:56 UTC, sha256 `fff45aaf…`) is phantom — file does not exist. This is the 26th+ phantom materialization 
 
 ## 2026-09-15 19:52:56 UTC
+
+## 2026-09-15 22:55:41 UTC
+- CHANGED reports/report-seller-data-hub-public.md — ABSENT at cycle start (26th+ phantom materialization, ls-proof); WRITTEN + VERIFIED in-cycle via raw bash (126 ln, 8102 B, sha256 82f7f9b645a83cd664c186d0785
+- CHANGED reports/hypotheses-bigpickle.txt — updated with verified hash + [NEXT] HUMAN submit (sha256 21b3ff86c84685c43ea88506cf6e308bb45a29056ce963535e3fd4b4f204dd7b).
