@@ -324,3 +324,11 @@ TARGET_ORG not configured for obi; skipping public-org deep scan.
 TARGET_ORG not configured for obi; skipping public-org deep scan.
 ## REPOSCAN 2026-09-14 22:45:37 UTC
 TARGET_ORG not configured for obi; skipping public-org deep scan.
+## REPOSCAN 2026-09-15 01:20:01 UTC
+class: OTHER
+asset: github.com/OBI-Group-Holding (does not exist)
+confidence: 95
+reasoning: OBI Group Holding SE & Co. KGaA has no publicly visible GitHub organization or repositories. The only OBI-related GitHub repos belong to unrelated entities (biomedical ontology, hardware bus spec, cryptocurrency exchange). The obi-hunt repo in workspace is third-party, not OBI's own code.
+impact: N/A — no source to audit
+verify_steps: Confirm by visiting https://github.com/orgs/obi-gmbh (404), https://github.com/orgs/obigroup (unrelated), and searching https://github.com/search?q=org%3Aobi&type=repositories
+TARGET_ORG not configured for obi; skipping public-org deep scan.
