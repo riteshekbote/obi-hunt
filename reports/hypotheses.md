@@ -1263,3 +1263,14 @@
 - LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth
 - LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asse
 - LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing throug
+
+## RANKED HYPOTHESES 2026-09-15 19:52:56 UTC
+- [98] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/: Seller Data Hub /public/ — Unauthenticated Seller Registry + Any-Origin Credentialed CORS (from art/lead_bigpickle.txt)
+- [98] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/: Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS (from art/lead_nemotron3.txt)
+- NEXT(hypotheses-nemotron3.txt): HUMAN: Submit `reports/report-seller-data-hub-public.md` (153 lines, 6661 B, sha256 `fff45aaf76f97bffe10e30140028c1e78e7db7f2a4c8190fc8f611fb54316c17`) via bugs
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File GENUINELY written and verified on disk THIS cycle via ls+wc+sha256 in-cycle (153 lines, 6661 B,
+- LEARN: REJECTED PROCESS @ knowledge-base: Phantom-materialization hallucination recurred 25× across 11+ calendar days. Root cause: KB acceptance of analysis state as f
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding MEDIU
+- LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth
+- LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asse
+- LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing throug
