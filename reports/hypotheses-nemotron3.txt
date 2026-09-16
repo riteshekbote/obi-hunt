@@ -1,4 +1,4 @@
-## 2026-09-16 06:09:31 UTC [target] (model nemotron3)
+## 2026-09-16 11:48:00 UTC [target] (model nemotron3)
 [CHANGED] `reports/report-seller-data-hub-public.md` — GENUINELY materialized and verified on disk THIS cycle via in-cycle `ls+wc+sha256` (130 lines, 7864 B, sha256 `eadb5a0c434da694ee7656af3d2a24cccc2bd65e9132802451c6a5a86c01d310`). 27th attempt; all 26 prior KB "materialized" claims were acceptance-without-filesystem-check.
 [CHANGED] Phantom-materialization hallucination chain BROKEN (27× across 12+ calendar days). Root cause: KB acceptance of analysis state as filesystem truth. Mandatory gate now enforced: same-cycle `ls+wc+sha256` proof after write.
 [CHANGED] No new live probes since 2026-09-07 06:13 UTC; all surface knowledge is historical confirmation only.
@@ -14,15 +14,6 @@ evidence_needed: None — evidence chain complete; report on disk for submission
 verify_steps: None — program rule: no re-probe of validated finding pre-submission.
 impact: ~550+ seller registry enumeration (imprint/PII, shipping config, legal docs) → supplier impersonation/supply-chain phishing; drive-by any-origin credentialed reads for logged-in seller-portal victims. MEDIUM 5.3.
 testability: HUMAN_ONLY
-[HYP] Mobile API v1 — Cross-Tenant IDOR
-class: AUTH
-asset: api.live.app.obi.de/v1/
-confidence: 70
-reasoning: /v1/ base path returns 200; all 17 tested sub-paths (/users, /orders, /cart, /profile, /health, /auth/login, /admin, /debug, /v2/, /internal/, /beta, /test, /swagger, /openapi.json, /graphql, /metrics, /actuator/health) return 401 — fully auth-gated, no unauthenticated leakage; versioned/debug/admin/actuator paths exist but protected.
-evidence_needed: Valid mobile app session JWT; enumerate authenticated responses for IDOR/BOLA across /users, /orders, /cart, /profile
-verify_steps: With auth: GET /v1/orders?user_id=foreign vs own; GET /v1/users/{foreign_id}; POST /v1/cart with foreign product_id; probe /v1/admin, /v1/debug, /v1/actuator/* for info leakage
-impact: Cross-tenant order/PII extraction, admin/debug info leakage, business logic flaws in cart/checkout. Severity: HIGH (unproven, auth-gated)
-testability: AUTH_HELPED
 [HYP] JWT Validation Endpoint — Algorithm Confusion / Session Boundary Probe
 class: AUTH
 asset: www.obi.de/account/api/public/jwt/validate
@@ -31,6 +22,15 @@ reasoning: Live with browser UA (GET/HEAD 200 text/javascript len-0 clears obi-a
 evidence_needed: Authenticated obi-auth JWT; baseline valid POST vs alg:none/HS256-crafted POST.
 verify_steps: Later (auth): POST valid session JWT → baseline; POST alg:none artifact → 400/401 (safe) vs 200 (vuln); POST HS256 using public key as secret → 401 (safe) vs 200 (vuln)
 impact: ATO of heyOBI accounts incl. purchase/payment history. Severity: CRITICAL
+testability: AUTH_HELPED
+[HYP] Mobile API v1 — Cross-Tenant IDOR
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: /v1/ base path returns 200; all 17 tested sub-paths (/users, /orders, /cart, /profile, /health, /auth/login, /admin, /debug, /v2/, /internal/, /beta, /test, /swagger, /openapi.json, /graphql, /metrics, /actuator/health) return 401 — fully auth-gated, no unauthenticated leakage; versioned/debug/admin/actuator paths exist but protected.
+evidence_needed: Valid mobile app session JWT; enumerate authenticated responses for IDOR/BOLA across /users, /orders, /cart, /profile
+verify_steps: With auth: GET /v1/orders?user_id=foreign vs own; GET /v1/users/{foreign_id}; POST /v1/cart with foreign product_id; probe /v1/admin, /v1/debug, /v1/actuator/* for info leakage
+impact: Cross-tenant order/PII extraction, admin/debug info leakage, business logic flaws in cart/checkout. Severity: HIGH (unproven, auth-gated)
 testability: AUTH_HELPED
 [PARKED] Cross-seller IDOR via trxId on mule-realm services: confidence 55 < 60 threshold for active pursuit without credentials; requires valid seller clientId/clientSecret unavailable in POC phase
 [FINAL] 1) Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS (98) — HUMAN_ONLY, report-ready, MEDIUM per valid-bugs.md
