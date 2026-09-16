@@ -1344,3 +1344,6 @@
 - NEXT(hypotheses-bigpickle.txt): HUMAN: Submit `reports/report-seller-data-hub-public.md` (157 ln, 7765 B, sha256 `9f9dde9f307a3cc59a615e922b3e96baa17386b602f310872d5eeae18e224a57`) to bugs.oli
 - LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: File WRITTEN + VERIFIED on disk THIS cycle (157 ln, 7765 B, sha256 9f9dde9f307a3cc59a615e922b3e96baa
 - LEARN: REJECTED PROCESS @ knowledge-base: Phantom-materialization hallucination recurred 28+× across 13+ days. Root cause: KB acceptance of analysis state as filesyste
+
+## RANKED HYPOTHESES 2026-09-16 22:44:01 UTC
+- [98] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/: Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS (from art/lead_bigpickle.txt)
