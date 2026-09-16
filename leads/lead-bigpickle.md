@@ -4126,3 +4126,5 @@ evidence_needed: authenticated obi-auth JWT; baseline valid POST vs alg:none / H
 verify_steps: cred-gated POST valid baseline; POST alg:none→200=vuln/4xx=safe.
 impact: ATO heyOBI accounts incl. purchase/payment history. CRITICAL (unproven).
 testability: AUTH_HELPED
+## 2026-09-16 06:09:03 UTC [target] (model bigpickle)
+[NEXT] HUMAN: Write + verify `reports/report-seller-data-hub-public.md` on disk, then submit via bugs.olivermaicher.eu.
