@@ -365,3 +365,7 @@ https://www.obi.de/ -> HTTP 404
 
 ## 2026-09-15 22:55:41 UTC
 
+
+## 2026-09-16 01:13:14 UTC
+https://www.obi.de/account/api/public/jwt/validate -> HTTP 404
+https://www.obi.de/explore/recommendations/api/internal/v6/ -> HTTP 404
