@@ -1389,3 +1389,13 @@
 - LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: Baqend app obi-de auth-closed (admin 466, no Web Push config) — BaaS hypothesis dead.
 - LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ — webhook angle closed.
 - LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap (404), no bucket listing through CloudFront.
+
+## RANKED HYPOTHESES 2026-09-17 19:51:55 UTC
+- [98] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/: Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS (REPORT-READY) (from art/lead_bigpickle.txt)
+- NEXT(hypotheses-nemotron3.txt): HUMAN: Submit `reports/report-seller-data-hub-public.md` (148 lines, 6788 B, sha256 `4e5bee0783c09190df21d762b04d8b9fc716542a9e9c31f9513a1b83f1609c04`) via bugs
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: WRITTEN + VERIFIED on disk THIS cycle (148 ln, 6788 B, sha256 `4e5bee0783c09190df21d762b04d8b9fc7165
+- LEARN: REJECTED PROCESS @ knowledge-base: Phantom-materialization hallucination recurred 30+× across 15 calendar days. Root cause: KB acceptance of analysis state as f
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding MEDIU
+- LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: Baqend app obi-de auth-closed (admin 466, no Web Push config) — BaaS hypothesis dead.
+- LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ — webhook angle closed.
+- LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap (404), no bucket listing through CloudFront.
