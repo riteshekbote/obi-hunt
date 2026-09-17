@@ -13,3 +13,6 @@
   - **Verdict: VALID**
   - | Q4 Provable | NO — Requires valid seller clientId/clientSecret. Cannot prove without credentials. |
   - | 1. Seller Data Hub Public Registry + CORS ACAC | **VALID** | 5.3 MEDIUM | Submit to bugs.olivermaicher.eu |
+
+- 1 lead(s) marked VALID at 2026-09-17 22:55:26 UTC
+  - **VALID (2):**
