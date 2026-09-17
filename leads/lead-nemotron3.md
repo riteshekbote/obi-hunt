@@ -3982,3 +3982,4 @@ testability: AUTH_HELPED
 [RISK] obi: 25/100 — Report content now real but contains only anonymized repro/evidence (no live PII values ≥ KB-approved redaction policy), all history ≤1 rps read-only GET, no mutation/auth-bypass/PII capture. Remaining hypotheses creds-blocked. Under threshold for further live probing until submission or new in-scope surface.
 ## 2026-09-16 20:01:02 UTC [target] (model nemotron3)
 ## 2026-09-16 22:43:51 UTC [target] (model nemotron3)
+## 2026-09-17 01:09:21 UTC [target] (model nemotron3)
