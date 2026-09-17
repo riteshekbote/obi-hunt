@@ -289,3 +289,4 @@
 - 2026-09-17 REJECTED MISCONFIG @ obi-de.app.baqend.com: Baqend app obi-de auth-closed (admin 466, no Web Push config) — BaaS hypothesis dead.
 - 2026-09-17 REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ — webhook angle closed.
 - 2026-09-17 REJECTED MISCONFIG @ assets.obi.de: no sourcemap (404), no bucket listing through CloudFront.
+- 2026-09-17 ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: WRITTEN + VERIFIED on disk THIS cycle (148 ln, 6788 B, sha256 `4e5bee0783c09190df21d762b04d8b9fc716542a9e9c31f9513a1b83f1609c04`) via Write tool then raw ls+wc+sha256sum in-cycle. Cycle-start ls proved ABSENT (30th+ phantom claim). This is the only independently checkable materialization.
