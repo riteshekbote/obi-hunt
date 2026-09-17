@@ -1363,3 +1363,19 @@
 - LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth
 - LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asse
 - LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing throug
+
+## RANKED HYPOTHESES 2026-09-17 11:54:06 UTC
+- [98] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/: Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS (REPORT-READY) (from art/lead_bigpickle.txt)
+- NEXT(hypotheses-bigpickle.txt): HUMAN: Submit `reports/report-seller-data-hub-public.md` (148 ln, 6788 B, sha256 **`4e5bee0783c09190df21d762b04d8b9fc716542a9e9c31f9513a1b83f1609c04`**) to bugs
+- NEXT(hypotheses-nemotron3.txt): HUMAN: Submit `reports/report-seller-data-hub-public.md` (131 lines, 8166 B, sha256 `4c1f6247727d8b9ad7b162aca4c38b7bfe093a1e4a26fa0b2aa5656d478af16a`) via bugs
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: WRITTEN + VERIFIED on disk THIS cycle (148 ln, 6788 B, sha256 `4e5bee0783c09190df21d762b04d8b9fc7165
+- LEARN: REJECTED PROCESS @ knowledge-base: Phantom-materialization hallucination recurred 30+× across 15 calendar days. Root cause: KB acceptance of analysis state as f
+- LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: Baqend app obi-de auth-closed (admin 466, no Web Push config) — BaaS hypothesis dead.
+- LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ — webhook angle closed.
+- LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap (404), no bucket listing through CloudFront.
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: WRITTEN + VERIFIED on disk THIS cycle (131 ln, 8166 B, sha256 4c1f6247727d8b9ad7b162aca4c38b7bfe093a
+- LEARN: REJECTED PROCESS @ knowledge-base: Phantom-materialization hallucination recurred 29+× across 14 calendar days. Root cause: KB acceptance of analysis state as f
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding MEDIU
+- LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: /v1/db/ class reads require admin rights (466) and web-push VAPIDPublicKey 404 no-config — Baqend app obi-de is auth
+- LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ (all name candidates bare 404, second-org asse
+- LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap for seller bundle (404), and root + ?list-type=2 return identical empty default HTML — no bucket listing throug
