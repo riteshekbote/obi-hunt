@@ -1,4 +1,4 @@
-## 2026-09-17 19:51:39 UTC [target] (model bigpickle)
+## 2026-09-17 22:43:11 UTC [target] (model bigpickle)
 [HYP] Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS (REPORT-READY)
 class: MISCONFIG
 asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/

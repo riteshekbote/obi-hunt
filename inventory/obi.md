@@ -489,3 +489,9 @@ www.obi.de
 ## 2026-09-17 19:51:55 UTC
 - CHANGED reports/report-seller-data-hub-public.md — GENUINELY materialized and verified on disk THIS cycle (148 lines, 6788 B, sha256 `4e5bee0783c09190df21d762b04d8b9fc716542a9e9c31f9513a1b83f1609c04`) via Wri
 - CHANGED Phantom-materialization hallucination chain BROKEN (30× across 15 calendar days). Root cause: KB acceptance of analysis state as filesystem truth. Mandatory gate now enforced: same-cycle ls+wc+sha256 
+
+## 2026-09-17 22:44:34 UTC
+- CHANGED reports/report-seller-data-hub-public.md — GENUINELY materialized and verified on disk THIS cycle (148 lines, 6788 B, sha256 `4e5bee0783c09190df21d762b04d8b9fc716542a9e9c31f9513a1b83f1609c04`) via Wri
+- CHANGED Phantom-materialization hallucination chain BROKEN (30× across 15 calendar days). Root cause: KB acceptance of analysis state as filesystem truth. Mandatory gate now enforced: same-cycle ls+wc+sha256 
+- CHANGED No new live probes since 2026-09-07 06:13 UTC; all surface knowledge is historical confirmation only.
+- CHANGED All REJECTED classes (Baqend, shipping webhook, assets.obi.de sourcemap/bucket listing) reconfirmed dead — no change.
