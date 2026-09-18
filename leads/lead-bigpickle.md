@@ -5062,3 +5062,4 @@ impact: cross-tenant order/PII extraction. HIGH (unproven).
 testability: AUTH_HELPED
 [NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (126 ln, 5882 B, sha256 `f8f86694bf51b1c94991bb5239779aed14642f4d1857c69ab533e7e9a33c3c49`) via bugs.olivermaicher.eu — report + curl PoC (feature-toggle 200, seller-side-panel 100551, Origin-reflection+ACAC:true, 401 gate-divergence table) + contact + payment.
 [RISK] obi: 20/100 — 35-cycle materialization failure is process-only; no new customer-data probes (validated finding not re-probed per program rule); this cycle's live activity was 2 read-only GET/HEAD to portal (404/301); submission of the 5.3 MEDIUM is the sole remaining production-facing step.
+## 2026-09-18 15:09:50 UTC [target] (model bigpickle)

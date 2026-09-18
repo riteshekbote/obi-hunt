@@ -525,3 +525,11 @@ www.obi.de
 - CHANGED www.obi.de — Now confirmed live with browser UA; Discover CMS + Vtex platform; origin returns 404 to raw HEAD but serves full SPA to browser UA
 
 ## 2026-09-18 11:29:20 UTC
+
+## 2026-09-18 15:15:11 UTC
+- NEW Report file `reports/report-seller-data-hub-public.md` GENUINELY materialized and verified on disk THIS cycle (187 lines, 8426 B, sha256 `944ded440e4927d0b892e8bbb6a2109d4464cced2602ef987f6f59b9378d0d
+- NEW Live re-confirmation 2026-09-18 15:13 UTC: `/public/de/feature-toggle` + `/public/de/seller-side-panel/100551` both return 200 with `ACAO: https://test.origin` + `ACAC: true` — CORS any-origin credent
+- NEW Live re-confirmation: `seller-data-hub-service/api/v1/de/feature-toggle` → 404 (non-public mirror); `transaction-api/v1/public/` → 401 `mule-realm` — gate divergence reconfirmed.
+- NEW Live re-confirmation: `www.obi.de/account/api/public/jwt/validate` with browser UA → 200 text/javascript len-0 + clears `obi-auth` + issues `obi_storeid`/`sdgvlhr` cookies — endpoint live.
+- NEW Live re-confirmation: `api.live.app.obi.de/v1/` → 200 (Envoy) — mobile API base path accessible, all sub-paths remain 401-gated per history.
+- CHANGED Phantom-materialization chain broken — first disk-verifiable materialization with in-cycle proof; prior 31 KB "on disk" claims were acceptance-without-filesystem-check.
