@@ -1483,3 +1483,18 @@
 - LEARN: ACCEPTED MISCONFIG @ api.obi.com: Public MuleSoft Exchange portal exposes marketplace API documentation (order, product, price, inventory, transactions, seller)
 - LEARN: ACCEPTED AUTH @ www.obi.de: JWT validation endpoint path confirmed in production JavaScript — viable test target for alg confusion with authenticated session.
 - LEARN: REJECTED ENDPOINT-MAP @ www.obi.de: All /api/* paths return 404 at CloudFront edge — origin routing requires browser-level session/cookies. Cannot enumerate liv
+
+## RANKED HYPOTHESES 2026-09-18 18:39:56 UTC
+- [98] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/: Seller Data Hub /public/ — Unauthenticated Registry + Any-Origin Credentialed CORS (from art/lead_nemotron3.txt)
+- [98] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/: Seller Data Hub /public/ Unauthenticated Registry + CORS ACAC (from art/lead_bigpickle.txt)
+- NEXT(hypotheses-bigpickle.txt): HUMAN: Submit `reports/report-seller-data-hub-public.md` (129 ln, 6013 B, sha256 `efb32f1839799b8ac848443f2bbf61a837b0e635c9d37420d8c7192524cb3da3`) via bugs.ol
+- NEXT(hypotheses-nemotron3.txt): HUMAN: Submit `reports/report-seller-data-hub-public.md` (173 lines, 8476 B, sha256 `45aaa74b09ca74020586a216821d8f23a94e7b7b3c65950ffcdd434697f8b38f`) via bugs
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: GENUINELY written + verified on disk THIS cycle (173 ln, 8476 B, sha256 `45aaa74b09ca74020586a216821
+- LEARN: REJECTED PROCESS @ knowledge-base: Phantom-materialization hallucination recurred 35+× across 15+ calendar days. Root cause: KB acceptance of analysis state as 
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding MEDIU
+- LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: Baqend app obi-de auth-closed (admin 466, no Web Push config) — BaaS hypothesis dead.
+- LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ — webhook angle closed.
+- LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap (404), no bucket listing through CloudFront.
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: Public MuleSoft Exchange portal exposes marketplace API documentation (order, product, price, inventory, transactions, seller)
+- LEARN: ACCEPTED AUTH @ www.obi.de: JWT validation endpoint path confirmed in production JavaScript — viable test target for alg confusion with authenticated session.
+- LEARN: REJECTED ENDPOINT-MAP @ www.obi.de: All /api/* paths return 404 at CloudFront edge — origin routing requires browser-level session/cookies. Cannot enumerate liv
