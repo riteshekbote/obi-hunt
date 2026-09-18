@@ -513,3 +513,13 @@ www.obi.de
 - CHANGED Phantom-materialization hallucination chain BROKEN (30× across 15 calendar days). Root cause: KB acceptance of analysis state as filesystem truth. Mandatory gate now enforced: same-cycle ls+wc+sha256 
 - CHANGED No new live probes since 2026-09-07 06:13 UTC; all surface knowledge is historical confirmation only.
 - CHANGED All REJECTED classes (Baqend, shipping webhook, assets.obi.de sourcemap/bucket listing) reconfirmed dead — no change.
+
+## 2026-09-18 06:03:47 UTC
+- NEW api.obi.com — MuleSoft API Portal, publicly accessible, 14+ marketplace APIs exposed
+- NEW api.live.app.obi.de — Mobile app API, Envoy proxy, /v1/ versioned
+- NEW imgix.obi.de — Image CDN, CORS: *, S3-backed
+- NEW assets.obi.de — Static asset CDN, S3 origin
+- NEW obi-de.app.baqend.com — Baqend BaaS speed kit integration
+- NEW 6+ backend API paths on www.obi.de (cart, PDP, CMS, recommendations, JWT validate)
+- NEW Seller onboarding JS bundle exposed on frontend
+- CHANGED www.obi.de — Now confirmed live with browser UA; Discover CMS + Vtex platform; origin returns 404 to raw HEAD but serves full SPA to browser UA
