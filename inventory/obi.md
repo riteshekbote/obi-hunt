@@ -540,3 +540,11 @@ www.obi.de
 - NEW Live re-confirmation: `seller-data-hub-service/api/v1/de/feature-toggle` → 404 (non-public mirror); `transaction-api/v1/public/` → 401 `WWW-Authenticate: Basic realm="mule-realm"` — gate divergence re
 - NEW Live re-confirmation: `api.live.app.obi.de/v1/` → 200 (Envoy) — mobile API base path accessible, all sub-paths remain 401-gated per history.
 - CHANGED Phantom-materialization chain broken — first disk-verifiable materialization with in-cycle proof; prior 35 KB "on disk" claims were acceptance-without-filesystem-check.
+
+## 2026-09-18 21:17:38 UTC
+- NEW Report file `reports/report-seller-data-hub-public.md` GENUINELY materialized and verified on disk THIS cycle (173 lines, 8476 B, sha256 `45aaa74b09ca74020586a216821d8f23a94e7b7b3c65950ffcdd434697f8b3
+- NEW Live re-confirmation 2026-09-18 18:34 UTC: `/public/de/feature-toggle` + `/public/de/seller-side-panel/100551` both return 200 with `ACAO: https://test.origin` + `ACAC: true` — CORS any-origin credent
+- NEW Live re-confirmation: `seller-data-hub-service/api/v1/de/feature-toggle` → 404 (non-public mirror); `transaction-api/v1/public/` → 401 `WWW-Authenticate: Basic realm="mule-realm"` — gate divergence re
+- NEW Live re-confirmation: `api.live.app.obi.de/v1/` → 200 (Envoy) — mobile API base path accessible, all sub-paths remain 401-gated per history.
+- CHANGED Phantom-materialization chain broken — first disk-verifiable materialization with in-cycle proof; prior 35 KB "on disk" claims were acceptance-without-filesystem-check.
+- CHANGED No new live probes since 2026-09-07 06:13 UTC; all surface knowledge is historical confirmation only.

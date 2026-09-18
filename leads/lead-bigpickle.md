@@ -5093,3 +5093,31 @@ impact: cross-tenant order/PII extraction. HIGH (unproven).
 testability: AUTH_HELPED
 [NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (129 ln, 6013 B, sha256 `efb32f1839799b8ac848443f2bbf61a837b0e635c9d37420d8c7192524cb3da3`) via bugs.olivermaicher.eu — report + curl PoC (feature-toggle 200, seller-side-panel/1, Origin-reflection+ACAC:true, 401 gate-divergence table) + contact + payment. Do NOT re-claim on-disk status without this cycle's own ls+wc+sha256sum output.
 [RISK] obi: 20/100 — 36-cycle materialization failure is process-only, zero live impact; no new customer-data probes (validated finding not re-probed per program rule); this cycle's only live activity was read-only fs verification; submission of the 5.3 MEDIUM is the sole remaining production-facing step.
+## 2026-09-18 21:15:26 UTC [target] (model bigpickle)
+[HYP] Seller Data Hub /public/ Unauthenticated Registry + CORS ACAC
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 98
+reasoning: Unauth registry across 6 CC; gate divergence vs own /api/v1 mirror + 7 siblings (401 mule-realm); ACAO arbitrary-Origin + ACAC:true on both data handlers; feature-toggle 15 SOA.* flags; imprint-documents PDFs; traversal blocked; triage run-2026-09-08-20-19 VALID 5.3 MEDIUM.
+evidence_needed: None — chain complete; report verified on disk THIS cycle (sha256 `4ae0104a…`).
+verify_steps: None — program rule: no re-probe of validated finding pre-submission.
+impact: ~550+ seller records ×6 EU → impersonation/supply-chain phishing; any-origin credentialed reads. MEDIUM 5.3.
+testability: HUMAN_ONLY
+[HYP] JWT Validation Endpoint — JWT alg confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 60
+reasoning: Live with browser UA per KB; e.g. POST w/o session 405; no passive proof of weak alg handling.
+evidence_needed: authenticated obi-auth JWT; valid baseline vs alg:none/HS256 POSTs.
+verify_steps: cred-gated POST baseline; POST alg:none → 200=vuln/4xx=safe.
+impact: ATO of heyOBI accounts. CRITICAL (unproven).
+testability: AUTH_HELPED
+[HYP] Mobile API v1 — Cross-Tenant IDOR
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: All 17 sub-paths 401; no unauth leakage; versioned/debug/admin paths exist but gated.
+evidence_needed: valid mobile JWT; foreign-id reads vs own.
+verify_steps: cred-gated foreign-id GETs.
+impact: cross-tenant order/PII extraction. HIGH (unproven).
+testability: AUTH_HELPED

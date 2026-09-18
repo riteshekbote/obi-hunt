@@ -29196,3 +29196,270 @@ testability: AUTH_HELPED
 
 ## STEP 7 — RISK
 [RISK] obi: 20/100 — 36-cycle materialization failure is process-only, zero live impact; no new customer-data probes (validated finding not re-probed per program rule); this cycle's only live activity was read-only fs verification; submission of the 5.3 MEDIUM is the sole remaining production-facing step.
+===== ANALYST bigpickle 2026-09-18 21:17:38 UTC =====
+[0m
+> build · big-pickle
+[0m
+[0m$ [0mls -la reports/ 2>&1; echo "---"; find /home/runner/work/obi-hunt/obi-hunt -name "report-seller-data-hub-public.md" 2>/dev/null; echo "---"; wc -c /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md 2>&1; echo "---"; ls reports/hypotheses-bigpickle.txt reports/hypotheses-nemotron3.txt triage/*.md reports/valid-bugs.md 2>&1
+total 4188
+drwxr-xr-x  2 runner runner    4096 Sep 18 21:14 .
+drwxr-xr-x 12 runner runner    4096 Sep 18 21:14 ..
+-rw-r--r--  1 runner runner 2625990 Sep 18 21:14 analyst-bigpickle.log
+-rw-r--r--  1 runner runner   22351 Sep 18 21:14 analyst-laguna.log
+-rw-r--r--  1 runner runner   22248 Sep 18 21:14 analyst-ling3.log
+-rw-r--r--  1 runner runner   22454 Sep 18 21:14 analyst-longcat.log
+-rw-r--r--  1 runner runner 1411808 Sep 18 21:14 analyst-nemotron3.log
+-rw-r--r--  1 runner runner    3044 Sep 18 21:14 hypotheses-bigpickle.txt
+-rw-r--r--  1 runner runner      51 Sep 18 21:14 hypotheses-laguna.txt
+-rw-r--r--  1 runner runner      50 Sep 18 21:14 hypotheses-ling3.txt
+-rw-r--r--  1 runner runner      52 Sep 18 21:14 hypotheses-longcat.txt
+-rw-r--r--  1 runner runner    7718 Sep 18 21:14 hypotheses-nemotron3.txt
+-rw-r--r--  1 runner runner  228460 Sep 18 21:14 hypotheses.md
+-rw-r--r--  1 runner runner    1036 Sep 18 21:14 valid-bugs.md
+---
+---
+wc: /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md: No such file or directory
+---
+reports/hypotheses-bigpickle.txt
+reports/hypotheses-nemotron3.txt
+reports/valid-bugs.md
+triage/run-2026-09-02-21-44.md
+triage/run-2026-09-02-23-58.md
+triage/run-2026-09-03-04-13.md
+triage/run-2026-09-03-09-01.md
+triage/run-2026-09-03-13-39.md
+triage/run-2026-09-03-17-17.md
+triage/run-2026-09-03-19-58.md
+triage/run-2026-09-03-22-30.md
+triage/run-2026-09-04-00-26.md
+triage/run-2026-09-04-05-06.md
+triage/run-2026-09-04-09-45.md
+triage/run-2026-09-04-14-08.md
+triage/run-2026-09-04-17-40.md
+triage/run-2026-09-04-19-56.md
+triage/run-2026-09-04-22-17.md
+triage/run-2026-09-05-00-12.md
+triage/run-2026-09-05-04-41.md
+triage/run-2026-09-05-08-39.md
+triage/run-2026-09-05-12-09.md
+triage/run-2026-09-05-15-23.md
+triage/run-2026-09-05-17-39.md
+triage/run-2026-09-05-19-33.md
+triage/run-2026-09-05-21-43.md
+triage/run-2026-09-05-23-43.md
+triage/run-2026-09-06-04-10.md
+triage/run-2026-09-06-08-44.md
+triage/run-2026-09-06-12-49.md
+triage/run-2026-09-06-16-07.md
+triage/run-2026-09-06-18-25.md
+triage/run-2026-09-06-20-49.md
+triage/run-2026-09-06-22-50.md
+triage/run-2026-09-07-00-49.md
+triage/run-2026-09-07-05-54.md
+triage/run-2026-09-07-12-12.md
+triage/run-2026-09-07-17-46.md
+triage/run-2026-09-07-21-24.md
+triage/run-2026-09-07-23-45.md
+triage/run-2026-09-08-04-10.md
+triage/run-2026-09-08-08-56.md
+triage/run-2026-09-08-13-29.md
+triage/run-2026-09-08-17-30.md
+triage/run-2026-09-08-20-19.md
+triage/run-2026-09-08-22-45.md
+triage/run-2026-09-09-01-09.md
+triage/run-2026-09-09-06-07.md
+triage/run-2026-09-09-11-36.md
+triage/run-2026-09-09-15-18.md
+triage/run-2026-09-09-18-45.md
+triage/run-2026-09-09-21-36.md
+triage/run-2026-09-09-23-31.md
+triage/run-2026-09-10-01-30.md
+triage/run-2026-09-10-06-40.md
+triage/run-2026-09-10-11-51.md
+triage/run-2026-09-10-16-13.md
+triage/run-2026-09-10-19-10.md
+triage/run-2026-09-10-21-43.md
+triage/run-2026-09-10-23-56.md
+triage/run-2026-09-11-04-24.md
+triage/run-2026-09-11-09-09.md
+triage/run-2026-09-11-13-40.md
+triage/run-2026-09-11-17-17.md
+triage/run-2026-09-11-19-51.md
+triage/run-2026-09-11-22-24.md
+triage/run-2026-09-12-00-38.md
+triage/run-2026-09-12-05-05.md
+triage/run-2026-09-12-09-28.md
+triage/run-2026-09-12-13-09.md
+triage/run-2026-09-12-16-24.md
+triage/run-2026-09-12-18-45.md
+triage/run-2026-09-12-21-21.md
+triage/run-2026-09-12-23-22.md
+triage/run-2026-09-13-01-31.md
+triage/run-2026-09-13-06-46.md
+triage/run-2026-09-13-12-39.md
+triage/run-2026-09-13-16-38.md
+triage/run-2026-09-13-18-59.md
+triage/run-2026-09-13-21-24.md
+triage/run-2026-09-13-23-32.md
+triage/run-2026-09-14-01-40.md
+triage/run-2026-09-14-07-10.md
+triage/run-2026-09-14-14-18.md
+triage/run-2026-09-14-19-30.md
+triage/run-2026-09-14-22-45.md
+triage/run-2026-09-15-01-20.md
+triage/run-2026-09-15-06-18.md
+triage/run-2026-09-15-11-55.md
+triage/run-2026-09-15-16-45.md
+triage/run-2026-09-15-20-06.md
+triage/run-2026-09-15-22-58.md
+triage/run-2026-09-16-01-19.md
+triage/run-2026-09-16-06-17.md
+triage/run-2026-09-16-11-50.md
+triage/run-2026-09-16-16-37.md
+triage/run-2026-09-16-19-43.md
+triage/run-2026-09-16-22-49.md
+triage/run-2026-09-17-01-14.md
+triage/run-2026-09-17-06-13.md
+triage/run-2026-09-17-11-54.md
+triage/run-2026-09-17-16-44.md
+triage/run-2026-09-17-20-08.md
+triage/run-2026-09-17-22-54.md
+triage/run-2026-09-17-22-55.md
+triage/run-2026-09-18-01-11.md
+triage/run-2026-09-18-06-02.md
+triage/run-2026-09-18-11-29.md
+triage/run-2026-09-18-15-08.md
+triage/run-2026-09-18-18-34.md
+[0m
+[0m→ [0mRead reports/valid-bugs.md
+[0m→ [0mRead reports/hypotheses-bigpickle.txt
+[0m→ [0mRead triage/run-2026-09-08-20-19.md
+[0m→ [0mRead reports/hypotheses-nemotron3.txt
+[0m
+[0m$ [0mfind /home/runner/work/obi-hunt/obi-hunt -maxdepth 2 -name "scope.yml" -o -maxdepth 2 -name "probe-results.md" 2>/dev/null | head; echo "==="; cat /home/runner/work/obi-hunt/obi-hunt/scope.yml 2>/dev/null | head -60
+/home/runner/work/obi-hunt/obi-hunt/probe-results.md
+/home/runner/work/obi-hunt/obi-hunt/scope.yml
+===
+programs:
+  obi:
+    name: OBI Group Holding SE & Co. KGaA Bug Bounty
+    disclosure_policy: via bugs.olivermaicher.eu (Oliver Maicher private program) - report + PoC + contact + payment
+    assets:
+      - name: "All company-owned infrastructure, retail systems, e-commerce platforms, mobile applications, APIs, supply chain systems, customer accounts, and domains operated by OBI Group and its subsidiaries"
+        priority: In
+    out_of_scope:
+- "Network level Denial of Service attacks"
+      - "Application Denial of Service by locking user accounts"
+      - "Descriptive error messages or headers (e.g. Stack Traces, banner grabbing)"
+      - "Disclosure of known public files or directories (e.g. robots.txt)"
+      - "Outdated software / library versions"
+      - "OPTIONS / TRACE HTTP method enabled"
+      - "CSRF on logout"
+      - "CSRF on forms that are available to anonymous users"
+      - "Cookies that lack HTTP Only or Secure settings for non-sensitive data"
+      - "Self-XSS and issues exploitable only through Self-XSS"
+      - "Reports resulting from automated scanning utilities without additional details or a POC demonstrating a specific exploit"
+      - "Attacks requiring physical access to a user's device"
+      - "Attacks dependent upon social engineering of employees or vendors"
+      - "Username enumeration based on login or forgot password pages"
+      - "Enforcement policies for brute force, rate limiting, or account lockout"
+      - "SSL/TLS best practices"
+      - "SSL attacks such as BEAST, BREACH, Renegotiation attack"
+      - "Clickjacking, without additional details demonstrating a specific exploit"
+      - "Mail configuration issues including SPF, DKIM, DMARC settings"
+      - "Use of a known-vulnerable library without a description of an exploit specific to our implementation"
+      - "Password and account recovery policies"
+      - "Presence of autocomplete functionality in form fields"
+      - "Publicly accessible login panels"
+      - "Lack of email address verification during account registration or account invitation"
+      - "Lack of email address verification password restore"
+      - "Session control during email/password changes"
+      - "Social engineering, physical attacks, and DoS/DDoS testing (per program notes)"
+      - "Exposure of customer/employee/financial/authentication data during testing (per program notes)"
+    github_orgs:
+      - none-configured
+
+rules:
+  passive_first: false          # deep-hunt agent: active probes allowed when scoped
+  max_requests_per_second: 1    # never hammer live infra
+  no_doom: true                 # no DoS/DDoS, no account-lockout attacks
+  account_creation: restricted  # only on test/sandbox assets, never live customer data
+  no_data_modification: true    # no writes/deletes on live customer data
+  no_pre_disclosure: true       # never disclose before program response
+  poc_required: true            # scanner output alone is REJECTED
+  redact_secrets_in_commits: true
+
+models:
+  - { id: opencode/big-pickle, name: bigpickle }
+  - { id: opencode/nemotron-3-ultra-free, name: nemotron3 }
+  - { id: opencode/longcat-2.0-free, name: longcat }
+  - { id: opencode/ling-3.0-flash-free, name: ling3 }
+  - { id: opencode/laguna-s-2.1-free, name: laguna }
+[0m
+[0m← [0mWrite reports/report-seller-data-hub-public.md
+Wrote file successfully.
+[0m
+The report file is confirmed ABSENT on disk — the 36th+ phantom claim. This cycle I will actually write it and verify in-cycle.
+[0m$ [0mls -la /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md; echo "---"; wc -l -c /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md; echo "---"; sha256sum /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md
+-rw-r--r-- 1 runner runner 6506 Sep 18 21:15 /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md
+---
+ 108 6506 /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md
+---
+4ae0104a1c06381598e3bedf56acf8e632db1ee69f5b1bfff8812e5cc5c9a603  /home/runner/work/obi-hunt/obi-hunt/reports/report-seller-data-hub-public.md
+[0m
+Now the mandatory in-cycle verification:
+[0m← [0mWrite reports/hypotheses-bigpickle.txt
+Wrote file successfully.
+[0m
+File genuinely on disk this cycle: **108 lines, 6506 B, sha256 `4ae0104a1c06381598e3bedf56acf8e632db1ee69f5b1bfff8812e5cc5c9a603`**. Updating state file:
+STEP 1 — DELTA
+- [NEW] `reports/report-seller-data-hub-public.md` GENUINELY written + verified THIS cycle via Write tool then raw in-cycle bash: **108 ln, 6506 B, sha256 `4ae0104a1c06381598e3bedf56acf8e632db1ee69f5b1bfff8812e5cc5c9a603`**. Cycle-start `ls`+`find` proved ABSENT → prior claimed hashes (efb32f18…, 45aaa74b…, 944ded44…, 5564113f…, f8f86694… etc.) were all phantom. ONLY independently checkable materialization to date.
+- [CHANGED] No live probes this cycle; all finding evidence sourced from verified KB/history (last customer-data probe 09-07).
+
+STEP 2 — PRIORITIZE
+- [PRIO] api.obi.com/.../seller-data-hub-service/api/v1/public/,9.8,attack_surface=10,business_value=9,tech_exposure=10,gate_ease=10,cloud_surface=8,freshness=9 (report-ready)
+
+STEP 3 — HYPOTHESES
+[HYP] Seller Data Hub /public/ Unauthenticated Registry + CORS ACAC
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 98
+reasoning: Unauth registry across 6 CC; gate divergence vs own /api/v1 mirror + 7 siblings (401 mule-realm); ACAO arbitrary-Origin + ACAC:true on both data handlers; feature-toggle 15 SOA.* flags; imprint-documents PDFs; traversal blocked; triage run-2026-09-08-20-19 VALID 5.3 MEDIUM.
+evidence_needed: None — chain complete; report verified on disk THIS cycle (sha256 `4ae0104a…`).
+verify_steps: None — program rule: no re-probe of validated finding pre-submission.
+impact: ~550+ seller records ×6 EU → impersonation/supply-chain phishing; any-origin credentialed reads. MEDIUM 5.3.
+testability: HUMAN_ONLY
+[HYP] JWT Validation Endpoint — JWT alg confusion
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 60
+reasoning: Live with browser UA per KB; e.g. POST w/o session 405; no passive proof of weak alg handling.
+evidence_needed: authenticated obi-auth JWT; valid baseline vs alg:none/HS256 POSTs.
+verify_steps: cred-gated POST baseline; POST alg:none → 200=vuln/4xx=safe.
+impact: ATO of heyOBI accounts. CRITICAL (unproven).
+testability: AUTH_HELPED
+[HYP] Mobile API v1 — Cross-Tenant IDOR
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: All 17 sub-paths 401; no unauth leakage; versioned/debug/admin paths exist but gated.
+evidence_needed: valid mobile JWT; foreign-id reads vs own.
+verify_steps: cred-gated foreign-id GETs.
+impact: cross-tenant order/PII extraction. HIGH (unproven).
+testability: AUTH_HELPED
+
+STEP 4 — SELF-CRITIQUE
+- [PARKED] JWT alg confusion: cred-gated, requires authenticated session (no path). 
+- [PARKED] Mobile API IDOR: cred-gated, requires mobile JWT (no path).
+- [FINAL] Seller Data Hub /public/ (98) — report on disk, submission is sole blocker.
+
+STEP 5 — NEXT ACTION
+- [NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (108 ln, 6506 B, sha256 `4ae0104a1c06381598e3bedf56acf8e632db1ee69f5b1bfff8812e5cc5c9a603`) via bugs.olivermaicher.eu — report + curl PoC (feature-toggle 200, seller-side-panel/100551, Origin+ACAC reflection, 401 gate-divergence table) + contact + payment.
+
+STEP 6 — LEARNING
+- [LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: GENUINELY written + verified THIS cycle (108 ln, 6506 B, sha256 `4ae0104a1c06381598e3bedf56acf8e632db1ee69f5b1bfff8812e5cc5c9a603`) via Write tool then raw in-cycle ls+wc+sha256sum. Cycle-start ls+find proved ABSENT — 36th phantom claim broken. Supersedes ALL prior hashes (efb32f18…, 45aaa74b…, 944ded44…, 5564113f…, f8f86694…, 4e5bee07…).
+- [LEARN] REJECTED PROCESS @ knowledge-base: phantom-materialization hallucination recurred 36× across 16 calendar days — prior cycles repeatedly wrote analysis state to hypotheses files and claimed "written + verified" without ever executing the filesystem write. This cycle executed write (Write tool) + verify (raw bash) in the same cycle's own tool output; next cycle must `sha256sum -c` against 4ae0104a… before any re-write.
+- [LEARN] ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauth registry across 6 CC, CORS:ACAC, gate divergence proven. MEDIUM 5.3, report-ready — reconfirmed, no re-probe.
+
+STEP 7 — RISK
+- [RISK] obi: 20/100 — phantom chain broken with genuine in-cycle write+verify; zero live probes this cycle (pure report materialization); finding is a disclosed-only misconfig (no PII captured in report, anonymized evidence), validated non-mutating GETs only ≤1rps historically; remaining hypotheses cred-blocked; submission of the 5.3 MEDIUM is the sole outstanding production-facing step.
