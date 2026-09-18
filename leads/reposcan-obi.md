@@ -380,3 +380,75 @@ TARGET_ORG not configured for obi; skipping public-org deep scan.
 TARGET_ORG not configured for obi; skipping public-org deep scan.
 ## REPOSCAN 2026-09-17 22:54:12 UTC
 TARGET_ORG not configured for obi; skipping public-org deep scan.
+## REPOSCAN 2026-09-18 01:12:13 UTC
+[HYP] Open Redirect via Unvalidated `next` Query Parameter in OTP Confirmation
+class: SSRF
+asset: obi-services/obi-operations-portal/app/auth/confirm/route.ts:10,21
+confidence: 90
+reasoning: >
+impact: High — post-auth redirect to attacker-controlled domain can be chained with
+verify_steps: >
+[HYP] x-forwarded-host Header Injection in 7 Route Handler Redirects
+class: SSRF
+asset: obi-services/obi-operations-portal/app/dashboard/clients/manage/route.ts:19-36
+confidence: 60
+reasoning: >
+impact: Medium — depends on whether Vercel strips/overwrites x-forwarded-host; if not,
+verify_steps: >
+[HYP] Hardcoded Bootstrap Admin Email Reveals Vendor Identity
+class: SECRET
+asset: obi-services/obi-operations-portal/scripts/bootstrap-admin.ts:28-29
+confidence: 90
+reasoning: >
+impact: Medium — credential-stuffing/phishing target; narrows attack surface for
+verify_steps: >
+[HYP] Weak Password Policy on Operations Portal
+class: MISCONFIG
+asset: obi-services/obi-operations-portal/supabase/config.toml:182-185
+confidence: 80
+reasoning: >
+impact: Medium — weak passwords increase account compromise risk
+verify_steps: >
+[HYP] MFA Disabled on Operations Portal
+class: MISCONFIG
+asset: obi-services/obi-operations-portal/supabase/config.toml:302-309
+confidence: 75
+reasoning: >
+impact: Medium — privileged accounts lack MFA protection, increasing account takeover risk
+verify_steps: >
+[HYP] Open Signup Enabled Without Email Verification
+class: MISCONFIG
+asset: obi-services/obi-operations-portal/supabase/config.toml:176,226
+confidence: 65
+reasoning: >
+impact: Medium — unauthorized account creation on operations portal
+verify_steps: >
+[HYP] SUPABASE_SECRET_KEY Bypasses All Row-Level Security
+class: OTHER
+asset: obi-services/obi-operations-portal/lib/supabase/admin.ts:31-34
+confidence: 50
+reasoning: >
+impact: High (if key leaks), Low (as currently configured)
+verify_steps: >
+[HYP] IDOR-Prone Client Detail Page (RLS Single Point of Failure)
+class: IDOR
+asset: obi-services/obi-operations-portal/app/dashboard/clients/[clientCode]/page.tsx:128-136
+confidence: 40
+reasoning: >
+impact: Low — RLS appears correctly configured, but the architecture creates a fragile
+verify_steps: >
+[HYP] Infrastructure Pattern Disclosure via S3 Config
+class: OTHER
+asset: obi-services/obi-operations-portal/supabase/config.toml:399-405
+confidence: 40
+reasoning: >
+impact: Low — no direct secret exposure, but reveals attack surface
+verify_steps: >
+[HYP] Developer Location Leak via Hardcoded Timezone
+class: OTHER
+asset: obi-services/obi-operations-portal/app/dashboard/clients/[clientCode]/page.tsx:64
+confidence: 30
+reasoning: >
+impact: Informational
+verify_steps: >
+TARGET_ORG not configured for obi; skipping public-org deep scan.
