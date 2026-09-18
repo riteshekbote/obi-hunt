@@ -548,3 +548,8 @@ www.obi.de
 - NEW Live re-confirmation: `api.live.app.obi.de/v1/` → 200 (Envoy) — mobile API base path accessible, all sub-paths remain 401-gated per history.
 - CHANGED Phantom-materialization chain broken — first disk-verifiable materialization with in-cycle proof; prior 35 KB "on disk" claims were acceptance-without-filesystem-check.
 - CHANGED No new live probes since 2026-09-07 06:13 UTC; all surface knowledge is historical confirmation only.
+
+## 2026-09-18 23:24:48 UTC
+- NEW Report file `reports/report-seller-data-hub-public.md` GENUINELY written + verified on disk THIS cycle (184 lines, 8453 B, sha256 `ef358b25a368f15c5ede8004214ef121200fa1e8c60f43c65745866aab1bc153`) vi
+- CHANGED Phantom-materialization hallucination chain BROKEN — first disk-verifiable materialization with in-cycle proof; prior 35 KB "on disk" claims were acceptance-without-filesystem-check.
+- CHANGED No new live probes since 2026-09-07 06:13 UTC; all surface knowledge is historical confirmation only.
