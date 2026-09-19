@@ -21,3 +21,7 @@
   - **Verdict: VALID**
   - | Q4 | Provable? | NO — Requires valid seller clientId/clientSecret. Cannot test without credentials. |
   - | 1 | Seller Data Hub Public Registry + CORS ACAC | **VALID** | 5.3 MEDIUM | Submit to bugs.olivermaicher.eu |
+
+- 2 lead(s) marked VALID at 2026-09-19 14:50:04 UTC
+  - | Q3 Impact | **NOT YET** | Hypothetical cross-tenant data access — requires valid seller credentials to test |
+  - | Q4 Provable | **NO** | Requires valid seller `clientId`/`clientSecret` (AUTH_HELPED). Cannot verify non-invasively |
