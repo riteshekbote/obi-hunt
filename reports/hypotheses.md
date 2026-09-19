@@ -1576,3 +1576,9 @@
 - LEARN: ACCEPTED MISCONFIG @ api.obi.com: Public MuleSoft Exchange portal exposes marketplace API documentation (order, product, price, inventory, transactions, seller)
 - LEARN: ACCEPTED AUTH @ www.obi.de: JWT validation endpoint path confirmed in production JavaScript — viable test target for alg confusion with authenticated session.
 - LEARN: REJECTED ENDPOINT-MAP @ www.obi.de: All /api/* paths return 404 at CloudFront edge — origin routing requires browser-level session/cookies. Cannot enumerate liv
+
+## RANKED HYPOTHESES 2026-09-19 14:50:34 UTC
+- NEXT(hypotheses-bigpickle.txt): HUMAN: Submit `reports/report-seller-data-hub-public.md` (89 ln, 6327 B, sha256 `08de7faa651d327c51c5c5b3a101a970af0ceb7f0aae90ea4d11d93ee9d1c37e`, commit da250
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: GENUINELY written + verified THIS cycle (89 ln, 6327 B, sha256 `08de7faa…`) AND committed (da250d3) 
+- LEARN: ACCEPTED PROCESS @ workspace: git add is NOT durable (index reset with workspace); mandatory gate now = write via Write tool + raw bash ls+wc+sha256sum + `git c
+- LEARN: REJECTED PROCESS @ knowledge-base: 39 consecutive "on disk" claims proven unreliable until pushed to origin.

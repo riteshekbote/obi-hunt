@@ -4628,3 +4628,28 @@ testability: AUTH_HELPED
 [LEARN] ACCEPTED AUTH @ www.obi.de: JWT validation endpoint path confirmed in production JavaScript — viable test target for alg confusion with authenticated session.
 [LEARN] REJECTED ENDPOINT-MAP @ www.obi.de: All /api/* paths return 404 at CloudFront edge — origin routing requires browser-level session/cookies. Cannot enumerate live backend APIs from curl alone.
 [RISK] obi: 25/100 — Report content now real but contains only anonymized repro/evidence (no live PII values ≥ KB-approved redaction policy), all history ≤1 rps read-only GET, no mutation/auth-bypass/PII capture. Remaining hypotheses creds-blocked. Under threshold for further live probing until submission or new in-scope surface.
+## 2026-09-19 14:49:41 UTC [target] (model nemotron3)
+class: MISCONFIG
+asset: api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/
+confidence: 98
+reasoning: Unauthenticated seller registry across 6 CC (DE/AT/IT/PL/FR/ES), sequential trxId dense block ~100000–100550 + id 1; gate divergence vs own /api/v1 mirror (404) + 7 siblings (all 401 mule-realm); ACAO-reflection + ACAC:true on BOTH /public handlers (live re-confirmed 2026-09-18); 15 SOA.* flags; imprint-documents PDFs (obiecomprod), traversal blocked 403. Report verified on disk this cycle.
+evidence_needed: None — evidence chain complete; report on disk for submission.
+verify_steps: None — program rule: no re-probe of validated finding pre-submission.
+impact: ~550+ seller registry enumeration (imprint/PII, shipping config, legal docs) → supplier impersonation/supply-chain phishing; drive-by any-origin credentialed reads for logged-in seller-portal victims. MEDIUM 5.3.
+testability: HUMAN_ONLY
+class: AUTH
+asset: www.obi.de/account/api/public/jwt/validate
+confidence: 70
+reasoning: Live with browser UA (GET/HEAD 200 text/javascript len-0 clears obi-auth; POST no-session 405); doubly confirmed as server-side bootstrap — loaded via <script> tags emitted by the 200 anonymous SSI fragment (/regi/auth/ssi/regi-hey-obi-login). Edge cookie family (account-csrf + obi-auth) same pattern.
+evidence_needed: Authenticated obi-auth JWT; baseline valid POST vs alg:none/HS256-crafted POST.
+verify_steps: POST valid session JWT → baseline; POST alg:none artifact → 400/401 (safe) vs 200 (vuln); POST HS256 using public key as secret → 401 (safe) vs 200 (vuln)
+impact: ATO of heyOBI accounts incl. purchase/payment history. Severity: CRITICAL
+testability: AUTH_HELPED
+class: AUTH
+asset: api.live.app.obi.de/v1/
+confidence: 70
+reasoning: /v1/ base path returns 200 (Envoy); all 17 tested sub-paths (/users, /orders, /cart, /profile, /health, /auth/login, /admin, /debug, /v2/, /internal/, /beta, /test, /swagger, /openapi.json, /graphql, /metrics, /actuator/health) return 401 — fully auth-gated, no unauthenticated leakage; versioned/debug/admin/actuator paths exist but protected.
+evidence_needed: Valid mobile app session JWT; enumerate authenticated responses for IDOR/BOLA across /users, /orders, /cart, /profile
+verify_steps: With auth: GET /v1/orders?user_id=foreign vs own; GET /v1/users/{foreign_id}; POST /v1/cart with foreign product_id; probe /v1/admin, /v1/debug, /v1/actuator/* for info leakage
+impact: Cross-tenant order/PII extraction, admin/debug info leakage, business logic flaws in cart/checkout. Severity: HIGH (unproven, auth-gated)
+testability: AUTH_HELPED
