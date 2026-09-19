@@ -1582,3 +1582,18 @@
 - LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: GENUINELY written + verified THIS cycle (89 ln, 6327 B, sha256 `08de7faa…`) AND committed (da250d3) 
 - LEARN: ACCEPTED PROCESS @ workspace: git add is NOT durable (index reset with workspace); mandatory gate now = write via Write tool + raw bash ls+wc+sha256sum + `git c
 - LEARN: REJECTED PROCESS @ knowledge-base: 39 consecutive "on disk" claims proven unreliable until pushed to origin.
+
+## RANKED HYPOTHESES 2026-09-19 17:52:39 UTC
+- [98] api.obi.com/trx-api/fulfillmentsellersteering/seller-data-hub-service/api/v1/public/: Seller Data Hub /public/ Registry + CORS ACAC (from art/lead_nemotron3.txt)
+- NEXT(hypotheses-bigpickle.txt): HUMAN: Submit `reports/report-seller-data-hub-public.md` (89 ln, 6327 B, sha256 `08de7faa651d327c51c5c5b3a101a970af0ceb7f0aae90ea4d11d93ee9d1c37e`; tracked+sync
+- NEXT(hypotheses-nemotron3.txt): HUMAN: Submit `reports/report-seller-data-hub-public.md` (89 ln, 6327 B, sha256 `08de7faa651d327c51c5c5b3a101a970af0ceb7f0aae90ea4d11d93ee9d1c37e`, commit `da25
+- LEARN: ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: GENUINELY written + verified THIS cycle (89 ln, 6327 B, sha256 `08de7faa…`) AND committed (da250d3) 
+- LEARN: ACCEPTED PROCESS @ workspace: git add is NOT durable (index reset with workspace); mandatory gate now = write via Write tool + raw bash ls+wc+sha256sum + `git c
+- LEARN: REJECTED PROCESS @ knowledge-base: 39 consecutive "on disk" claims proven unreliable until pushed to origin.
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: seller-data-hub /public/ is full unauthenticated registry across 6 countries, CORS:ACAC, gate divergence proven. Finding MEDIU
+- LEARN: REJECTED MISCONFIG @ obi-de.app.baqend.com: Baqend app obi-de auth-closed (admin 466, no Web Push config) — BaaS hypothesis dead.
+- LEARN: REJECTED ENDPOINT-MAP @ api.obi.com: no shipping-status-webhook service under /trx-api/fulfillmentsellersteering/ — webhook angle closed.
+- LEARN: REJECTED MISCONFIG @ assets.obi.de: no sourcemap (404), no bucket listing through CloudFront.
+- LEARN: ACCEPTED MISCONFIG @ api.obi.com: Public MuleSoft Exchange portal exposes marketplace API documentation (order, product, price, inventory, transactions, seller)
+- LEARN: ACCEPTED AUTH @ www.obi.de: JWT validation endpoint path confirmed in production JavaScript — viable test target for alg confusion with authenticated session.
+- LEARN: REJECTED ENDPOINT-MAP @ www.obi.de: All /api/* paths return 404 at CloudFront edge — origin routing requires browser-level session/cookies. Cannot enumerate liv

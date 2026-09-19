@@ -31150,3 +31150,105 @@ STEP 6 — LEARNING:
 
 STEP 7 — RISK:
 - [RISK] obi: 15/100 — zero live probes this cycle (validated finding intentionally not re-probed pre-submission; seller-side-panel not re-read per partner-PII note); persistence defect finally closed via pushed commit; only remaining production-facing step is HUMAN submission of the 5.3 MEDIUM report.
+===== ANALYST bigpickle 2026-09-19 17:52:39 UTC =====
+[0m
+> build · big-pickle
+[0m
+[0m$ [0mls -la reports/ && echo "---" && wc -c reports/report-seller-data-hub-public.md 2>/dev/null && echo "---" && sha256sum reports/report-seller-data-hub-public.md 2>/dev/null
+total 4372
+drwxr-xr-x  2 runner runner    4096 Sep 19 17:49 .
+drwxr-xr-x 12 runner runner    4096 Sep 19 17:49 ..
+-rw-r--r--  1 runner runner 2758703 Sep 19 17:49 analyst-bigpickle.log
+-rw-r--r--  1 runner runner   23436 Sep 19 17:49 analyst-laguna.log
+-rw-r--r--  1 runner runner   23328 Sep 19 17:49 analyst-ling3.log
+-rw-r--r--  1 runner runner   23544 Sep 19 17:49 analyst-longcat.log
+-rw-r--r--  1 runner runner 1453619 Sep 19 17:49 analyst-nemotron3.log
+-rw-r--r--  1 runner runner    2429 Sep 19 17:49 hypotheses-bigpickle.txt
+-rw-r--r--  1 runner runner      51 Sep 19 17:49 hypotheses-laguna.txt
+-rw-r--r--  1 runner runner      50 Sep 19 17:49 hypotheses-ling3.txt
+-rw-r--r--  1 runner runner      52 Sep 19 17:49 hypotheses-longcat.txt
+-rw-r--r--  1 runner runner    2685 Sep 19 17:49 hypotheses-nemotron3.txt
+-rw-r--r--  1 runner runner  241197 Sep 19 17:49 hypotheses.md
+-rw-r--r--  1 runner runner    6327 Sep 19 17:49 report-seller-data-hub-public.md
+-rw-r--r--  1 runner runner    1631 Sep 19 17:49 valid-bugs.md
+---
+6327 reports/report-seller-data-hub-public.md
+---
+08de7faa651d327c51c5c5b3a101a970af0ceb7f0aae90ea4d11d93ee9d1c37e  reports/report-seller-data-hub-public.md
+[0m
+[0m$ [0mgit log --oneline -8 && echo "---" && git status --short && echo "---" && git branch --show-current && git remote -v
+2e2f3e5 hunt cycle 2026-09-19-14-50
+---
+?? analyst-out.txt
+?? analyst-prompt.txt
+?? ctx.txt
+---
+main
+origin	https://github.com/riteshekbote/obi-hunt (fetch)
+origin	https://github.com/riteshekbote/obi-hunt (push)
+[0m
+[0m$ [0mgit cat-file -t da250d3 2>&1; echo "---"; git log --all --oneline 2>&1 | head -20; echo "---"; git show --stat da250d3 2>&1 | head -15
+fatal: Not a valid object name da250d3
+---
+2e2f3e5 hunt cycle 2026-09-19-14-50
+---
+fatal: ambiguous argument 'da250d3': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
+[0m
+[0m$ [0mgit log --oneline 2e2f3e5 -- reports/report-seller-data-hub-public.md 2>&1; echo "---tracked?"; git ls-files reports/ 2>&1; echo "---dirty?"; git diff --stat 2>&1
+2e2f3e5 hunt cycle 2026-09-19-14-50
+---tracked?
+reports/analyst-bigpickle.log
+reports/analyst-laguna.log
+reports/analyst-ling3.log
+reports/analyst-longcat.log
+reports/analyst-nemotron3.log
+reports/hypotheses-bigpickle.txt
+reports/hypotheses-laguna.txt
+reports/hypotheses-ling3.txt
+reports/hypotheses-longcat.txt
+reports/hypotheses-nemotron3.txt
+reports/hypotheses.md
+reports/report-seller-data-hub-public.md
+reports/valid-bugs.md
+---dirty?
+[0m
+[0m→ [0mRead reports/report-seller-data-hub-public.md[90m [limit=45][0m
+[0m
+[0m$ [0mwc -l reports/report-seller-data-hub-public.md; echo "---"; git status -sb 2>&1 | head -3
+89 reports/report-seller-data-hub-public.md
+---
+## main...origin/main
+?? analyst-out.txt
+?? analyst-prompt.txt
+[0m
+STEP 1 — DELTA
+- [CHANGED] `reports/report-seller-data-hub-public.md` — on disk THIS cycle, raw bash verified: **89 ln, 6327 B, sha256 `08de7faa651d327c51c5c5b3a101a970af0ceb7f0aae90ea4d11d93ee9d1c37e`** (byte-identical to tail's claimed pushed content). Tracked (`git ls-files`), clean tree (`git diff` empty), branch `main` in sync with `origin/main` → persistence survives reset.
+- [CHANGED] git history — tail's commit-id `da250d3` not present in current history (single commit `2e2f3e5 hunt cycle 2026-09-19-14-50`); commit-id is unstable across workspace resets, but the report's **content hash is identical**, so the delivery artifact is intact.
+- [CHANGED] report content re-read (first 45 lines): summary, 3-endpoint exposure, repro curl PoCs, boundary oracle, gate-divergence framing all present — submission-complete.
+
+STEP 2 — PRIORITIZE
+- [PRIO] api.obi.com/…/seller-data-hub-service/api/v1/public/,9.8,a=9/b=9(registry+flags)/t=8(CORS ACAC+custom API)/g=10(no auth)/c=8(MuleSoft+CloudFront+S3)/f=1(submission-bound, no re-probe)
+- [PRIO] www.obi.de/account/api/public/jwt/validate,7.2,a=8/b=10(ATO)/t=9(JWT alg)/g=6(session)/c=8/f=2 — AUTH_HELPED, unproven, creds required.
+- [PRIO] api.live.app.obi.de/v1/,7.0,a=7/b=9(orders+PII)/t=7(Envoy,17 paths)/g=5(all 401)/c=7/f=2 — AUTH_HELPED, unproven.
+
+STEP 3 — HYPOTHESES (no new passive surface this cycle; validated finding is submission-bound, no re-probe)
+No actionable new hypothesis. Two existing remain cred-gated and untestable passively (valid-bugs.md marks JWT-alg INVALID/speculative; mobile API is 401 on all 17 paths). Emitting none rather than inventing.
+
+STEP 4 — SELF-CRITIQUE
+- [FINAL] Seller Data Hub /public/ Registry + CORS ACAC (98) — triage-validated MEDIUM 5.3; report on disk, verified, tracked, synced with origin/main (sha256 `08de7faa…c37e`); suite of curl PoCs + gate-divergence table + ACAC chain in report. No re-probe per program rule.
+- [PARKED] JWT alg confusion (60) — triage INVALID (speculative), requires authenticated obi-auth JWT; AUTH_HELPED.
+- [PARKED] Mobile API v1 IDOR (70) — fully 401-gated (17 paths), requires valid mobile JWT; AUTH_HELPED.
+- [PARKED] Exchange portal S3 signed URLs (5.3) — triage HOLD (public-by-design portal); not submittable as-is.
+
+STEP 5 — NEXT ACTION
+[NEXT] HUMAN: Submit `reports/report-seller-data-hub-public.md` (89 ln, 6327 B, sha256 `08de7faa651d327c51c5c5b3a101a970af0ceb7f0aae90ea4d11d93ee9d1c37e`; tracked+synced with origin/main this cycle) via bugs.olivermaicher.eu — include curl PoCs (feature-toggle 200+ACAC:true, seller-side-panel/100551 200, trxId 404 oracle, imprint-documents PDF, 401 gate-divergence table for own /api/v1 mirror + 7 siblings) + CVSS 5.3 rationale + contact + payment.
+
+STEP 6 — LEARNING
+- [LEARN] ACCEPTED REPORT @ reports/report-seller-data-hub-public.md: verified on disk THIS cycle in-cycle via raw bash ls+wc+sha256sum AND git-backed (tracked, clean, `main…origin/main` in sync) — its sha256 `08de7faa…` reproduces exactly the prior push; persistence of the submission artifact is genuinely established.
+- [LEARN] ACCEPTED PROCESS @ git: commit-id is NOT a stable identifier (da250d3 rotated to 2e2f3e5 across reset), but byte-identical tracked content persists — the durable gate is `sha256(content)` + `git status` clean + sync with `origin/main`, not the commit short-hash.
+- [LEARN] REJECTED PROCESS @ knowledge-base: all 39 prior "on disk" claims remain unreproducible savings-left-by-reset; this cycle's proof is the first backed by content-hash + git sync in the same cycle — do not accept future on-disk claims without the same two checks.
+
+STEP 7 — RISK
+[RISK] obi: 15/100 — zero live probes this cycle (validated finding not re-probed pre-submission per program rule; seller-side-panel not re-read per partner-PII note). Sole remaining production-facing action is HUMAN submission of the 5.3 MEDIUM report; artifact now persists durably (content-hash + git sync).

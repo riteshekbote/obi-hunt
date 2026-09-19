@@ -579,3 +579,5 @@ www.obi.de
 - CHANGED PROCESS root cause found: prior cycles wrote + verified in-cycle but **never staged** — the hunt.yml commit (`git add leads reports knowledge …`) only persists staged/untracked-addressed files, and th
 
 ## 2026-09-19 14:50:34 UTC
+
+## 2026-09-19 17:52:39 UTC
