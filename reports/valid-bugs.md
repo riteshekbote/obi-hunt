@@ -25,3 +25,9 @@
 - 2 lead(s) marked VALID at 2026-09-19 14:50:04 UTC
   - | Q3 Impact | **NOT YET** | Hypothetical cross-tenant data access — requires valid seller credentials to test |
   - | Q4 Provable | **NO** | Requires valid seller `clientId`/`clientSecret` (AUTH_HELPED). Cannot verify non-invasively |
+
+- 4 lead(s) marked VALID at 2026-09-19 17:55:14 UTC
+  - | Q2 Reachable | **NO** | Requires a valid Supabase OTP `token_hash` to trigger the redirect path; not reachable unauthenticated |
+  - | Q4 Provable | **NO** | Cannot generate a valid OTP token without an account on the live deployment |
+  - **VERDICT: HOLD** — Promising but blocked on (1) confirming the repo is OBI-owned and (2) obtaining a valid OTP token. Revisit if portal identity is confirmed.
+  - | A | Open Redirect in OTP `next` param | **HOLD** | Promising but blocked on repo ownership + valid OTP token |
